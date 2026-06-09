@@ -10,7 +10,6 @@ import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
 import Offer from "@/components/sections/Offer";
 import Contact from "@/components/sections/Contact";
-import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +36,6 @@ export default function Home() {
         <Projects />
         <Offer />
         <Contact />
-        <Footer />
       </div>
     </main>
   );

@@ -5,22 +5,28 @@ import { gsap } from "@/lib/gsap";
 
 const projects = [
   {
+    id: "01",
     title: "MedLife",
-    label: "⚡ HACKATHON — BUILT SOLO",
-    link: "https://github.com/sufiyan733/MedLife",
-    desc: "A medical application built solo during a high-stakes hackathon."
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://med-life-delta.vercel.app",
+    desc: "A medical application built solo during a high-stakes hackathon. Architected for resilience.",
+    tech: "NEXT.JS / TS / DB"
   },
   {
+    id: "02",
     title: "Twin",
-    label: "PERSONAL PROJECT",
-    link: "https://github.com/sufiyan733/twin",
-    desc: "A personal initiative showcasing advanced full stack capabilities."
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://twin-l3hf.vercel.app",
+    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic.",
+    tech: "REACT / NODE / API"
   },
   {
+    id: "03",
     title: "DSA Visuals",
-    label: "🔴 LIVE — IN PROGRESS",
-    link: "https://github.com/sufiyan733/DSA-VISUALS",
-    desc: "Interactive visualizer for Data Structures and Algorithms."
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://dsa-visuals-nine.vercel.app",
+    desc: "Interactive visualizer for Data Structures and Algorithms. Mathematical precision.",
+    tech: "JS / ALGO / CANVAS"
   }
 ];
 
@@ -33,52 +39,66 @@ export default function Projects() {
     
     const ctx = gsap.context(() => {
       if (!isMobile && scrollContainerRef.current) {
-        const cards = gsap.utils.toArray<HTMLElement>(".project-card");
+        const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
         
-        // Horizontal scroll setup
-        gsap.to(cards, {
-          xPercent: -100 * (cards.length - 1),
+        // Master horizontal timeline
+        const scrollTween = gsap.to(panels, {
+          xPercent: -100 * (panels.length - 1),
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             pin: true,
             scrub: 1,
-            snap: 1 / (cards.length - 1),
-            end: () => `+=${scrollContainerRef.current?.offsetWidth || window.innerWidth}`,
+            end: () => `+=${scrollContainerRef.current?.offsetWidth || window.innerWidth * 3}`,
           }
         });
 
-        // Flip in on enter
-        cards.forEach((card) => {
-          gsap.fromTo(card,
-            { rotationY: 90, opacity: 0 },
+        // Parallax internals for each panel
+        panels.forEach((panel, i) => {
+          // Giant background number parallax
+          gsap.to(panel.querySelector(".bg-number"), {
+            x: 200,
+            ease: "none",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left right",
+              end: "right left",
+              scrub: true
+            }
+          });
+          
+          // Title parallax (moves faster than the panel)
+          gsap.fromTo(panel.querySelector(".project-title"), 
+            { x: -100, opacity: 0 },
             {
-              rotationY: 0,
+              x: 0,
               opacity: 1,
-              duration: 0.7,
-              ease: "power2.out",
+              ease: "none",
               scrollTrigger: {
-                trigger: card,
-                containerAnimation: gsap.getById("horizontalScroll"), // Assuming we need a linked animation if we want it to trigger based on horizontal scroll, but standard ScrollTrigger with containerAnimation is tricky. Let's do it simply on scroll.
+                trigger: panel,
+                containerAnimation: scrollTween,
                 start: "left center",
-                toggleActions: "play none none reverse",
+                end: "center center",
+                scrub: true
               }
             }
           );
         });
       } else {
-        // Mobile fallback (vertical scroll)
-        const cards = gsap.utils.toArray<HTMLElement>(".project-card");
-        cards.forEach((card) => {
-          gsap.fromTo(card,
+        // Mobile fallback
+        const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
+        panels.forEach((panel) => {
+          gsap.fromTo(panel,
             { y: 50, opacity: 0 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.7,
+              duration: 1,
+              ease: "power3.out",
               scrollTrigger: {
-                trigger: card,
-                start: "top 80%"
+                trigger: panel,
+                start: "top 70%"
               }
             }
           );
@@ -90,46 +110,84 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative bg-bg overflow-hidden border-t border-white/5">
-      {/* Background grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
-           style={{ backgroundImage: 'linear-gradient(var(--red) 1px, transparent 1px), linear-gradient(90deg, var(--red) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-
-      <div className="pt-20 md:pt-32 pb-10 px-6 md:px-12 relative z-10">
-        <h2 className="font-bebas text-5xl md:text-8xl text-white">
+    <section id="projects" ref={sectionRef} className="relative bg-[#020202] overflow-hidden text-white">
+      
+      {/* Title Overlay fixed during pin */}
+      <div className="absolute top-10 md:top-20 left-6 md:left-12 z-20 pointer-events-none mix-blend-difference">
+        <div className="font-space text-[10px] md:text-xs tracking-[0.4em] text-red mb-2 uppercase">
+           Classification: Classified
+        </div>
+        <h2 className="font-bebas text-4xl md:text-6xl tracking-tighter text-white">
           MISSIONS EXECUTED
         </h2>
       </div>
 
-      <div ref={scrollContainerRef} className="flex flex-col md:flex-row md:w-[300vw] h-auto md:h-[80vh] px-6 md:px-12 pb-20 md:pb-0 gap-10 md:gap-0">
+      <div ref={scrollContainerRef} className="flex flex-col md:flex-row w-full md:w-[300vw] h-auto md:h-[100svh]">
         {projects.map((project, idx) => (
-          <div key={idx} className="project-card md:w-screen h-[60vh] md:h-[70vh] flex items-center justify-center relative md:pr-12 perspective-[1000px] will-change-transform">
-            <a 
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-full h-full md:w-[80vw] bg-surface border border-white/10 border-t-red relative overflow-hidden flex flex-col justify-between p-8 md:p-12 transition-all duration-500 hover:scale-[1.02] hover:border-red hover:shadow-[0_0_30px_rgba(255,51,51,0.15)]"
-            >
-              {/* Card Header */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <span className="font-space text-xs md:text-sm tracking-widest text-red bg-red/10 px-4 py-2 rounded-full border border-red/20">
-                  {project.label}
-                </span>
-                <span className="font-space text-xs tracking-widest text-white/50 group-hover:text-white transition-colors flex items-center gap-2">
-                  <span className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300">OPEN MISSION</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:text-red transition-colors"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </span>
-              </div>
+          <div 
+            key={idx} 
+            className="project-panel w-full md:w-screen h-[80vh] md:h-screen flex items-center justify-center relative border-r border-white/5"
+          >
+            {/* Giant Background Number Parallax Layer */}
+            <div className="bg-number absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden select-none">
+              <span className="font-bebas text-[80vw] md:text-[50vw] leading-none text-transparent opacity-30" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>
+                {project.id}
+              </span>
+            </div>
 
-              {/* Card Body */}
-              <div className="mt-10 flex-grow">
-                <h3 className="font-bebas text-5xl md:text-7xl text-white mb-4 group-hover:text-red transition-colors duration-500">{project.title}</h3>
-                <p className="font-inter text-white/60 max-w-xl md:text-lg">{project.desc}</p>
-              </div>
+            <div className="container mx-auto px-6 md:px-24 flex flex-col justify-center h-full relative z-10 w-full mt-20 md:mt-0">
+              
+              {/* Project Layout */}
+              <div className="flex flex-col md:flex-row items-start md:items-end justify-between w-full gap-8 md:gap-0">
+                
+                {/* Left Side: Title & Description */}
+                <div className="flex flex-col max-w-3xl">
+                  <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white/40 mb-4 flex items-center gap-3">
+                    <span className="w-1.5 h-1.5 bg-red animate-pulse" />
+                    {project.label}
+                  </span>
+                  
+                  <h3 className="project-title font-bebas text-[18vw] md:text-[12vw] leading-[0.8] tracking-tighter text-white hover:text-red transition-colors duration-500 cursor-default">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="font-inter font-light text-white/50 text-sm md:text-lg mt-8 max-w-xl leading-relaxed">
+                    {project.desc}
+                  </p>
+                </div>
 
-              {/* Card Background Decoration */}
-              <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-red rounded-full opacity-0 group-hover:opacity-10 blur-[100px] transition-opacity duration-700 pointer-events-none" />
-            </a>
+                {/* Right Side: Meta & Action */}
+                <div className="flex flex-col items-start md:items-end gap-6 md:pb-6">
+                  <div className="font-space text-[10px] md:text-xs tracking-[0.3em] text-white/30 text-left md:text-right">
+                    STACK_OVERVIEW<br/>
+                    <span className="text-white/60">{project.tech}</span>
+                  </div>
+                  
+                  <a 
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex items-center gap-4 border border-white/20 hover:border-red bg-white/5 hover:bg-red/10 px-8 py-4 transition-all duration-300"
+                    data-cursor="eye"
+                  >
+                    <span className="font-space text-xs tracking-[0.2em] text-white group-hover:text-red transition-colors">
+                      INITIALIZE_DEPLOYMENT
+                    </span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/50 group-hover:text-red transition-colors group-hover:translate-x-1 group-hover:-translate-y-1 duration-300">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-white group-hover:border-red transition-colors" />
+                    <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-white group-hover:border-red transition-colors" />
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Subtle red bottom gradient */}
+            <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-red/5 to-transparent pointer-events-none opacity-50" />
           </div>
         ))}
       </div>
