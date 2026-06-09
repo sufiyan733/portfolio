@@ -5,33 +5,9 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 export default function Offer() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const countRef = useRef<HTMLSpanElement>(null);
-  const [hasCounted, setHasCounted] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Counter animation
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 60%",
-        onEnter: () => {
-          if (!hasCounted && countRef.current) {
-            gsap.to(countRef.current, {
-              innerHTML: 999,
-              duration: 2,
-              ease: "power3.out",
-              snap: { innerHTML: 1 },
-              onUpdate: function() {
-                if (countRef.current) {
-                  countRef.current.innerHTML = Math.round(Number(this.targets()[0].innerHTML)).toString();
-                }
-              }
-            });
-            setHasCounted(true);
-          }
-        }
-      });
-
       // Cards float in
       gsap.fromTo(".offer-card",
         { y: 100, opacity: 0 },
@@ -50,7 +26,7 @@ export default function Offer() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [hasCounted]);
+  }, []);
 
   const services = [
     { title: "Landing Pages", desc: "High-conversion, cinematic designs that demand attention." },
@@ -67,7 +43,7 @@ export default function Offer() {
         
         <div className="font-bebas text-7xl md:text-[10rem] text-white leading-none mb-20 flex justify-center items-center">
           <span className="text-red mr-2 md:mr-6">₹</span>
-          <span ref={countRef}>0</span>
+          <span>999</span>
         </div>
 
         <div className="offer-cards-container grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-20">
