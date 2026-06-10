@@ -52,10 +52,11 @@ export default function Projects() {
         }
       );
 
-      if (scrollContainerRef.current) {
-        const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
-        
-        // Master horizontal timeline with 1:1 scroll length calculation
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
+
+      if (!isMobile && scrollContainerRef.current) {
+        // Master horizontal timeline for desktop
         const scrollTween = gsap.to(panels, {
           xPercent: -100 * (panels.length - 1),
           ease: "none",
@@ -63,7 +64,7 @@ export default function Projects() {
             trigger: sectionRef.current,
             pin: true,
             anticipatePin: 1,
-            scrub: 1, // Reduced slightly from 1.2 for more responsive touch on mobile
+            scrub: 1, 
             end: () => `+=${window.innerWidth * (panels.length - 1)}`,
           }
         });
@@ -82,6 +83,25 @@ export default function Projects() {
                 trigger: panel,
                 containerAnimation: scrollTween,
                 start: "left 80%",
+              }
+            }
+          );
+        });
+      } else if (isMobile) {
+        // Native horizontal scroll animations for mobile
+        panels.forEach((panel) => {
+          gsap.fromTo(panel.querySelector(".tactical-hud"),
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: panel,
+                scroller: scrollContainerRef.current,
+                horizontal: true,
+                start: "left 90%",
               }
             }
           );
@@ -120,9 +140,12 @@ export default function Projects() {
         {/* Global Tactical Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
-        <div ref={scrollContainerRef} className="flex h-full w-[300vw]">
+        <div 
+          ref={scrollContainerRef} 
+          className="flex h-full w-full md:w-[300vw] overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory md:snap-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           {projects.map((project, idx) => (
-            <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
+            <div key={idx} className="project-panel shrink-0 w-[100vw] md:w-screen snap-center h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
               
               {/* Massive Background Number */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
