@@ -143,7 +143,7 @@ export default function Projects() {
 
         <div ref={scrollContainerRef} className="flex h-full" style={{ width: `${projects.length * 100}vw` }}>
           {projects.map((project, idx) => (
-            <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
+            <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform" style={{ backfaceVisibility: 'hidden' }}>
               
               {/* Massive Background Number */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
@@ -170,13 +170,13 @@ export default function Projects() {
                 >
                   
                   {/* Optimized Scanlines Overlay */}
-                  <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-20 opacity-50" />
+                  <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-20 ${isMobile ? 'opacity-30' : 'opacity-50'}`} />
                   
                   {/* TOP BAR: Systems Info */}
                   <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
                     <div className="flex items-center gap-3 md:gap-4">
                       <span className="w-3 h-3 border border-red flex items-center justify-center">
-                        <span className="w-1.5 h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
+                        <span className={`w-1.5 h-1.5 bg-red ${isMobile ? '' : 'animate-[ping_2s_linear_infinite]'}`} />
                       </span>
                       <span className="font-space text-xs tracking-widest text-white/90">SYS.ID: {project.id}</span>
                     </div>
@@ -186,10 +186,10 @@ export default function Projects() {
                   </div>
 
                   {/* MAIN CONTENT SPLIT */}
-                  <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-y-auto md:overflow-hidden">
+                  <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-hidden">
                     
                     {/* Left Side: Typography & Data */}
-                    <div className="w-full md:w-[60%] p-5 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative bg-gradient-to-br from-red/[0.02] to-transparent">
+                    <div className={`w-full md:w-[60%] p-5 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative ${isMobile ? '' : 'bg-gradient-to-br from-red/[0.02] to-transparent'}`}>
                       {/* Corner Accents */}
                       <div className="absolute top-4 md:top-6 left-4 md:left-6 w-4 md:w-6 h-4 md:h-6 border-t-2 border-l-2 border-red/60" />
                       <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-red/60 hidden md:block" />
@@ -198,7 +198,7 @@ export default function Projects() {
                         <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-3 md:mb-4 uppercase">
                           Target_Designation
                         </div>
-                        <h3 className="font-bebas text-5xl md:text-8xl tracking-tighter text-white mb-4 md:mb-10 group-hover/hud:text-red transition-colors duration-700 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">
+                        <h3 className={`font-bebas text-5xl md:text-8xl tracking-tighter text-white mb-4 md:mb-10 ${isMobile ? '' : 'group-hover/hud:text-red transition-colors duration-700'} drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]`}>
                           {project.title}
                         </h3>
                         <p className="font-inter font-light text-white/80 text-base md:text-xl leading-relaxed max-w-lg border-l-2 border-red/50 pl-4 md:pl-6 bg-gradient-to-r from-red/[0.08] to-transparent py-3 md:py-4">
@@ -212,7 +212,7 @@ export default function Projects() {
                     </div>
 
                     {/* Right Side: Tech & Action */}
-                    <div className="w-full md:w-[40%] p-5 md:p-14 flex flex-col justify-between bg-gradient-to-tl from-red/[0.05] to-transparent relative">
+                    <div className={`w-full md:w-[40%] p-5 md:p-14 flex flex-col justify-between relative ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
                       {/* Corner Accents */}
                       <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-red/60 hidden md:block" />
                       <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-red/60 hidden md:block" />
@@ -225,7 +225,7 @@ export default function Projects() {
                           {project.tech.split(' / ').map((t, i) => (
                             <div key={i} className="flex items-center gap-4 group/tech">
                               <span className="font-space text-[10px] text-red/50 group-hover/tech:text-red transition-colors font-bold">[{i+1}]</span>
-                              <div className="flex-1 h-[1px] bg-red/20 group-hover/tech:bg-red shadow-[0_0_10px_rgba(255,51,51,0)] group-hover/tech:shadow-[0_0_10px_rgba(255,51,51,1)] transition-all duration-500" />
+                              <div className={`flex-1 h-[1px] bg-red/20 ${isMobile ? '' : 'group-hover/tech:bg-red shadow-[0_0_10px_rgba(255,51,51,0)] group-hover/tech:shadow-[0_0_10px_rgba(255,51,51,1)] transition-all duration-500'}`} />
                               <span className="font-space text-sm tracking-[0.2em] text-white/80 group-hover/tech:text-white transition-colors">{t}</span>
                             </div>
                           ))}
