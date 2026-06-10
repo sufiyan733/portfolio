@@ -61,18 +61,21 @@ export default function Contact() {
         }
       );
 
-      // Ayanokoji Scroll Animation
-      gsap.to(".ayanokoji-wrapper", {
-        x: 100,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top center",
-          end: "bottom top",
-          scrub: 1.2
+      // Ayanokoji Scroll Animation (Fades IN and drifts into place)
+      gsap.fromTo(".ayanokoji-wrapper", 
+        { x: -50, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            end: "center center",
+            scrub: 1.2
+          }
         }
-      });
+      );
 
       // Glitch effect on enter
       ScrollTrigger.create({
@@ -120,7 +123,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-32 bg-[#000000] mt-20 md:mt-32">
+    <section id="contact" ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-32 bg-gradient-to-b from-[#020202] via-[#050505] to-[#020202] mt-20 md:mt-32">
 
       {/* Cinematic Top Separator (Black Void + Energy Line) */}
       <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none" />
@@ -130,7 +133,7 @@ export default function Contact() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none z-0 mt-20" />
 
       {/* Background Deep Red Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[80vh] bg-red/30 blur-[200px] pointer-events-none z-0 rounded-full mix-blend-screen" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] max-w-6xl h-[100vh] bg-red/20 blur-[150px] pointer-events-none z-0 rounded-full mix-blend-screen" />
 
       {/* Massive Background Title */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 w-full overflow-hidden flex justify-center pointer-events-none z-0">
@@ -141,7 +144,7 @@ export default function Contact() {
 
       {/* Hero Background Character */}
       <div className="absolute inset-0 pointer-events-none flex items-end justify-center z-10 overflow-hidden">
-        <div className="ayanokoji-wrapper relative w-full max-w-[900px] h-[95vh] opacity-95 [mask-image:linear-gradient(to_top,transparent_0%,black_15%,black_100%)]">
+        <div className="ayanokoji-wrapper relative w-full max-w-[1000px] h-[95vh] opacity-100 [mask-image:linear-gradient(to_top,transparent_0%,black_5%,black_100%)]">
           <Image 
             src="/ayanokoji.png" 
             alt="The Strategist" 
@@ -181,7 +184,7 @@ export default function Contact() {
               href="https://wa.me/918709914537"
               target="_blank"
               rel="noopener noreferrer"
-              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-black/80 to-black/40 backdrop-blur-2xl border border-white/10 hover:border-[#25D366]/50 hover:bg-black/60 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(37,211,102,0.1)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
+              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 backdrop-blur-3xl border border-white/10 hover:border-[#25D366]/50 hover:bg-[#1a1a1a]/80 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(37,211,102,0.15)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
               data-cursor="eye"
             >
               <div className="absolute left-0 top-0 w-[2px] h-full bg-[#25D366] origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] z-20" />
@@ -206,7 +209,7 @@ export default function Contact() {
             {/* Email */}
             <button
               onClick={handleCopy}
-              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-black/80 to-black/40 backdrop-blur-2xl border border-white/10 hover:border-red/50 hover:bg-black/60 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,51,51,0.1)] transition-all duration-500 will-change-transform relative overflow-hidden text-left w-full rounded-xl"
+              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 backdrop-blur-3xl border border-white/10 hover:border-red/50 hover:bg-[#1a1a1a]/80 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,51,51,0.15)] transition-all duration-500 will-change-transform relative overflow-hidden text-left w-full rounded-xl"
               data-cursor="cta"
             >
               <div className="absolute left-0 top-0 w-[2px] h-full bg-red origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] z-20" />
@@ -238,10 +241,10 @@ export default function Contact() {
           <div className="flex flex-col gap-4 md:gap-6 w-full lg:w-[400px] z-20">
             {/* GitHub */}
             <a
-              href="https://github.com/sufiyan733"
+              href="https://github.com/kaiizer777"
               target="_blank"
               rel="noopener noreferrer"
-              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-black/80 to-black/40 backdrop-blur-2xl border border-white/10 hover:border-white/50 hover:bg-black/60 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,255,255,0.05)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
+              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 backdrop-blur-3xl border border-white/10 hover:border-white/50 hover:bg-[#1a1a1a]/80 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,255,255,0.08)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
               data-cursor="eye"
             >
               <div className="absolute left-0 top-0 w-[2px] h-full bg-white origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] z-20" />
@@ -254,7 +257,7 @@ export default function Contact() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">GitHub</span>
-                  <span className="font-bebas text-white text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">sufiyan733</span>
+                  <span className="font-bebas text-white text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">kaiizer777</span>
                 </div>
               </div>
 
@@ -268,7 +271,7 @@ export default function Contact() {
               href="https://instagram.com/misterr_stoic"
               target="_blank"
               rel="noopener noreferrer"
-              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-black/80 to-black/40 backdrop-blur-2xl border border-white/10 hover:border-[#E1306C]/50 hover:bg-black/60 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(225,48,108,0.1)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
+              className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 backdrop-blur-3xl border border-white/10 hover:border-[#E1306C]/50 hover:bg-[#1a1a1a]/80 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(225,48,108,0.15)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
               data-cursor="eye"
             >
               <div className="absolute left-0 top-0 w-[2px] h-full bg-[#E1306C] origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] z-20" />

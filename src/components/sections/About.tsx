@@ -203,9 +203,8 @@ export default function About() {
           <div className="about-content flex flex-col justify-center gap-10 will-change-transform relative z-10">
             {skills.map((skill, index) => (
               <div key={index} className="skill-bar-container flex flex-col gap-3" data-width={skill.width}>
-                <div className="flex justify-between font-space text-sm tracking-widest uppercase">
+                <div className="flex font-space text-sm tracking-widest uppercase">
                   <span className="text-white/70">{skill.name}</span>
-                  <span className="text-red tabular-nums">{skillWidths[index]}%</span>
                 </div>
                 <div className="h-[2px] w-full bg-white/10 relative overflow-hidden">
                   <div 

@@ -10,15 +10,11 @@ const skillsData = [
   { name: "NEXT.JS", class: "SYS_CORE" },
   { name: "REACT.JS", class: "SYS_FRONTEND" },
   { name: "TYPESCRIPT", class: "SYS_LOGIC" },
-  { name: "TAILWIND CSS", class: "SYS_STYLING" },
-  { name: "GSAP", class: "SYS_ANIMATION" },
-  { name: "THREE.JS", class: "SYS_WEBGL" },
   { name: "NODE.JS", class: "SYS_BACKEND" },
-  { name: "POSTGRESQL", class: "SYS_DATABASE" },
-  { name: "MONGODB", class: "SYS_DATABASE" },
-  { name: "FRAMER MOTION", class: "SYS_PHYSICS" },
-  { name: "LENIS", class: "SYS_SCROLL" },
-  { name: "VERCEL", class: "SYS_DEPLOY" }
+  { name: "PYTHON", class: "SYS_BACKEND" },
+  { name: "FASTAPI", class: "SYS_API" },
+  { name: "GOLANG", class: "SYS_SYSTEMS" },
+  { name: "POSTGRESQL", class: "SYS_DATABASE" }
 ];
 
 export default function Skills() {
