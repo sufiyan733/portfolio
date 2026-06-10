@@ -78,11 +78,18 @@ export default function Projects() {
             scrollTrigger: {
               trigger: sectionRef.current,
               pin: true,
-              anticipatePin: 1,
-              // Lower scrub on mobile for snappier touch response
-              scrub: mobile ? 0.5 : 1,
+              // anticipatePin causes a visual jump on mobile when Lenis momentum
+              // crosses the pin boundary — disable it on mobile entirely
+              anticipatePin: mobile ? 0 : 1,
+              // Higher scrub on mobile = smoother interpolation at the transition point
+              // Lower values make it too responsive to touch jitter
+              scrub: mobile ? 1.2 : 1,
               end: () => `+=${totalScrollDistance}`,
               invalidateOnRefresh: true,
+              // Prevent Lenis momentum from overshooting past the pin start/end
+              fastScrollEnd: mobile ? 3000 : false,
+              // Prevent scroll position from snapping when address bar shows/hides
+              preventOverlaps: true,
             }
           });
 

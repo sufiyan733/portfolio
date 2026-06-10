@@ -6,13 +6,17 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
     const lenis = new Lenis({
-      duration: 1.2,
+      // Shorter duration on mobile = less momentum carry-over at pin boundaries
+      duration: isMobile ? 0.8 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      touchMultiplier: 1.2,
+      // Lower touchMultiplier prevents Lenis from overshooting ScrollTrigger pins
+      touchMultiplier: isMobile ? 1.0 : 1.2,
       infinite: false,
     });
 
