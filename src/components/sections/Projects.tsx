@@ -14,19 +14,19 @@ const projects = [
   },
   {
     id: "02",
-    title: "Twin",
-    label: "[ SYS.STATUS: DEPLOYED ]",
-    link: "https://twin-l3hf.vercel.app",
-    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic, built for mathematical precision.",
-    tech: "REACT / NODE / API"
-  },
-  {
-    id: "03",
     title: "DSA Visuals",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://dsa-visuals-nine.vercel.app",
     desc: "Interactive visualizer for Data Structures and Algorithms. High-performance canvas rendering.",
     tech: "JS / ALGO / CANVAS"
+  },
+  {
+    id: "03",
+    title: "Twin",
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://twin-l3hf.vercel.app",
+    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic, built for mathematical precision.",
+    tech: "REACT / NODE / API"
   }
 ];
 
@@ -35,7 +35,6 @@ export default function Projects() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
     const ctx = gsap.context(() => {
       // Reveal header
@@ -53,7 +52,7 @@ export default function Projects() {
         }
       );
 
-      if (!isMobile && scrollContainerRef.current) {
+      if (scrollContainerRef.current) {
         const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
         
         // Master horizontal timeline with scrub 1.2
@@ -82,24 +81,6 @@ export default function Projects() {
                 trigger: panel,
                 containerAnimation: scrollTween,
                 start: "left 80%",
-              }
-            }
-          );
-        });
-      } else {
-        // Mobile fallback
-        const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
-        panels.forEach((panel) => {
-          gsap.fromTo(panel.querySelector(".tactical-hud"),
-            { y: 50, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: panel,
-                start: "top 80%"
               }
             }
           );
