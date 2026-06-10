@@ -114,7 +114,7 @@ export default function Contact() {
 
   const handleCopy = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText("kanekigaminz@gmail.com");
+    navigator.clipboard.writeText("kaizerxdev@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -218,7 +218,7 @@ export default function Contact() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">Email</span>
-                  <span className="font-bebas text-red text-xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[180px] sm:max-w-none drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">kanekigaminz@gmail.com</span>
+                  <span className="font-bebas text-red text-xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[180px] sm:max-w-none drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">kaizerxdev@gmail.com</span>
                 </div>
               </div>
 
@@ -265,7 +265,7 @@ export default function Contact() {
 
             {/* Instagram */}
             <a
-              href="https://instagram.com/mohd_sufiyan76"
+              href="https://instagram.com/misterr_stoic"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-black/80 to-black/40 backdrop-blur-2xl border border-white/10 hover:border-[#E1306C]/50 hover:bg-black/60 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(225,48,108,0.1)] transition-all duration-500 will-change-transform relative overflow-hidden rounded-xl"
@@ -281,7 +281,7 @@ export default function Contact() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">Instagram</span>
-                  <span className="font-bebas text-[#E1306C] text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.3)] truncate max-w-[180px] sm:max-w-none">@mohd_sufiyan76</span>
+                  <span className="font-bebas text-[#E1306C] text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.3)] truncate max-w-[180px] sm:max-w-none">@misterr_stoic</span>
                 </div>
               </div>
 

@@ -21,7 +21,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SAIF | Full Stack Developer",
+  title: "KAIZER | Full Stack Developer",
   description: "I don't talk about what I'll do. I build it. Cold logic, clean code, zero compromise.",
 };
 

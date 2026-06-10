@@ -164,7 +164,7 @@ export default function Hero() {
     return () => ctx.revert();
   }, [isMobile]);
 
-  const titleText = "SAIF";
+  const titleText = "KAIZER";
 
   return (
     <section id="hero" ref={container} className="relative h-[100svh] w-full bg-[#020202] overflow-hidden flex items-center justify-center">
@@ -183,7 +183,7 @@ export default function Hero() {
       {/* Deep Red Radial Glow — use opacity gradient on mobile instead of blur */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,51,51,0.12)_0%,transparent_70%)] md:bg-red/10 md:blur-[120px]" />
 
-      {/* Layer 2: Large background SAIF text */}
+      {/* Layer 2: Large background KAIZER text */}
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
         <h1
           ref={titleContainerRef}

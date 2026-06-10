@@ -9,7 +9,7 @@ const services = [
     title: "LANDING PAGE",
     tagline: `"Clean. Fast. Live."`,
     desc: "A modern, responsive landing page for your business, brand, or product. Looks great on every device. Hosted and deployed — ready to share the same day it's done.",
-    price: "1499",
+    price: "5,000",
     delivery: "EST. DELIVERY // 7 DAYS",
     params: "7_PARAMS",
     features: [
@@ -27,7 +27,7 @@ const services = [
     title: "BUSINESS WEBSITE",
     tagline: `"Your entire business, online."`,
     desc: "Multi-page website for businesses that need more than a landing page. Home, About, Services, Portfolio, Contact — all built, hosted, and handed over with a CMS so you can edit content yourself.",
-    price: "3499",
+    price: "10,000",
     delivery: "EST. DELIVERY // 14 DAYS",
     params: "6_PARAMS",
     features: [
@@ -44,7 +44,7 @@ const services = [
     title: "FULL STACK APP",
     tagline: `"Login. Dashboard. Database. The whole thing."`,
     desc: "A complete web application — user authentication, database, admin panel, and a clean frontend. For startups and small businesses that need real software, not just a website.",
-    price: "4999",
+    price: "15,000",
     delivery: "EST. DELIVERY // 21 DAYS",
     params: "7_PARAMS",
     features: [
@@ -139,29 +139,29 @@ export default function Offer() {
           {services.map((service, idx) => (
             <div 
               key={idx} 
-              className="offer-card group relative w-full border border-white/10 bg-[#080808] flex flex-col transition-all duration-700 hover:border-red/40 will-change-transform hover:shadow-[0_20px_50px_rgba(255,51,51,0.08)] hover:-translate-y-2"
+              className="offer-card relative w-full border border-red/40 bg-[#080808] flex flex-col transition-all duration-700 will-change-transform shadow-[0_20px_50px_rgba(255,51,51,0.08)]"
             >
-              {/* Animated Hover Left Border */}
-              <div className="absolute left-0 top-0 w-[2px] h-full bg-red origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] z-20" />
+              {/* Left Border */}
+              <div className="absolute left-0 top-0 w-[2px] h-full bg-red origin-top scale-y-100 z-20" />
               
-              {/* Internal Scanline Hover FX */}
-              <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.015)_2px,rgba(255,51,51,0.015)_4px)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0" />
+              {/* Internal Scanline FX */}
+              <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.015)_2px,rgba(255,51,51,0.015)_4px)] opacity-100 pointer-events-none z-0" />
 
               {/* Header Block */}
-              <div className="h-12 border-b border-white/5 bg-[#0a0a0a] px-5 flex justify-between items-center group-hover:bg-red/[0.03] transition-colors duration-500 relative z-10 shrink-0">
+              <div className="h-12 border-b border-white/5 bg-red/[0.03] px-5 flex justify-between items-center relative z-10 shrink-0">
                 <div className="font-space text-[10px] text-white/50 tracking-[0.3em] uppercase font-bold">
                   {service.id}
                 </div>
-                {/* Abstract Rotating Symbol */}
+                {/* Abstract Symbol */}
                 <div className="relative w-3.5 h-3.5 flex items-center justify-center">
-                  <div className="absolute w-full h-[1px] bg-red/40 group-hover:bg-red group-hover:rotate-180 transition-all duration-700" />
-                  <div className="absolute h-full w-[1px] bg-red/40 group-hover:bg-red group-hover:rotate-180 transition-all duration-700" />
-                  <div className="w-1 h-1 border border-red/40 group-hover:border-red group-hover:scale-150 transition-all duration-700" />
+                  <div className="absolute w-full h-[1px] bg-red rotate-180" />
+                  <div className="absolute h-full w-[1px] bg-red rotate-180" />
+                  <div className="w-1 h-1 border border-red scale-150" />
                 </div>
               </div>
 
               <div className="p-5 flex-1 flex flex-col relative z-10 bg-gradient-to-b from-[#0a0a0a]/50 to-transparent">
-                <h4 className="font-bebas text-3xl text-white tracking-wide mb-1 group-hover:text-red transition-colors duration-500">
+                <h4 className="font-bebas text-3xl text-red tracking-wide mb-1">
                   {service.title}
                 </h4>
                 <div className="font-space text-[9px] md:text-[10px] text-red/80 tracking-widest uppercase mb-3">
@@ -178,11 +178,11 @@ export default function Offer() {
                   </div>
                   <ul className="space-y-2">
                     {service.features.map((f, i) => (
-                      <li key={i} className="flex items-start gap-3 group/item">
-                        <span className="font-space text-red/80 text-[10px] mt-[2px] group-hover/item:text-red transition-colors">
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="font-space text-red text-[10px] mt-[2px]">
                           {`>`}
                         </span>
-                        <span className="font-inter text-[11px] md:text-xs text-white/80 group-hover/item:text-white transition-colors leading-relaxed">
+                        <span className="font-inter text-[11px] md:text-xs text-white leading-relaxed">
                           {f}
                         </span>
                       </li>
@@ -204,7 +204,7 @@ export default function Offer() {
                   
                   {/* Price & Contact CTA */}
                   <div className="flex items-center justify-between">
-                    <div className="font-bebas text-4xl text-white leading-none tracking-tight group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.5)] transition-all duration-500">
+                    <div className="font-bebas text-4xl text-white leading-none tracking-tight drop-shadow-[0_0_15px_rgba(255,51,51,0.5)]">
                       <span className="text-red text-xl mr-2 font-inter align-top">₹</span>
                       {service.price}
                     </div>
@@ -212,12 +212,12 @@ export default function Offer() {
                     {/* Action Button */}
                     <a 
                       href="#contact" 
-                      className="px-4 h-10 md:h-12 border border-white/10 flex items-center justify-center gap-2 group-hover:border-red group-hover:bg-red transition-all duration-500 hover:scale-105 shrink-0"
+                      className="px-4 h-10 md:h-12 border border-red bg-red flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-300 shrink-0"
                       data-cursor="cta"
                       aria-label="Contact for this service"
                     >
-                      <span className="font-space text-[10px] uppercase tracking-[0.2em] text-white/70 group-hover:text-white transition-colors duration-500">Contact</span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/70 group-hover:text-white group-hover:-rotate-45 transition-all duration-500">
+                      <span className="font-space text-[10px] uppercase tracking-[0.2em] text-white">Contact</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white -rotate-45">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                       </svg>

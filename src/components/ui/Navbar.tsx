@@ -63,7 +63,7 @@ export default function Navbar() {
           onMouseEnter={handleLogoHover}
         >
           <span className="flex overflow-hidden">
-            {"SAIF.".split("").map((char, i) => (
+            {"KAIZER.".split("").map((char, i) => (
               <span key={i} className="logo-char inline-block">{char}</span>
             ))}
           </span>
