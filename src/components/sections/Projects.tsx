@@ -9,7 +9,7 @@ const projects = [
     title: "MedLife",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://med-life-delta.vercel.app",
-    desc: "A medical application built solo during a high-stakes hackathon. Architected for resilience.",
+    desc: "A medical application built solo during a high-stakes hackathon. Architected for resilience and high-volume data streaming.",
     tech: "NEXT.JS / TS / DB"
   },
   {
@@ -17,7 +17,7 @@ const projects = [
     title: "Twin",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://twin-l3hf.vercel.app",
-    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic.",
+    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic, built for mathematical precision.",
     tech: "REACT / NODE / API"
   },
   {
@@ -25,7 +25,7 @@ const projects = [
     title: "DSA Visuals",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://dsa-visuals-nine.vercel.app",
-    desc: "Interactive visualizer for Data Structures and Algorithms. Mathematical precision.",
+    desc: "Interactive visualizer for Data Structures and Algorithms. High-performance canvas rendering.",
     tech: "JS / ALGO / CANVAS"
   }
 ];
@@ -38,49 +38,50 @@ export default function Projects() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
     const ctx = gsap.context(() => {
+      // Reveal header
+      gsap.fromTo(".projects-header", 
+        { y: -50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%"
+          }
+        }
+      );
+
       if (!isMobile && scrollContainerRef.current) {
         const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
         
-        // Master horizontal timeline
+        // Master horizontal timeline with scrub 1.2
         const scrollTween = gsap.to(panels, {
           xPercent: -100 * (panels.length - 1),
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             pin: true,
-            scrub: 1,
+            scrub: 1.2,
             end: () => `+=${scrollContainerRef.current?.offsetWidth || window.innerWidth * 3}`,
           }
         });
 
-        // Parallax internals for each panel
-        panels.forEach((panel, i) => {
-          // Giant background number parallax
-          gsap.to(panel.querySelector(".bg-number"), {
-            x: 200,
-            ease: "none",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: scrollTween,
-              start: "left right",
-              end: "right left",
-              scrub: true
-            }
-          });
-          
-          // Title parallax (moves faster than the panel)
-          gsap.fromTo(panel.querySelector(".project-title"), 
-            { x: -100, opacity: 0 },
+        // Intro animation for HUD cards
+        panels.forEach((panel) => {
+          gsap.fromTo(panel.querySelector(".tactical-hud"),
+            { y: 100, opacity: 0, scale: 0.95 },
             {
-              x: 0,
+              y: 0,
               opacity: 1,
-              ease: "none",
+              scale: 1,
+              duration: 1.2,
+              ease: "power3.out",
               scrollTrigger: {
                 trigger: panel,
                 containerAnimation: scrollTween,
-                start: "left center",
-                end: "center center",
-                scrub: true
+                start: "left 80%",
               }
             }
           );
@@ -89,7 +90,7 @@ export default function Projects() {
         // Mobile fallback
         const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
         panels.forEach((panel) => {
-          gsap.fromTo(panel,
+          gsap.fromTo(panel.querySelector(".tactical-hud"),
             { y: 50, opacity: 0 },
             {
               y: 0,
@@ -98,7 +99,7 @@ export default function Projects() {
               ease: "power3.out",
               scrollTrigger: {
                 trigger: panel,
-                start: "top 70%"
+                start: "top 80%"
               }
             }
           );
@@ -110,86 +111,148 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative bg-[#020202] overflow-hidden text-white">
+    <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-screen flex flex-col">
       
-      {/* Title Overlay fixed during pin */}
-      <div className="absolute top-10 md:top-20 left-6 md:left-12 z-20 pointer-events-none mix-blend-difference">
-        <div className="font-space text-[10px] md:text-xs tracking-[0.4em] text-red mb-2 uppercase">
-           Classification: Classified
+      {/* 1. FIXED HEADER - Guaranteed no overlap with the main Navbar */}
+      <div className="projects-header w-full h-40 md:h-48 pt-20 border-b border-red/30 bg-[#020202]/90 backdrop-blur-2xl flex flex-col justify-end px-6 md:px-16 pb-6 z-50 shrink-0 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="font-space text-[10px] tracking-widest text-red uppercase mb-2 flex items-center gap-3">
+              <span className="w-2 h-2 bg-red animate-pulse shadow-[0_0_10px_rgba(255,51,51,1)]" />
+              Terminal // Classified
+            </div>
+            <h2 className="font-bebas text-5xl md:text-7xl tracking-tighter text-white leading-none drop-shadow-lg">
+              MISSIONS EXECUTED
+            </h2>
+          </div>
+          <div className="hidden md:flex flex-col items-end font-space text-[10px] text-red/60 tracking-widest">
+            <span className="animate-pulse">DATA_STREAM_ACTIVE</span>
+            <span>UPLINK: SECURE</span>
+          </div>
         </div>
-        <h2 className="font-bebas text-4xl md:text-6xl tracking-tighter text-white">
-          MISSIONS EXECUTED
-        </h2>
       </div>
 
-      <div ref={scrollContainerRef} className="flex flex-col md:flex-row w-full md:w-[300vw] h-auto md:h-[100svh]">
-        {projects.map((project, idx) => (
-          <div 
-            key={idx} 
-            className="project-panel w-full md:w-screen h-[80vh] md:h-screen flex items-center justify-center relative border-r border-white/5"
-          >
-            {/* Giant Background Number Parallax Layer */}
-            <div className="bg-number absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden select-none">
-              <span className="font-bebas text-[80vw] md:text-[50vw] leading-none text-transparent opacity-30" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>
-                {project.id}
-              </span>
-            </div>
+      {/* 2. HORIZONTAL SCROLL CONTAINER */}
+      <div className="flex-1 relative overflow-hidden bg-[#020202]">
+        
+        {/* Global Tactical Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
-            <div className="container mx-auto px-6 md:px-24 flex flex-col justify-center h-full relative z-10 w-full mt-20 md:mt-0">
+        <div ref={scrollContainerRef} className="flex h-full w-[300vw]">
+          {projects.map((project, idx) => (
+            <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
               
-              {/* Project Layout */}
-              <div className="flex flex-col md:flex-row items-start md:items-end justify-between w-full gap-8 md:gap-0">
-                
-                {/* Left Side: Title & Description */}
-                <div className="flex flex-col max-w-3xl">
-                  <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white/40 mb-4 flex items-center gap-3">
-                    <span className="w-1.5 h-1.5 bg-red animate-pulse" />
-                    {project.label}
-                  </span>
-                  
-                  <h3 className="project-title font-bebas text-[18vw] md:text-[12vw] leading-[0.8] tracking-tighter text-white hover:text-red transition-colors duration-500 cursor-default">
-                    {project.title}
-                  </h3>
-                  
-                  <p className="font-inter font-light text-white/50 text-sm md:text-lg mt-8 max-w-xl leading-relaxed">
-                    {project.desc}
-                  </p>
-                </div>
+              {/* Massive Background Number */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
+                {project.id}
+              </div>
 
-                {/* Right Side: Meta & Action */}
-                <div className="flex flex-col items-start md:items-end gap-6 md:pb-6">
-                  <div className="font-space text-[10px] md:text-xs tracking-[0.3em] text-white/30 text-left md:text-right">
-                    STACK_OVERVIEW<br/>
-                    <span className="text-white/60">{project.tech}</span>
+              {/* Optimized Volumetric Center Glow (No CSS Blur) */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.08),transparent_50%)] pointer-events-none z-0" />
+
+              {/* PERFECT TACTICAL HUD PANEL - Dual ClipPath for solid border */}
+              <div 
+                className="tactical-hud relative z-10 w-full max-w-6xl h-full max-h-[75vh] p-[1px] bg-red/40 group/hud shadow-[0_0_50px_rgba(255,51,51,0.1)] hover:shadow-[0_0_80px_rgba(255,51,51,0.2)] hover:bg-red/60 transition-all duration-700 will-change-transform"
+                style={{ clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" }}
+              >
+                {/* Replaced heavy blur with solid near-black for 60fps performance */}
+                <div 
+                  className="w-full h-full bg-[#030303] flex flex-col relative overflow-hidden"
+                  style={{ clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" }}
+                >
+                  
+                  {/* Optimized Scanlines Overlay (No mix-blend-mode) */}
+                  <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-20 opacity-50" />
+                  
+                  {/* TOP BAR: Systems Info */}
+                  <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-6 bg-red/[0.05] z-10">
+                    <div className="flex items-center gap-4">
+                      <span className="w-3 h-3 border border-red flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
+                      </span>
+                      <span className="font-space text-xs tracking-widest text-white/90">SYS.ID: {project.id}</span>
+                    </div>
+                    <div className="font-space text-[10px] tracking-widest text-red uppercase font-bold">
+                      {project.label}
+                    </div>
                   </div>
-                  
-                  <a 
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative flex items-center gap-4 border border-white/20 hover:border-red bg-white/5 hover:bg-red/10 px-8 py-4 transition-all duration-300"
-                    data-cursor="eye"
-                  >
-                    <span className="font-space text-xs tracking-[0.2em] text-white group-hover:text-red transition-colors">
-                      INITIALIZE_DEPLOYMENT
-                    </span>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/50 group-hover:text-red transition-colors group-hover:translate-x-1 group-hover:-translate-y-1 duration-300">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7 7 17 7 17 17"></polyline>
-                    </svg>
-                    {/* Corner accents */}
-                    <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-white group-hover:border-red transition-colors" />
-                    <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-white group-hover:border-red transition-colors" />
-                  </a>
-                </div>
 
+                  {/* MAIN CONTENT SPLIT */}
+                  <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-hidden">
+                    
+                    {/* Left Side: Typography & Data */}
+                    <div className="w-full md:w-[60%] p-6 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative bg-gradient-to-br from-red/[0.02] to-transparent">
+                      {/* Corner Accents */}
+                      <div className="absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 border-red/60" />
+                      <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-red/60 hidden md:block" />
+                      
+                      <div className="pl-4">
+                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-4 uppercase">
+                          Target_Designation
+                        </div>
+                        <h3 className="font-bebas text-6xl md:text-8xl tracking-tighter text-white mb-6 md:mb-10 group-hover/hud:text-red transition-colors duration-700 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">
+                          {project.title}
+                        </h3>
+                        <p className="font-inter font-light text-white/80 text-lg md:text-xl leading-relaxed max-w-lg border-l-2 border-red/50 pl-6 bg-gradient-to-r from-red/[0.08] to-transparent py-4">
+                          {project.desc}
+                        </p>
+                      </div>
+
+                      <div className="mt-8 font-space text-[10px] text-red/40 tracking-[0.3em] break-all hidden md:block px-4">
+                        0x{Math.random().toString(16).substring(2, 10).toUpperCase()} // MEMORY_ALLOC // 0x{Math.random().toString(16).substring(2, 10).toUpperCase()} // SECURE
+                      </div>
+                    </div>
+
+                    {/* Right Side: Tech & Action */}
+                    <div className="w-full md:w-[40%] p-6 md:p-14 flex flex-col justify-between bg-gradient-to-tl from-red/[0.05] to-transparent relative">
+                      {/* Corner Accents */}
+                      <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-red/60" />
+                      <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-red/60 hidden md:block" />
+
+                      <div className="pr-4 md:pr-0">
+                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-8 uppercase text-right md:text-left">
+                          Tech_Parameters
+                        </div>
+                        <div className="flex flex-col gap-6">
+                          {project.tech.split(' / ').map((t, i) => (
+                            <div key={i} className="flex items-center gap-4 group/tech">
+                              <span className="font-space text-[10px] text-red/50 group-hover/tech:text-red transition-colors font-bold">[{i+1}]</span>
+                              <div className="flex-1 h-[1px] bg-red/20 group-hover/tech:bg-red shadow-[0_0_10px_rgba(255,51,51,0)] group-hover/tech:shadow-[0_0_10px_rgba(255,51,51,1)] transition-all duration-500" />
+                              <span className="font-space text-sm tracking-[0.2em] text-white/80 group-hover/tech:text-white transition-colors">{t}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <a 
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-8 md:mt-12 group/btn relative w-full h-16 border border-red/40 flex items-center justify-between px-8 overflow-hidden bg-[#0a0a0a] hover:border-red transition-all duration-500 shadow-[inset_0_0_20px_rgba(255,51,51,0.05)] hover:shadow-[inset_0_0_40px_rgba(255,51,51,0.2)]"
+                        data-cursor="cta"
+                      >
+                        {/* Hardware scanning background */}
+                        <div className="absolute top-0 left-0 w-0 h-full bg-gradient-to-r from-red/20 to-red/40 group-hover/btn:w-full transition-all duration-500 ease-out" />
+                        {/* Laser edge */}
+                        <div className="absolute top-0 left-0 w-1 h-full bg-red shadow-[0_0_20px_rgba(255,51,51,1)] group-hover/btn:opacity-100 opacity-50 transition-opacity" />
+                        
+                        <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold group-hover/btn:tracking-[0.4em] transition-all duration-500">
+                          Execute_Uplink
+                        </span>
+                        
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 group-hover/btn:translate-x-3 transition-transform duration-500">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
-
-            {/* Subtle red bottom gradient */}
-            <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-red/5 to-transparent pointer-events-none opacity-50" />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

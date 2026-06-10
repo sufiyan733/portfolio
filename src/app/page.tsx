@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import Loader from "@/components/ui/Loader";
 import CustomCursor from "@/components/ui/CustomCursor";
+import NoiseOverlay from "@/components/ui/NoiseOverlay";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import ScrollContinuity from "@/components/ui/ScrollContinuity";
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
@@ -22,6 +25,12 @@ export default function Home() {
   return (
     <main className="bg-bg text-white min-h-screen relative selection:bg-glow selection:text-red">
       <CustomCursor />
+      <NoiseOverlay />
+      <ScrollProgress />
+      <ScrollContinuity />
+      
+      {/* Global Scanlines via ::before approach mapped to an element */}
+      <div className="fixed inset-0 pointer-events-none z-[9997] opacity-[0.02] bg-[repeating-linear-gradient(0deg,transparent,transparent_1px,#000_1px,#000_2px)]" />
       
       {isLoading && <Loader onComplete={() => setIsLoading(false)} />}
       

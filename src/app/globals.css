@@ -25,9 +25,15 @@ body {
   color: #ffffff;
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   /* Hide scrollbar for a cleaner look */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+h1, h2, h3, h4, h5, h6, .font-bebas {
+  letter-spacing: 0.02em;
 }
 
 body::-webkit-scrollbar {
@@ -63,4 +69,23 @@ body::before {
 /* GSAP Will-Change utility class */
 .will-change-transform {
   will-change: transform;
+}
+
+@keyframes glow-cycle {
+  0% { filter: drop-shadow(0 0 40px rgba(255, 30, 30, 0.4)); }
+  50% { filter: drop-shadow(0 0 70px rgba(255, 30, 30, 0.7)); }
+  100% { filter: drop-shadow(0 0 40px rgba(255, 30, 30, 0.4)); }
+}
+
+.animate-glow {
+  animation: glow-cycle 3s infinite ease-in-out;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite ease-in-out;
 }

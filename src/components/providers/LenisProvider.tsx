@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -13,18 +13,20 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       gestureOrientation: "vertical",
       smoothWheel: true,
       touchMultiplier: 2,
+      infinite: false,
     });
 
-    const updateLenis = (time: number) => {
-      lenis.raf(time * 1000);
-    };
+    // Sync Lenis scroll position to ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add(updateLenis);
+    // Drive Lenis via GSAP ticker (exact spec from AGENTS.md)
+    const tickerFn = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(updateLenis);
+      gsap.ticker.remove(tickerFn);
     };
   }, []);
 

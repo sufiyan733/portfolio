@@ -7,134 +7,153 @@ import dynamic from "next/dynamic";
 
 const ParticleField = dynamic(() => import("../three/ParticleField"), { ssr: false });
 
-// Tiny hacker-style data stream component
+// Hacker data stream — throttled to 150ms, uses GSAP ticker avoidance
 const DataStream = () => {
-  const [stream, setStream] = useState("");
+  const [stream, setStream] = useState("SYS.MEM.A4F2B1");
   useEffect(() => {
     const chars = "0123456789ABCDEF";
+    // 150ms is fast enough visually, low enough to not thrash the DOM
     const interval = setInterval(() => {
       let str = "";
-      for(let i=0; i<6; i++) {
+      for (let i = 0; i < 6; i++) {
         str += chars[Math.floor(Math.random() * chars.length)];
       }
       setStream(`SYS.MEM.${str}`);
-    }, 50);
+    }, 150);
     return () => clearInterval(interval);
   }, []);
   return <div>{stream}</div>;
 };
 
+// Typewriter — uses setInterval only (no nested setTimeout)
+const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => {
+      setStarted(true);
+      let i = 0;
+      const ticker = setInterval(() => {
+        i++;
+        setDisplayedText(text.slice(0, i));
+        if (i >= text.length) clearInterval(ticker);
+      }, 40);
+      return () => clearInterval(ticker);
+    }, delay * 1000);
+
+    return () => clearTimeout(startTimer);
+  }, [text, delay]);
+
+  return (
+    <span>
+      {displayedText}
+      <span className={`inline-block w-[2px] h-3 ml-1 bg-red ${started ? "animate-pulse" : "opacity-0"}`} />
+    </span>
+  );
+};
+
 export default function Hero() {
   const container = useRef<HTMLDivElement>(null);
   const ayanokojiRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleContainerRef = useRef<HTMLHeadingElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  const sheenRef = useRef<HTMLDivElement>(null);
+  const scrollDescendRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      // 1. Cinematic Focus Pull & Lighting Reveal
+      // 1. Structural line reveal
       tl.to(lineRef.current, {
         scaleY: 1,
-        duration: 1.5,
-        ease: "expo.inOut"
+        duration: 1.2,
+        ease: "expo.inOut",
       })
-      
-      // Title rises sharp, then blurs slightly (Focus pull)
-      .fromTo(titleRef.current, {
-        opacity: 0,
-        y: "5%",
-        clipPath: "inset(100% 0 0 0)",
-        filter: "blur(0px)"
+
+      // Title reveal: clip-path stagger — transform only, smooth
+      .fromTo(".hero-title-char", {
+        clipPath: "inset(0 100% 0 0)",
       }, {
-        opacity: 1,
-        y: "0%",
-        clipPath: "inset(0% 0 0 0)",
-        duration: 2.5
+        clipPath: "inset(0 0% 0 0)",
+        duration: 0.7,
+        stagger: 0.05,
+        ease: "power3.out",
       }, "-=0.5")
-      
-      // Ayanokoji emerges blurred, then snaps to focus
+
+      // Ayanokoji emerges — NO filter blur, only opacity + scale
       .fromTo(ayanokojiRef.current, {
         opacity: 0,
-        scale: 1.05,
-        filter: "brightness(0) blur(20px)"
+        scale: 1.04,
       }, {
         opacity: 1,
         scale: 1,
-        filter: "brightness(1) blur(0px)",
-        duration: 3,
-        ease: "power2.out"
-      }, "-=2")
-      
-      // Push background out of focus
-      .to(titleRef.current, {
-        filter: "blur(4px)",
-        opacity: 0.6,
-        duration: 2
-      }, "-=2")
+        duration: 2.5,
+        ease: "power2.out",
+      }, "-=1")
 
-      // Metadata fade
+      // Metadata fade — opacity only
       .fromTo(".hero-meta", {
         opacity: 0,
-        x: (i) => i % 2 === 0 ? -10 : 10
+        y: 10,
       }, {
         opacity: 1,
-        x: 0,
-        duration: 1.5,
+        y: 0,
+        duration: 1,
         stagger: 0.1,
-        ease: "power2.out"
-      }, "-=2");
+        ease: "power2.out",
+      }, "-=1.5");
 
-      // 2. Light Sheen across title
-      gsap.fromTo(sheenRef.current, 
-        { x: "-100%", skewX: -20 },
-        { 
-          x: "200%", 
-          skewX: -20, 
-          duration: 3, 
-          ease: "power2.inOut", 
-          repeat: -1, 
-          repeatDelay: 5 
-        }
+
+
+      // 3. Scroll to Descend pulse — opacity only
+      gsap.fromTo(scrollDescendRef.current,
+        { opacity: 0.4 },
+        { opacity: 1, duration: 1.2, yoyo: true, repeat: -1, ease: "sine.inOut" }
       );
 
-      // 3. Subtle Parallax & Focus Shift on Mouse Move
+      // 4. Ayanokoji Idle float — y only, runs BEFORE scroll scrub takes over
+      //    Use a separate fromTo so scroll scrub can override y independently
+      const floatTween = gsap.to(ayanokojiRef.current, {
+        y: -18,
+        duration: 1.75,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+      });
+
+      // 5. Mouse parallax — throttled via GSAP quickTo (not raw gsap.to on every event)
+      const xTo = gsap.quickTo(titleContainerRef.current, "x", { duration: 1.5, ease: "power2.out" });
+      const yTo = gsap.quickTo(titleContainerRef.current, "y", { duration: 1.5, ease: "power2.out" });
+
       const handleMouseMove = (e: MouseEvent) => {
-        const { innerWidth, innerHeight } = window;
-        const x = (e.clientX / innerWidth - 0.5); 
-        const y = (e.clientY / innerHeight - 0.5);
-
-        // Core parallax
-        gsap.to(titleRef.current, { x: x * -15, y: y * -15, duration: 1.5, ease: "power2.out" });
-        gsap.to(ayanokojiRef.current, { x: x * 10, y: y * 10, duration: 2, ease: "power2.out" });
-
-        // Dynamic focus pull based on mouse Y position
-        // When mouse is high, focus background. When low, focus foreground.
-        const focusVal = Math.abs(y); // 0 to 0.5
-        gsap.to(titleRef.current, { filter: `blur(${focusVal * 12}px)`, duration: 0.5 });
+        const x = e.clientX / window.innerWidth - 0.5;
+        const y = e.clientY / window.innerHeight - 0.5;
+        xTo(x * -15);
+        yTo(y * -15);
       };
 
       window.addEventListener("mousemove", handleMouseMove);
 
-      // 4. Scroll Parallax - Smooth and heavy
-      gsap.to(titleRef.current, {
+      // 6. Scroll Parallax — pause float tween when scrolling kicks in
+      gsap.to(titleContainerRef.current, {
         y: "-15%",
         opacity: 0,
-        scrollTrigger: { trigger: container.current, start: "top top", end: "bottom top", scrub: 1 }
+        scrollTrigger: { trigger: container.current, start: "top top", end: "bottom top", scrub: 1.2 },
       });
-      
+
+      // Ayanokoji scroll: overrides y from float — pause float tween on scroll enter
       gsap.to(ayanokojiRef.current, {
-        scale: 1.05,
-        y: "15%",
-        filter: "blur(2px)",
-        scrollTrigger: { 
-          trigger: container.current, 
-          start: "top top", 
-          end: "bottom top", 
-          scrub: 1 
-        }
+        y: 150,
+        scale: 0.95,
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.5,
+          onEnter: () => floatTween.pause(),
+          onLeaveBack: () => floatTween.resume(),
+        },
       });
 
       return () => window.removeEventListener("mousemove", handleMouseMove);
@@ -143,49 +162,61 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
+  const titleText = "SAIF";
+
   return (
     <section id="hero" ref={container} className="relative h-[100svh] w-full bg-[#020202] overflow-hidden flex items-center justify-center">
-      
-      {/* Absolute center structural line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-[30vh] md:h-[40vh] bg-gradient-to-b from-red/50 to-transparent origin-top scale-y-0 z-0" ref={lineRef} />
 
-      {/* Layer 1: Subdued Particle Field & Premium Grain */}
+      {/* Structural line with glowing tip */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-[30vh] md:h-[40vh] bg-gradient-to-b from-red/50 to-transparent origin-top scale-y-0 z-0" ref={lineRef}>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[3px] h-[15px] bg-red blur-[2px] rounded-full" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1px] h-[10px] bg-white rounded-full" />
+      </div>
+
+      {/* Particle Field */}
       <div className="absolute inset-0 opacity-[0.25] mix-blend-screen pointer-events-none">
         <ParticleField />
       </div>
-      <div className="absolute inset-0 z-0 opacity-[0.06] pointer-events-none mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }} />
 
-      {/* Layer 2: Massive, Textured Typography with Light Sweep */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none perspective-[1000px]">
-        <h1 
-          ref={titleRef} 
-          className="relative font-bebas text-[45vw] text-[#0f0f13] leading-none tracking-tighter whitespace-nowrap opacity-0 transform-style-3d overflow-hidden"
+      {/* Deep Red Radial Glow Behind Typography for Depth */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-red/10 blur-[120px] rounded-full pointer-events-none z-0" />
+
+      {/* Layer 2: Large background SAIF text */}
+      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
+        <h1
+          ref={titleContainerRef}
+          className="relative font-bebas text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
         >
-          <span className="relative z-10 mix-blend-difference text-white/5">SAIF</span>
-          <span className="absolute inset-0 z-0 bg-clip-text text-transparent bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20">SAIF</span>
-          
-          {/* Volumetric Light Sheen */}
-          <div ref={sheenRef} className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent z-20 pointer-events-none" />
+          {titleText.split("").map((char, i) => (
+            <span 
+              key={i} 
+              className="hero-title-char relative inline-block text-white/[0.12] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+              style={{ 
+                clipPath: "inset(0 100% 0 0)",
+                WebkitTextStroke: '2px rgba(255,255,255,0.1)'
+              }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
       </div>
 
-      {/* Layer 3: Character with Flawless Gradient Mask */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120vw] md:w-[65vw] h-[85vh] md:h-[95vh] z-20 pointer-events-none flex justify-center items-end">
-        <div 
-          ref={ayanokojiRef} 
-          className="relative w-full h-full will-change-transform opacity-0" 
-          style={{ 
-            WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, black 30%)', 
-            maskImage: 'linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, black 30%)' 
+      {/* Layer 3: Ayanokoji */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120vw] md:w-[65vw] h-[85vh] md:h-[95vh] z-20 flex justify-center items-end">
+        <div
+          ref={ayanokojiRef}
+          className="relative w-full h-full will-change-transform opacity-0"
+          style={{
+            WebkitMaskImage: "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, black 30%)",
+            maskImage: "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, black 30%)",
           }}
         >
-          {/* Ultra-subtle deep red backlight */}
-          <div className="absolute inset-0 bg-red/5 blur-[120px] rounded-full scale-50 mix-blend-screen" />
-          
-          <Image 
-            src="/ayanokoji.png" 
-            alt="The Strategist" 
-            fill 
+          <div className="absolute inset-0 bg-red/5 blur-[80px] rounded-full scale-50 mix-blend-screen animate-pulse-slow" />
+          <Image
+            src="/ayanokoji.png"
+            alt="The Strategist"
+            fill
             priority
             sizes="(max-width: 768px) 120vw, 65vw"
             className="object-contain object-bottom"
@@ -193,12 +224,10 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Layer 4: Minimalist Premium Typography (Foreground) */}
+      {/* Layer 4: Meta text */}
       <div className="absolute inset-0 z-30 pointer-events-none container mx-auto px-6 md:px-12 flex flex-col justify-between py-12 md:py-20 h-full">
-        
-        {/* Top Meta Area */}
         <div className="flex justify-between items-start w-full pt-16 md:pt-0">
-          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 mix-blend-difference">
+          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40">
             <span className="text-red/80 font-medium tracking-[0.5em] mb-2 flex items-center gap-2">
               <span className="w-1 h-1 bg-red animate-ping rounded-full" />
               FULL STACK DEVELOPER
@@ -207,28 +236,30 @@ export default function Hero() {
             <span className="text-white/80">The Void</span>
           </div>
 
-          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 text-right items-end mix-blend-difference">
+          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 text-right items-end">
             <DataStream />
             <div className="w-[1px] h-12 bg-red/20 mt-4 overflow-hidden relative">
-               <div className="absolute top-0 left-0 w-full h-full bg-red origin-top animate-pulse" />
+              <div className="absolute top-0 left-0 w-full h-full bg-red origin-top animate-pulse" />
             </div>
           </div>
         </div>
 
-        {/* Bottom Meta Area */}
         <div className="flex justify-between items-end w-full pb-8 md:pb-0">
-          <div className="hero-meta max-w-xs font-inter text-sm font-light leading-relaxed text-white/50 mix-blend-difference">
-            Cold logic. Clean code. Zero compromise.<br />
-            <span className="text-white/80">Architecting systems that win.</span>
+          <div className="hero-meta max-w-xs font-inter text-sm font-light leading-relaxed text-white/50">
+            <TypewriterText text="Cold logic. Clean code. Zero compromise. Architecting systems that win." delay={2} />
           </div>
-          
-          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] text-white/30 flex items-center gap-4 mix-blend-difference">
+          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] text-white/30 flex items-center gap-4">
             <span>[ AWWWARDS LVL. ]</span>
           </div>
         </div>
       </div>
 
-      {/* Extreme dark vignette to focus the center */}
+      {/* Scroll to Descend */}
+      <div ref={scrollDescendRef} className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none font-space text-[10px] tracking-[0.4em] text-white/60">
+        SCROLL TO DESCEND
+      </div>
+
+      {/* Vignette */}
       <div className="absolute inset-0 pointer-events-none z-40 shadow-[inset_0_0_200px_rgba(2,2,2,1)]" />
 
     </section>

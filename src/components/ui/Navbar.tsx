@@ -82,34 +82,78 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 z-[60] relative"
+          className="md:hidden flex flex-col justify-center items-end w-10 h-10 z-[60] relative group gap-2 outline-none focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          <span className={`w-full h-[2px] bg-white transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-[1px]" : "-translate-y-1.5"}`} />
-          <span className={`w-full h-[2px] bg-red transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`} />
-          <span className={`w-full h-[2px] bg-white transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-[2px]" : "translate-y-1.5"}`} />
+          <span className={`h-[2px] bg-white transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] origin-center ${isMobileMenuOpen ? "w-8 rotate-45 translate-y-[10px]" : "w-8 group-hover:w-6"}`} />
+          <span className={`h-[2px] bg-red transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] origin-center ${isMobileMenuOpen ? "w-0 opacity-0" : "w-6 group-hover:w-8"}`} />
+          <span className={`h-[2px] bg-white transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] origin-center ${isMobileMenuOpen ? "w-8 -rotate-45 -translate-y-[10px]" : "w-8 group-hover:w-4"}`} />
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={`fixed inset-0 bg-surface z-40 flex flex-col items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] ${isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"} md:hidden`}>
-        <nav className="flex flex-col gap-8 text-center">
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-500 md:hidden ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Menu Card */}
+      <div 
+        className={`fixed top-24 right-4 w-[calc(100%-2rem)] max-w-sm bg-[#050505]/95 backdrop-blur-2xl border border-white/5 rounded-2xl p-6 z-50 flex flex-col shadow-[0_0_50px_rgba(255,51,51,0.15)] transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden will-change-transform origin-top-right overflow-hidden`}
+        style={{
+          transform: isMobileMenuOpen ? "scale(1) translateY(0)" : "scale(0.95) translateY(-20px)",
+          opacity: isMobileMenuOpen ? 1 : 0,
+          pointerEvents: isMobileMenuOpen ? "auto" : "none"
+        }}
+      >
+        {/* Subtle top glare */}
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        <div className="flex items-center gap-3 mb-6 pl-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-red animate-pulse shadow-[0_0_8px_rgba(255,51,51,0.8)]" />
+          <span className="font-space text-[10px] tracking-widest text-white/40 uppercase">System_Nav</span>
+        </div>
+        
+        <nav className="flex flex-col w-full">
           {navLinks.map((link, i) => (
             <Link 
               key={link.name} 
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="font-bebas text-5xl text-white hover:text-red transition-colors"
-              style={{
-                opacity: isMobileMenuOpen ? 1 : 0,
-                transform: `translateY(${isMobileMenuOpen ? 0 : 20}px)`,
-                transition: `all 0.5s ease ${0.3 + i * 0.1}s`
-              }}
+              className="group relative flex items-center justify-between py-4 px-2 border-b border-white/5 last:border-0 overflow-hidden"
             >
-              {link.name}
+              {/* Animated highlight line on the left */}
+              <div className="absolute left-0 top-0 w-[2px] h-full bg-red scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
+              
+              <div className="flex items-center gap-4 relative z-10 pl-2">
+                <span className="font-space text-xs text-red opacity-60 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(255,51,51,0.8)] transition-all">
+                  0{i + 1}
+                </span>
+                <span className="font-bebas text-4xl tracking-wide text-white/80 group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
+                  {link.name}
+                </span>
+              </div>
+
+              {/* Circular arrow icon */}
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red/50 group-hover:bg-red/10 transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/30 group-hover:text-red transition-all -translate-x-0.5 group-hover:translate-x-0.5 duration-300">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
             </Link>
           ))}
         </nav>
+
+        {/* Tech Footer */}
+        <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between">
+          <div className="font-space text-[9px] tracking-[0.2em] text-white/30">
+            STATUS: <span className="text-[#00ff00] animate-pulse">ONLINE</span>
+          </div>
+          <div className="font-space text-[9px] tracking-[0.2em] text-white/30">
+            SYS. V2.0
+          </div>
+        </div>
       </div>
     </header>
   );

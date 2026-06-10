@@ -1,32 +1,41 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { useEffect, useRef, useState } from "react";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import dynamic from "next/dynamic";
 
 const FloatingIcons = dynamic(() => import("../three/FloatingIcons"), { ssr: false });
 
-const skillCategories = [
-  { id: "01", title: "FRONTEND CORE", tech: "React.js • Next.js 14 • TypeScript" },
-  { id: "02", title: "STYLING & UI", tech: "Tailwind CSS • CSS Modules • Radix" },
-  { id: "03", title: "ANIMATION & 3D", tech: "GSAP • Lenis • Three.js • R3F" },
-  { id: "04", title: "BACKEND & DB", tech: "Node.js • PostgreSQL • MongoDB" },
-  { id: "05", title: "ARCHITECTURE", tech: "REST APIs • Server Actions • Vercel" },
+const allSkills = [
+  "React.js", "Next.js 14", "TypeScript", "Tailwind CSS", "GSAP", "Lenis",
+  "Three.js", "Node.js", "PostgreSQL", "MongoDB", "REST APIs", "Server Actions",
+  "Vercel", "Framer Motion", "WebGL",
 ];
+
+const stableRow1 = [...allSkills];
+const stableRow2 = [...allSkills].reverse();
 
 export default function Skills() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const rowsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const bgText1Ref = useRef<HTMLDivElement>(null);
-  const bgText2Ref = useRef<HTMLDivElement>(null);
+  const marquee1Ref = useRef<HTMLDivElement>(null);
+  const marquee2Ref = useRef<HTMLDivElement>(null);
+  const bgTextRef = useRef<HTMLDivElement>(null);
+  const [row1, setRow1] = useState(stableRow1);
+  const [row2, setRow2] = useState(stableRow2);
+
+  // Shuffle client-side only — avoids SSR mismatch
+  useEffect(() => {
+    const shuffle = (arr: string[]) => [...arr].sort(() => Math.random() - 0.5);
+    setRow1(shuffle(allSkills));
+    setRow2(shuffle(allSkills));
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      
-      // 1. Title Reveal (Elegant, slow mask reveal)
+      // Title Reveal
       gsap.fromTo(".arsenal-char", {
         y: "110%",
-        rotationZ: 5
+        rotationZ: 5,
       }, {
         y: "0%",
         rotationZ: 0,
@@ -36,132 +45,147 @@ export default function Skills() {
         scrollTrigger: {
           trigger: ".arsenal-title-container",
           start: "top 80%",
-        }
+        },
       });
 
-      // 2. Tactical List Wipes In
-      rowsRef.current.forEach((row, i) => {
-        if (!row) return;
-        gsap.fromTo(row, {
-          opacity: 0,
-          y: 30,
-        }, {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: row,
-            start: "top 90%",
-          }
-        });
-      });
-
-      // 3. Heavy Parallax on Background Typography based on scroll
-      gsap.to(bgText1Ref.current, {
-        x: "-20%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
-
-      gsap.to(bgText2Ref.current, {
+      // Background text parallax — transform only
+      gsap.to(bgTextRef.current, {
         x: "10%",
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1.5
-        }
+          scrub: 1.2,
+        },
+      });
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        // Continuous marquee tweens
+        const marquee1 = gsap.to(marquee1Ref.current, {
+          xPercent: -50,
+          ease: "none",
+          duration: 25,
+          repeat: -1,
+        });
+
+        const marquee2 = gsap.to(marquee2Ref.current, {
+          xPercent: 50,
+          ease: "none",
+          duration: 25,
+          repeat: -1,
+        });
+        gsap.set(marquee2Ref.current, { xPercent: -50 });
+
+        // Proper smooth velocity physics
+        let targetVelocity = 1;
+        let currentVelocity = 1;
+
+        const tickerId = gsap.ticker.add(() => {
+          // Smoothly lerp the current timescale towards the target timescale
+          currentVelocity += (targetVelocity - currentVelocity) * 0.1;
+          
+          // Friction: smoothly decay the target timescale back to baseline 1
+          targetVelocity += (1 - targetVelocity) * 0.05;
+
+          marquee1.timeScale(currentVelocity);
+          marquee2.timeScale(currentVelocity);
+        });
+
+        const st = ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          onUpdate: (self) => {
+            const v = self.getVelocity();
+            // Map scroll velocity to a reasonable timescale range
+            const scaled = 1 + (v / 300);
+            targetVelocity = scaled;
+          },
+        });
+
+        return () => {
+          gsap.ticker.remove(tickerId);
+          st.kill();
+        };
       });
 
     }, containerRef);
+
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="skills" ref={containerRef} className="relative min-h-[100svh] py-32 bg-[#020202] overflow-hidden flex flex-col justify-center">
-      
-      {/* Deep Background 3D Icons */}
+    <section id="skills" ref={containerRef} className="relative min-h-screen py-32 bg-[#020202] overflow-hidden flex flex-col justify-center">
+
+      {/* 3D Icons — lightweight, ssr:false */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-screen">
         <FloatingIcons />
       </div>
 
-      {/* Massive Scroll-tied Typography Layer */}
-      <div className="absolute inset-0 flex flex-col justify-center gap-20 pointer-events-none select-none z-0 opacity-40 overflow-hidden">
-        <div ref={bgText1Ref} className="font-bebas text-[20vw] leading-none whitespace-nowrap text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.05)] translate-x-[10%]">
-          ENGINEERING ARCHITECTURE SYSTEM
-        </div>
-        <div ref={bgText2Ref} className="font-bebas text-[20vw] leading-none whitespace-nowrap text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.05)] -translate-x-[20%]">
-          DEPLOYMENT PERFORMANCE SCALE
+      {/* Faint ARSENAL background text */}
+      <div className="absolute inset-0 flex flex-col justify-center pointer-events-none select-none z-0 opacity-[0.03] overflow-hidden">
+        <div ref={bgTextRef} className="font-bebas text-[30vw] leading-none whitespace-nowrap text-white -translate-x-[20%] will-change-transform">
+          ARSENAL ARSENAL ARSENAL
         </div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10 w-full max-w-7xl">
-        
-        {/* Header Area */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 border-b border-white/10 pb-8">
-          <div className="arsenal-title-container overflow-hidden">
-            <h2 className="font-bebas text-7xl md:text-[9rem] text-white leading-[0.85] tracking-tighter flex">
-              {"ARSENAL".split("").map((char, i) => (
-                <span key={i} className="arsenal-char block will-change-transform translate-y-full origin-bottom-left">
-                  {char}
-                </span>
-              ))}
-            </h2>
-          </div>
-          
-          <div className="font-space text-xs tracking-[0.3em] text-white/40 uppercase max-w-xs mt-8 md:mt-0 leading-relaxed text-right">
-            Technologies weaponized for flawless execution.
-          </div>
-        </div>
-
-        {/* Tactical List */}
-        <div className="w-full flex flex-col group/list">
-          {skillCategories.map((cat, i) => (
-            <div 
-              key={cat.id}
-              ref={el => { rowsRef.current[i] = el; }}
-              className="group relative flex flex-col md:flex-row md:items-center py-8 md:py-12 border-b border-white/10 hover:border-white/30 transition-colors duration-500 cursor-default"
-            >
-              {/* Background Hover Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              
-              {/* Column 1: ID */}
-              <div className="w-full md:w-1/4 font-space text-xs md:text-sm tracking-[0.4em] text-white/30 group-hover:text-red transition-colors duration-500 mb-4 md:mb-0">
-                [ {cat.id} ]
-              </div>
-              
-              {/* Column 2: Category */}
-              <div className="w-full md:w-1/3 font-inter font-light text-xl md:text-3xl tracking-wide text-white/70 group-hover:text-white transition-colors duration-500 mb-2 md:mb-0 transform group-hover:translate-x-2 transition-transform">
-                {cat.title}
-              </div>
-              
-              {/* Column 3: Stack */}
-              <div className="w-full md:w-5/12 flex justify-start md:justify-end">
-                <span className="font-space text-sm md:text-base tracking-widest text-white/40 uppercase group-hover:text-white/80 transition-colors duration-500">
-                  {cat.tech}
-                </span>
-              </div>
-              
+      <div className="relative z-10 w-full">
+        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 border-b border-white/10 pb-8">
+            <div className="arsenal-title-container overflow-hidden">
+              <h2 className="font-bebas text-7xl md:text-[9rem] text-white leading-[0.85] tracking-tighter flex">
+                {"ARSENAL".split("").map((char, i) => (
+                  <span key={i} className="arsenal-char block will-change-transform translate-y-full origin-bottom-left">
+                    {char}
+                  </span>
+                ))}
+              </h2>
             </div>
-          ))}
-        </div>
-        
-        {/* Footer of Arsenal */}
-        <div className="flex justify-between items-center mt-12 font-space text-[10px] tracking-[0.3em] text-white/30 uppercase">
-          <span>{skillCategories.length} CLASSIFICATIONS</span>
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-red animate-pulse" />
-            SYSTEM_STABLE
-          </span>
+            <div className="font-space text-xs tracking-[0.3em] text-white/40 uppercase max-w-xs mt-8 md:mt-0 leading-relaxed text-right">
+              Technologies weaponized for flawless execution.
+            </div>
+          </div>
         </div>
 
+        {/* Marquees */}
+        <div className="flex flex-col gap-8 w-full overflow-hidden my-12 rotate-[-2deg] scale-110">
+
+          <div className="flex whitespace-nowrap items-center will-change-transform" ref={marquee1Ref}>
+            {[...row1, ...row1, ...row1, ...row1].map((skill, i) => (
+              <div
+                key={i}
+                className="skill-pill inline-block flex-shrink-0 mx-4 px-8 py-4 border border-white/20 bg-white/5 rounded-full font-space text-sm md:text-base tracking-widest uppercase text-white/80 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,51,51,0.4)] hover:border-red hover:text-white transition-all duration-300 relative hover:z-10 hover:bg-red/10 cursor-default"
+              >
+                {skill}
+              </div>
+            ))}
+          </div>
+
+          <div className="flex whitespace-nowrap items-center will-change-transform" ref={marquee2Ref}>
+            {[...row2, ...row2, ...row2, ...row2].map((skill, i) => (
+              <div
+                key={i}
+                className="skill-pill inline-block flex-shrink-0 mx-4 px-8 py-4 border border-white/20 bg-white/5 rounded-full font-space text-sm md:text-base tracking-widest uppercase text-white/80 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,51,51,0.4)] hover:border-red hover:text-white transition-all duration-300 relative hover:z-10 hover:bg-red/10 cursor-default"
+              >
+                {skill}
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="flex justify-between items-center mt-24 font-space text-[10px] tracking-[0.3em] text-white/30 uppercase">
+            <span>{allSkills.length} CLASSIFICATIONS</span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-red animate-pulse" />
+              SYSTEM_STABLE
+            </span>
+          </div>
+        </div>
       </div>
 
     </section>
