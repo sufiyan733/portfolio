@@ -55,15 +55,16 @@ export default function Projects() {
       if (scrollContainerRef.current) {
         const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
         
-        // Master horizontal timeline with scrub 1.2
+        // Master horizontal timeline with 1:1 scroll length calculation
         const scrollTween = gsap.to(panels, {
           xPercent: -100 * (panels.length - 1),
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             pin: true,
-            scrub: 1.2,
-            end: () => `+=${scrollContainerRef.current?.offsetWidth || window.innerWidth * 3}`,
+            anticipatePin: 1,
+            scrub: 1, // Reduced slightly from 1.2 for more responsive touch on mobile
+            end: () => `+=${window.innerWidth * (panels.length - 1)}`,
           }
         });
 
@@ -92,7 +93,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-screen flex flex-col">
+    <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
       
       {/* 1. FIXED HEADER - Guaranteed no overlap with the main Navbar */}
       <div className="projects-header w-full h-40 md:h-48 pt-20 border-b border-red/30 bg-[#020202]/90 backdrop-blur-2xl flex flex-col justify-end px-6 md:px-16 pb-6 z-50 shrink-0 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
