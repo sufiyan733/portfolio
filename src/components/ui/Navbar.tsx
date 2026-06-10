@@ -50,10 +50,13 @@ export default function Navbar() {
     <header 
       ref={navRef}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 will-change-transform ${
-        isScrolled ? "bg-surface/60 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"
+        isScrolled ? "py-4 border-b border-white/5" : "py-8"
       }`}
     >
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
+      {/* Scroll Background Layer (Fixes nested backdrop-blur bug) */}
+      <div className={`absolute inset-0 -z-10 transition-all duration-500 ${isScrolled ? "bg-[#030303]/80 backdrop-blur-xl" : "bg-transparent opacity-0"}`} />
+
+      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between relative z-10">
         <Link 
           href="/" 
           className="font-bebas text-3xl text-red relative group"
@@ -93,66 +96,55 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-500 md:hidden ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-500 md:hidden ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Mobile Menu Card */}
+      {/* Mobile Menu Card (Top Sheet) */}
       <div 
-        className={`fixed top-24 right-4 w-[calc(100%-2rem)] max-w-sm bg-[#050505]/95 backdrop-blur-2xl border border-white/5 rounded-2xl p-6 z-50 flex flex-col shadow-[0_0_50px_rgba(255,51,51,0.15)] transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden will-change-transform origin-top-right overflow-hidden`}
+        className={`fixed top-0 left-0 w-full max-h-[50vh] bg-[#020202]/70 backdrop-blur-3xl z-40 border-b border-white/5 rounded-b-[2rem] flex flex-col px-8 pt-10 pb-8 transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden will-change-transform origin-top shadow-[0_30px_60px_rgba(0,0,0,0.8),inset_0_-1px_0_rgba(255,51,51,0.2)]`}
         style={{
-          transform: isMobileMenuOpen ? "scale(1) translateY(0)" : "scale(0.95) translateY(-20px)",
+          transform: isMobileMenuOpen ? "translateY(0)" : "translateY(-100%)",
           opacity: isMobileMenuOpen ? 1 : 0,
           pointerEvents: isMobileMenuOpen ? "auto" : "none"
         }}
       >
-        {/* Subtle top glare */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        {/* Close Button Inside Card */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white/40 active:text-red transition-colors z-50 bg-white/5 rounded-full backdrop-blur-sm border border-white/5"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
 
-        <div className="flex items-center gap-3 mb-6 pl-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-red animate-pulse shadow-[0_0_8px_rgba(255,51,51,0.8)]" />
-          <span className="font-space text-[10px] tracking-widest text-white/40 uppercase">System_Nav</span>
-        </div>
-        
-        <nav className="flex flex-col w-full">
-          {navLinks.map((link, i) => (
-            <Link 
-              key={link.name} 
-              href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="group relative flex items-center justify-between py-4 px-2 border-b border-white/5 last:border-0 overflow-hidden"
-            >
-              {/* Animated highlight line on the left */}
-              <div className="absolute left-0 top-0 w-[2px] h-full bg-red scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
-              
-              <div className="flex items-center gap-4 relative z-10 pl-2">
-                <span className="font-space text-xs text-red opacity-60 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(255,51,51,0.8)] transition-all">
+        <div className="flex flex-col flex-1 mt-6 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <nav className="flex flex-col w-full gap-4">
+            {navLinks.map((link, i) => (
+              <Link 
+                key={link.name} 
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-6 group relative py-1"
+              >
+                {/* Tech dot indicator */}
+                <span className="w-1 h-1 bg-red/30 rounded-full group-active:scale-150 group-active:bg-red group-active:shadow-[0_0_10px_rgba(255,51,51,1)] transition-all duration-300" />
+                
+                <span className="font-space text-sm text-red/60 tracking-widest w-5">
                   0{i + 1}
                 </span>
-                <span className="font-bebas text-4xl tracking-wide text-white/80 group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
+
+                {/* Vertical Separator */}
+                <span className="w-[1px] h-6 bg-white/10" />
+
+                <span className="font-bebas text-[2.5rem] tracking-wide text-white/90 active:text-red active:translate-x-2 transition-all duration-300 origin-left leading-none">
                   {link.name}
                 </span>
-              </div>
-
-              {/* Circular arrow icon */}
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red/50 group-hover:bg-red/10 transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/30 group-hover:text-red transition-all -translate-x-0.5 group-hover:translate-x-0.5 duration-300">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </div>
-            </Link>
-          ))}
-        </nav>
-
-        {/* Tech Footer */}
-        <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between">
-          <div className="font-space text-[9px] tracking-[0.2em] text-white/30">
-            STATUS: <span className="text-[#00ff00] animate-pulse">ONLINE</span>
-          </div>
-          <div className="font-space text-[9px] tracking-[0.2em] text-white/30">
-            SYS. V2.0
-          </div>
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </header>

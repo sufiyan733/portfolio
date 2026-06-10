@@ -7,21 +7,21 @@ import dynamic from "next/dynamic";
 
 const ParticleField = dynamic(() => import("../three/ParticleField"), { ssr: false });
 
-// Hacker data stream — throttled to 150ms, uses GSAP ticker avoidance
-const DataStream = () => {
+// Hacker data stream — desktop only, throttled
+const DataStream = ({ isMobile }: { isMobile: boolean }) => {
   const [stream, setStream] = useState("SYS.MEM.A4F2B1");
   useEffect(() => {
+    if (isMobile) return; // No re-renders on mobile
     const chars = "0123456789ABCDEF";
-    // 150ms is fast enough visually, low enough to not thrash the DOM
     const interval = setInterval(() => {
       let str = "";
       for (let i = 0; i < 6; i++) {
         str += chars[Math.floor(Math.random() * chars.length)];
       }
       setStream(`SYS.MEM.${str}`);
-    }, 150);
+    }, 400);
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile]);
   return <div>{stream}</div>;
 };
 
@@ -59,6 +59,11 @@ export default function Hero() {
   const titleContainerRef = useRef<HTMLHeadingElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const scrollDescendRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -71,7 +76,7 @@ export default function Hero() {
         ease: "expo.inOut",
       })
 
-      // Title reveal: clip-path stagger — transform only, smooth
+      // Title reveal: clip-path stagger
       .fromTo(".hero-title-char", {
         clipPath: "inset(0 100% 0 0)",
       }, {
@@ -81,7 +86,7 @@ export default function Hero() {
         ease: "power3.out",
       }, "-=0.5")
 
-      // Ayanokoji emerges — NO filter blur, only opacity + scale
+      // Ayanokoji emerges — opacity + scale only
       .fromTo(ayanokojiRef.current, {
         opacity: 0,
         scale: 1.04,
@@ -92,7 +97,7 @@ export default function Hero() {
         ease: "power2.out",
       }, "-=1")
 
-      // Metadata fade — opacity only
+      // Metadata fade
       .fromTo(".hero-meta", {
         opacity: 0,
         y: 10,
@@ -104,47 +109,46 @@ export default function Hero() {
         ease: "power2.out",
       }, "-=1.5");
 
-
-
-      // 3. Scroll to Descend pulse — opacity only
+      // 3. Scroll to Descend pulse
       gsap.fromTo(scrollDescendRef.current,
         { opacity: 0.4 },
         { opacity: 1, duration: 1.2, yoyo: true, repeat: -1, ease: "sine.inOut" }
       );
 
-      // 4. Ayanokoji Idle float — y only, runs BEFORE scroll scrub takes over
-      //    Use a separate fromTo so scroll scrub can override y independently
+      // 4. Ayanokoji Idle float — smaller on mobile for less compositing
       const floatTween = gsap.to(ayanokojiRef.current, {
-        y: -18,
-        duration: 1.75,
+        y: isMobile ? -10 : -18,
+        duration: isMobile ? 2.5 : 1.75,
         yoyo: true,
         repeat: -1,
         ease: "sine.inOut",
       });
 
-      // 5. Mouse parallax — throttled via GSAP quickTo (not raw gsap.to on every event)
-      const xTo = gsap.quickTo(titleContainerRef.current, "x", { duration: 1.5, ease: "power2.out" });
-      const yTo = gsap.quickTo(titleContainerRef.current, "y", { duration: 1.5, ease: "power2.out" });
+      // 5. Mouse parallax — desktop only
+      if (!isMobile) {
+        const xTo = gsap.quickTo(titleContainerRef.current, "x", { duration: 1.5, ease: "power2.out" });
+        const yTo = gsap.quickTo(titleContainerRef.current, "y", { duration: 1.5, ease: "power2.out" });
 
-      const handleMouseMove = (e: MouseEvent) => {
-        const x = e.clientX / window.innerWidth - 0.5;
-        const y = e.clientY / window.innerHeight - 0.5;
-        xTo(x * -15);
-        yTo(y * -15);
-      };
+        const handleMouseMove = (e: MouseEvent) => {
+          const x = e.clientX / window.innerWidth - 0.5;
+          const y = e.clientY / window.innerHeight - 0.5;
+          xTo(x * -15);
+          yTo(y * -15);
+        };
 
-      window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mousemove", handleMouseMove);
+      }
 
-      // 6. Scroll Parallax — pause float tween when scrolling kicks in
+      // 6. Scroll Parallax
       gsap.to(titleContainerRef.current, {
         y: "-15%",
         opacity: 0,
         scrollTrigger: { trigger: container.current, start: "top top", end: "bottom top", scrub: 1.2 },
       });
 
-      // Ayanokoji scroll: overrides y from float — pause float tween on scroll enter
+      // Ayanokoji scroll
       gsap.to(ayanokojiRef.current, {
-        y: 150,
+        y: isMobile ? 80 : 150,
         scale: 0.95,
         scrollTrigger: {
           trigger: container.current,
@@ -155,12 +159,10 @@ export default function Hero() {
           onLeaveBack: () => floatTween.resume(),
         },
       });
-
-      return () => window.removeEventListener("mousemove", handleMouseMove);
     }, container);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   const titleText = "SAIF";
 
@@ -173,13 +175,13 @@ export default function Hero() {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1px] h-[10px] bg-white rounded-full" />
       </div>
 
-      {/* Particle Field */}
-      <div className="absolute inset-0 opacity-[0.25] mix-blend-screen pointer-events-none">
+      {/* Particle Field — desktop only, it's too heavy for mobile GPUs */}
+      <div className="absolute inset-0 opacity-[0.25] mix-blend-screen pointer-events-none hidden md:block">
         <ParticleField />
       </div>
 
-      {/* Deep Red Radial Glow Behind Typography for Depth */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-red/10 blur-[120px] rounded-full pointer-events-none z-0" />
+      {/* Deep Red Radial Glow — use opacity gradient on mobile instead of blur */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,51,51,0.12)_0%,transparent_70%)] md:bg-red/10 md:blur-[120px]" />
 
       {/* Layer 2: Large background SAIF text */}
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
@@ -190,7 +192,7 @@ export default function Hero() {
           {titleText.split("").map((char, i) => (
             <span 
               key={i} 
-              className="hero-title-char relative inline-block text-white/[0.12] drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+              className="hero-title-char relative inline-block text-white/[0.12]" 
               style={{ 
                 clipPath: "inset(0 100% 0 0)",
                 WebkitTextStroke: '2px rgba(255,255,255,0.1)'
@@ -212,7 +214,8 @@ export default function Hero() {
             maskImage: "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, black 30%)",
           }}
         >
-          <div className="absolute inset-0 bg-red/5 blur-[80px] rounded-full scale-50 mix-blend-screen animate-pulse-slow" />
+          {/* Ambient glow — radial gradient on mobile, blur on desktop */}
+          <div className="absolute inset-0 rounded-full scale-50 mix-blend-screen bg-[radial-gradient(circle,rgba(255,51,51,0.08)_0%,transparent_60%)] md:bg-red/5 md:blur-[80px] md:animate-pulse-slow" />
           <Image
             src="/ayanokoji.png"
             alt="The Strategist"
@@ -229,7 +232,8 @@ export default function Hero() {
         <div className="flex justify-between items-start w-full pt-16 md:pt-0">
           <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40">
             <span className="text-red/80 font-medium tracking-[0.5em] mb-2 flex items-center gap-2">
-              <span className="w-1 h-1 bg-red animate-ping rounded-full" />
+              {/* Replaced animate-ping with a simple static dot + subtle pulse on mobile */}
+              <span className="w-1 h-1 bg-red rounded-full md:animate-ping" />
               FULL STACK DEVELOPER
             </span>
             <span className="opacity-50">Based in</span>
@@ -237,7 +241,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 text-right items-end">
-            <DataStream />
+            <DataStream isMobile={isMobile} />
             <div className="w-[1px] h-12 bg-red/20 mt-4 overflow-hidden relative">
               <div className="absolute top-0 left-0 w-full h-full bg-red origin-top animate-pulse" />
             </div>
