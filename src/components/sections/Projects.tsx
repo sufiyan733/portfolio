@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { useEffect, useRef, useState } from "react";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const projects = [
   {
@@ -33,90 +33,91 @@ const projects = [
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    
-    const ctx = gsap.context(() => {
-      // Reveal header
-      gsap.fromTo(".projects-header", 
-        { y: -50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%"
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    setIsMobile(mobile);
+
+    // Wait for fonts + layout to settle before creating ScrollTrigger
+    const initTimeout = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        // Reveal header
+        gsap.fromTo(".projects-header", 
+          { y: -50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%"
+            }
           }
+        );
+
+        if (scrollContainerRef.current) {
+          const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
+          
+          // Set initial states via gsap.set() — never CSS on animated properties
+          panels.forEach((panel) => {
+            const hud = panel.querySelector(".tactical-hud");
+            if (hud) {
+              gsap.set(hud, { y: mobile ? 40 : 100, opacity: 0, scale: mobile ? 1 : 0.95 });
+            }
+          });
+
+          // Calculate precise scroll distance
+          const totalScrollDistance = window.innerWidth * (panels.length - 1);
+          
+          // Master horizontal timeline
+          const scrollTween = gsap.to(panels, {
+            xPercent: -100 * (panels.length - 1),
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              pin: true,
+              anticipatePin: 1,
+              // Lower scrub on mobile for snappier touch response
+              scrub: mobile ? 0.5 : 1,
+              end: () => `+=${totalScrollDistance}`,
+              invalidateOnRefresh: true,
+            }
+          });
+
+          // Intro animation for HUD cards (lighter on mobile)
+          panels.forEach((panel) => {
+            const hud = panel.querySelector(".tactical-hud");
+            if (hud) {
+              gsap.to(hud, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: mobile ? 0.8 : 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: panel,
+                  containerAnimation: scrollTween,
+                  start: "left 85%",
+                }
+              });
+            }
+          });
         }
-      );
+      }, sectionRef);
 
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      const panels = gsap.utils.toArray<HTMLElement>(".project-panel");
+      return () => ctx.revert();
+    }, 100);
 
-      if (!isMobile && scrollContainerRef.current) {
-        // Master horizontal timeline for desktop
-        const scrollTween = gsap.to(panels, {
-          xPercent: -100 * (panels.length - 1),
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            pin: true,
-            anticipatePin: 1,
-            scrub: 1, 
-            end: () => `+=${window.innerWidth * (panels.length - 1)}`,
-          }
-        });
-
-        // Intro animation for HUD cards
-        panels.forEach((panel) => {
-          gsap.fromTo(panel.querySelector(".tactical-hud"),
-            { y: 100, opacity: 0, scale: 0.95 },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 1.2,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: scrollTween,
-                start: "left 80%",
-              }
-            }
-          );
-        });
-      } else if (isMobile) {
-        // Native horizontal scroll animations for mobile
-        panels.forEach((panel) => {
-          gsap.fromTo(panel.querySelector(".tactical-hud"),
-            { y: 50, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: panel,
-                scroller: scrollContainerRef.current,
-                horizontal: true,
-                start: "left 90%",
-              }
-            }
-          );
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
+    return () => clearTimeout(initTimeout);
   }, []);
 
   return (
     <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
       
-      {/* 1. FIXED HEADER - Guaranteed no overlap with the main Navbar */}
-      <div className="projects-header w-full h-40 md:h-48 pt-20 border-b border-red/30 bg-[#020202]/90 backdrop-blur-2xl flex flex-col justify-end px-6 md:px-16 pb-6 z-50 shrink-0 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+      {/* 1. FIXED HEADER — no backdrop-blur on mobile (GPU killer during pinned scroll) */}
+      <div className="projects-header w-full h-40 md:h-48 pt-20 border-b border-red/30 bg-[#020202] md:bg-[#020202]/90 md:backdrop-blur-2xl flex flex-col justify-end px-6 md:px-16 pb-6 z-50 shrink-0 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
         <div className="flex justify-between items-end">
           <div>
             <div className="font-space text-[10px] tracking-widest text-red uppercase mb-2 flex items-center gap-3">
@@ -140,12 +141,9 @@ export default function Projects() {
         {/* Global Tactical Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
-        <div 
-          ref={scrollContainerRef} 
-          className="flex h-full w-full md:w-[300vw] overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory md:snap-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
+        <div ref={scrollContainerRef} className="flex h-full" style={{ width: `${projects.length * 100}vw` }}>
           {projects.map((project, idx) => (
-            <div key={idx} className="project-panel shrink-0 w-[100vw] md:w-screen snap-center h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
+            <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform">
               
               {/* Massive Background Number */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
@@ -155,50 +153,55 @@ export default function Projects() {
               {/* Optimized Volumetric Center Glow (No CSS Blur) */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.08),transparent_50%)] pointer-events-none z-0" />
 
-              {/* PERFECT TACTICAL HUD PANEL - Dual ClipPath for solid border */}
+              {/* TACTICAL HUD PANEL — clipPath on desktop only, border on mobile */}
               <div 
-                className="tactical-hud relative z-10 w-full max-w-6xl h-full max-h-[75vh] p-[1px] bg-red/40 group/hud shadow-[0_0_50px_rgba(255,51,51,0.1)] hover:shadow-[0_0_80px_rgba(255,51,51,0.2)] hover:bg-red/60 transition-all duration-700 will-change-transform"
-                style={{ clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" }}
+                className={`tactical-hud relative z-10 w-full max-w-6xl h-full max-h-[80vh] md:max-h-[75vh] p-[1px] bg-red/40 group/hud will-change-transform ${
+                  isMobile 
+                    ? "border border-red/40 rounded-sm" 
+                    : "shadow-[0_0_50px_rgba(255,51,51,0.1)] hover:shadow-[0_0_80px_rgba(255,51,51,0.2)] hover:bg-red/60 transition-shadow duration-700"
+                }`}
+                style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" } : undefined}
               >
-                {/* Replaced heavy blur with solid near-black for 60fps performance */}
                 <div 
-                  className="w-full h-full bg-[#030303] flex flex-col relative overflow-hidden"
-                  style={{ clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" }}
+                  className={`w-full h-full bg-[#030303] flex flex-col relative overflow-hidden ${
+                    isMobile ? "" : ""
+                  }`}
+                  style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" } : undefined}
                 >
                   
-                  {/* Optimized Scanlines Overlay (No mix-blend-mode) */}
+                  {/* Optimized Scanlines Overlay */}
                   <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-20 opacity-50" />
                   
                   {/* TOP BAR: Systems Info */}
-                  <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-6 bg-red/[0.05] z-10">
-                    <div className="flex items-center gap-4">
+                  <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
+                    <div className="flex items-center gap-3 md:gap-4">
                       <span className="w-3 h-3 border border-red flex items-center justify-center">
                         <span className="w-1.5 h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
                       </span>
                       <span className="font-space text-xs tracking-widest text-white/90">SYS.ID: {project.id}</span>
                     </div>
-                    <div className="font-space text-[10px] tracking-widest text-red uppercase font-bold">
+                    <div className="font-space text-[9px] md:text-[10px] tracking-widest text-red uppercase font-bold">
                       {project.label}
                     </div>
                   </div>
 
                   {/* MAIN CONTENT SPLIT */}
-                  <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-hidden">
+                  <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-y-auto md:overflow-hidden">
                     
                     {/* Left Side: Typography & Data */}
-                    <div className="w-full md:w-[60%] p-6 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative bg-gradient-to-br from-red/[0.02] to-transparent">
+                    <div className="w-full md:w-[60%] p-5 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative bg-gradient-to-br from-red/[0.02] to-transparent">
                       {/* Corner Accents */}
-                      <div className="absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 border-red/60" />
+                      <div className="absolute top-4 md:top-6 left-4 md:left-6 w-4 md:w-6 h-4 md:h-6 border-t-2 border-l-2 border-red/60" />
                       <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-red/60 hidden md:block" />
                       
-                      <div className="pl-4">
-                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-4 uppercase">
+                      <div className="pl-3 md:pl-4">
+                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-3 md:mb-4 uppercase">
                           Target_Designation
                         </div>
-                        <h3 className="font-bebas text-6xl md:text-8xl tracking-tighter text-white mb-6 md:mb-10 group-hover/hud:text-red transition-colors duration-700 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">
+                        <h3 className="font-bebas text-5xl md:text-8xl tracking-tighter text-white mb-4 md:mb-10 group-hover/hud:text-red transition-colors duration-700 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">
                           {project.title}
                         </h3>
-                        <p className="font-inter font-light text-white/80 text-lg md:text-xl leading-relaxed max-w-lg border-l-2 border-red/50 pl-6 bg-gradient-to-r from-red/[0.08] to-transparent py-4">
+                        <p className="font-inter font-light text-white/80 text-base md:text-xl leading-relaxed max-w-lg border-l-2 border-red/50 pl-4 md:pl-6 bg-gradient-to-r from-red/[0.08] to-transparent py-3 md:py-4">
                           {project.desc}
                         </p>
                       </div>
@@ -209,16 +212,16 @@ export default function Projects() {
                     </div>
 
                     {/* Right Side: Tech & Action */}
-                    <div className="w-full md:w-[40%] p-6 md:p-14 flex flex-col justify-between bg-gradient-to-tl from-red/[0.05] to-transparent relative">
+                    <div className="w-full md:w-[40%] p-5 md:p-14 flex flex-col justify-between bg-gradient-to-tl from-red/[0.05] to-transparent relative">
                       {/* Corner Accents */}
-                      <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-red/60" />
+                      <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-red/60 hidden md:block" />
                       <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-red/60 hidden md:block" />
 
-                      <div className="pr-4 md:pr-0">
-                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-8 uppercase text-right md:text-left">
+                      <div className="pr-0">
+                        <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-6 md:mb-8 uppercase text-left">
                           Tech_Parameters
                         </div>
-                        <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-4 md:gap-6">
                           {project.tech.split(' / ').map((t, i) => (
                             <div key={i} className="flex items-center gap-4 group/tech">
                               <span className="font-space text-[10px] text-red/50 group-hover/tech:text-red transition-colors font-bold">[{i+1}]</span>
@@ -233,7 +236,7 @@ export default function Projects() {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-8 md:mt-12 group/btn relative w-full h-16 border border-red/40 flex items-center justify-between px-8 overflow-hidden bg-[#0a0a0a] hover:border-red transition-all duration-500 shadow-[inset_0_0_20px_rgba(255,51,51,0.05)] hover:shadow-[inset_0_0_40px_rgba(255,51,51,0.2)]"
+                        className="mt-6 md:mt-12 group/btn relative w-full h-14 md:h-16 border border-red/40 flex items-center justify-between px-6 md:px-8 overflow-hidden bg-[#0a0a0a] hover:border-red transition-colors duration-500 shadow-[inset_0_0_20px_rgba(255,51,51,0.05)] hover:shadow-[inset_0_0_40px_rgba(255,51,51,0.2)]"
                         data-cursor="cta"
                       >
                         {/* Hardware scanning background */}
