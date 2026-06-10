@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Loader from "@/components/ui/Loader";
 import CustomCursor from "@/components/ui/CustomCursor";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
@@ -17,9 +17,30 @@ import Contact from "@/components/sections/Contact";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
+  // Lock scroll while loader is active
   useEffect(() => {
-    // For safety, force scroll to top on load
+    if (isLoading) {
+      // Lock both html and body to prevent any scroll
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      // Force scroll to absolute top
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [isLoading]);
+
+  const handleLoaderComplete = useCallback(() => {
+    // Force scroll to top before unlocking
     window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Unlock scroll
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+
+    setIsLoading(false);
   }, []);
 
   return (
@@ -32,7 +53,7 @@ export default function Home() {
       {/* Global Scanlines via ::before approach mapped to an element */}
       <div className="fixed inset-0 pointer-events-none z-[9997] opacity-[0.02] bg-[repeating-linear-gradient(0deg,transparent,transparent_1px,#000_1px,#000_2px)]" />
       
-      {isLoading && <Loader onComplete={() => setIsLoading(false)} />}
+      {isLoading && <Loader onComplete={handleLoaderComplete} />}
       
       <div 
         className="transition-opacity duration-1000 ease-in-out"

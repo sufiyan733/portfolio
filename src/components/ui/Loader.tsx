@@ -104,7 +104,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   return (
     <div 
       ref={containerRef} 
-      className="fixed inset-0 z-[1000] flex flex-col items-center justify-center overflow-hidden will-change-transform bg-transparent pointer-events-none"
+      className="fixed inset-0 z-[1000] flex flex-col items-center justify-center overflow-hidden will-change-transform bg-transparent pointer-events-auto touch-none"
     >
       {/* 4 Horizontal Slices */}
       <div className="absolute inset-0 z-0 flex flex-col w-full h-full pointer-events-auto">
