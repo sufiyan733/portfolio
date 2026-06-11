@@ -207,6 +207,8 @@ export default function Skills() {
           <div className="w-full h-[1px] bg-white/10 relative origin-left struct-line-x">
             <div className="absolute top-0 left-0 w-32 h-[1px] bg-red shadow-[0_0_15px_var(--red)] origin-left struct-line-x" />
             <div className="absolute top-0 right-0 w-2 h-2 bg-red/50 -translate-y-1/2 opacity-0 hud-point" />
+            {/* Vertical drop line */}
+            <div className="absolute top-0 left-12 md:left-24 w-[1px] h-32 md:h-48 bg-gradient-to-b from-red/50 to-transparent origin-top struct-line-y" />
           </div>
 
           <div className="flex flex-col lg:flex-row justify-between items-start mt-16 md:mt-24 gap-8 lg:gap-16">
@@ -218,11 +220,40 @@ export default function Skills() {
                 [SYS_ARSENAL] <span className="text-white/30 mx-1">//</span> CORE_MODULES
               </div>
 
-              <div className="relative mt-2">
-                {/* Clean Solid Layer */}
-                <h2 className="font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[14rem] text-white leading-[0.8] tracking-tighter uppercase select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+              <div className="relative mt-2 flex">
+                {/* Wireframe Outline Layer */}
+                <h2 className="absolute top-0 left-0 font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[16rem] xl:text-[18rem] leading-[0.8] tracking-tighter uppercase select-none pointer-events-none text-transparent opacity-30" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.8)' }}>
                   ARSENAL
                 </h2>
+                
+                {/* Solid Fill Layer with Clip Path Animation */}
+                <h2 className="font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[16rem] xl:text-[18rem] text-white leading-[0.8] tracking-tighter uppercase select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex relative z-10">
+                  {"ARSENAL".split("").map((char, i) => (
+                    <span key={i} className="arsenal-char inline-block">{char}</span>
+                  ))}
+                </h2>
+              </div>
+
+              {/* Strict Data Table Moved to Left */}
+              <div className="flex flex-col w-full relative mt-4 md:mt-8 max-w-xl pl-1">
+                 {/* Top Line Accent */}
+                 <div className="absolute -top-6 left-0 w-12 h-[1px] bg-gradient-to-r from-red/50 to-transparent hidden md:block" />
+
+                 <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 mb-4 sm:mb-3 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
+                   <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
+                     <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
+                     Frontend_Logic
+                   </span>
+                   <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">NEXT.JS / REACT</span>
+                 </div>
+
+                 <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
+                   <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
+                     <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
+                     Backend_Systems
+                   </span>
+                   <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">NODE.JS / FASTAPI</span>
+                 </div>
               </div>
             </div>
 
@@ -234,40 +265,27 @@ export default function Skills() {
                 <div className="absolute top-0 left-0 w-[2px] h-1/2 bg-gradient-to-b from-red to-transparent shadow-[0_0_15px_var(--red)] group-hover/editorial:h-[80%] transition-all duration-700 ease-out" />
                 <div className="absolute top-0 left-[-2px] w-1.5 h-3 bg-red shadow-[0_0_10px_var(--red)]" />
 
-                <div className="font-space text-[9px] md:text-[10px] text-white/80 tracking-[0.3em] uppercase mb-5 flex items-center gap-3 bg-white/[0.03] w-max px-3 py-1.5 border border-white/10 border-l-[3px] border-l-red backdrop-blur-sm">
-                  [ ARCHITECTURAL_OVERVIEW ]
+                <div className="font-space text-[9px] md:text-[10px] text-white/80 tracking-[0.3em] uppercase mb-5 flex items-center gap-3 bg-white/[0.03] w-max px-3 py-1.5 border border-white/10 border-l-[3px] border-l-red backdrop-blur-sm relative overflow-hidden group/tag">
+                  <div className="absolute inset-0 bg-red/10 -translate-x-full group-hover/tag:translate-x-0 transition-transform duration-500 ease-out" />
+                  <span className="w-1.5 h-1.5 bg-red/80 animate-pulse-slow shadow-[0_0_8px_var(--red)] relative z-10" />
+                  <span className="relative z-10">[ ARCHITECTURAL_OVERVIEW ]</span>
                 </div>
 
-                <h3 className="font-bebas text-4xl lg:text-6xl text-white leading-[0.9] tracking-tight mb-6">
-                  PRECISION STACK <br/>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red to-red/60 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">INTEGRATION</span>
+                <h3 className="font-bebas text-4xl lg:text-6xl text-white leading-[0.9] tracking-tight mb-6 flex flex-col gap-1 relative">
+                  <span className="opacity-90">PRECISION STACK</span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-red to-red/60 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">
+                      INTEGRATION
+                    </span>
+                    <div className="h-[2px] flex-1 bg-gradient-to-r from-red/50 to-transparent" />
+                  </div>
                 </h3>
 
                 <p className="font-space text-[11px] text-white/60 leading-[2] uppercase tracking-[0.2em] mb-10 border-l-[3px] border-red pl-5 bg-gradient-to-r from-white/[0.02] to-transparent py-3 max-w-sm">
                   Deploying cutting-edge rendering engines and structural frameworks to construct ruthless, high-performance interfaces.
                 </p>
 
-                {/* Strict Data Table */}
-                <div className="flex flex-col w-full relative mt-4 md:mt-0">
-                   {/* Top Line Accent */}
-                   <div className="absolute -top-6 left-0 w-12 h-[1px] bg-gradient-to-r from-red/50 to-transparent" />
 
-                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 mb-4 sm:mb-3 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
-                     <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
-                       <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
-                       Frontend_Logic
-                     </span>
-                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">NEXT.JS / REACT</span>
-                   </div>
-
-                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
-                     <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
-                       <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
-                       Motion_Physics
-                     </span>
-                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">GSAP / WEBGL</span>
-                   </div>
-                </div>
               </div>
             </div>
 
