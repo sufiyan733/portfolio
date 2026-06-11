@@ -25,7 +25,7 @@ const projects = [
     title: "Twin",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://twin-l3hf.vercel.app",
-    desc: "A personal initiative showcasing advanced full stack capabilities. Pure logic, built for mathematical precision.",
+    desc: "A mobile-only application built in Next.js and wrapped as a PWA, showcasing advanced full stack capabilities. Pure logic, built for mathematical precision.",
     tech: "REACT / NODE / API"
   }
 ];

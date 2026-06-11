@@ -125,7 +125,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-32 bg-gradient-to-b from-[#020202] via-[#050505] to-[#020202] mt-20 md:mt-32">
+    <section id="contact" ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-32 mt-20 md:mt-32">
 
       {/* Cinematic Top Separator (Black Void + Energy Line) */}
       <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none" />
@@ -135,7 +135,7 @@ export default function Contact() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none z-0 mt-20" />
 
       {/* Background Deep Red Glow */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] max-w-6xl h-[100vh] bg-red/20 blur-[150px] pointer-events-none z-0 rounded-full ${isMobile ? '' : 'mix-blend-screen'}`} />
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vh] bg-red/10 blur-[150px] pointer-events-none z-0 rounded-full ${isMobile ? '' : 'mix-blend-screen'}`} />
 
       {/* Massive Background Title */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 w-full overflow-hidden flex justify-center pointer-events-none z-0">
@@ -243,7 +243,7 @@ export default function Contact() {
           <div className="flex flex-col gap-4 md:gap-6 w-full lg:w-[400px] z-20">
             {/* Instagram */}
             <a
-              href="https://instagram.com/misterr_stoic"
+              href="https://instagram.com/kaiizer_dev"
               target="_blank"
               rel="noopener noreferrer"
               className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 border border-white/10 hover:border-[#E1306C]/50 hover:bg-[#1a1a1a]/80 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(225,48,108,0.15)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl`}
@@ -259,7 +259,7 @@ export default function Contact() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">Instagram</span>
-                  <span className={`font-bebas text-[#E1306C] text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.3)] truncate max-w-[180px] sm:max-w-none`}>@misterr_stoic</span>
+                  <span className={`font-bebas text-[#E1306C] text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.3)] truncate max-w-[180px] sm:max-w-none`}>@kaiizer_dev</span>
                 </div>
               </div>
 
