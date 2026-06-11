@@ -216,40 +216,40 @@ export default function Contact() {
       `}} />
 
       {/* UI Overlay */}
-      <div className="container mx-auto px-6 relative z-20 flex flex-col items-center justify-center h-full mt-20">
-        <div className="contact-grid flex flex-col lg:flex-row items-center lg:items-end justify-between w-full max-w-7xl gap-4 md:gap-8 lg:gap-0 mt-[10vh] lg:mt-[20vh]">
+      <div className="container mx-auto px-4 md:px-6 relative z-20 flex flex-col items-center justify-end md:justify-center h-full pb-10 md:pb-0">
+        <div className="contact-grid flex flex-col lg:flex-row items-center lg:items-end justify-between w-full max-w-7xl gap-3 md:gap-8 lg:gap-0 mt-[40vh] md:mt-[10vh] lg:mt-[20vh]">
           
           {/* Left Column */}
-          <div className="flex flex-col gap-4 md:gap-6 w-full lg:w-[400px] lg:translate-x-16 z-20">
+          <div className="flex flex-col gap-3 md:gap-6 w-full lg:w-[400px] lg:translate-x-16 z-20">
             {/* Email */}
             <button
               onClick={handleCopy}
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A0303]/70 border border-red/30 border-l-red/80 shadow-[0_0_30px_rgba(255,51,51,0.1)] hover:border-red hover:bg-[#1A0505]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,51,51,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden text-left w-full rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-3 px-4 md:p-6 bg-[#0A0303]/40 md:bg-[#0A0303]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-red/20 md:border-red/30 border-l-red/60 md:border-l-red/80 shadow-[0_0_20px_rgba(255,51,51,0.1)] hover:border-red hover:bg-[#1A0505]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,51,51,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden text-left w-full rounded-xl md:rounded-2xl`}
               data-cursor="cta"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
               <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.02)_2px,rgba(255,51,51,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
-              <div className={`flex items-center gap-4 md:gap-5 relative z-10 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} ${copied ? '-translate-y-10 opacity-0' : 'translate-y-0 opacity-100'}`}>
-                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-red/10 border border-red/20 shadow-[inset_0_1px_10px_rgba(255,51,51,0.1)] group-hover:bg-red/20 group-hover:shadow-[inset_0_0_20px_rgba(255,51,51,0.3)] transition-all duration-500 text-red`}>
-                  <Mail size={20} strokeWidth={1.5} className="md:w-6 md:h-6" />
+              <div className={`flex items-center gap-3 md:gap-5 relative z-10 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} ${copied ? '-translate-y-10 opacity-0' : 'translate-y-0 opacity-100'}`}>
+                <div className={`w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-lg md:rounded-xl bg-red/10 border border-red/20 shadow-[inset_0_1px_10px_rgba(255,51,51,0.1)] group-hover:bg-red/20 group-hover:shadow-[inset_0_0_20px_rgba(255,51,51,0.3)] transition-all duration-500 text-red`}>
+                  <Mail strokeWidth={1.5} className="w-4 h-4 md:w-6 md:h-6" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-red/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                  <span className="font-space text-red/60 text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1 flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-red/80 group-hover:bg-red group-hover:shadow-[0_0_8px_rgba(255,51,51,1)] transition-colors duration-500" />
                     Email
                   </span>
-                  <span className={`font-bebas text-white group-hover:text-red text-2xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[180px] sm:max-w-none group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]`}>kaizerxdev@gmail.com</span>
+                  <span className={`font-bebas text-white group-hover:text-red text-xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[200px] sm:max-w-none group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]`}>kaizerxdev@gmail.com</span>
                 </div>
               </div>
 
               <div className={`relative z-10 text-white/20 group-hover:text-red transition-all duration-500 ${copied ? 'opacity-0 scale-50' : `opacity-100 scale-100 transform group-hover:-translate-y-2 group-hover:translate-x-2`}`}>
-                <ArrowUpRight size={28} strokeWidth={1.5} />
+                <ArrowUpRight strokeWidth={1.5} className="w-5 h-5 md:w-7 md:h-7" />
               </div>
 
               <div className={`absolute inset-0 flex items-center justify-center bg-red/10 backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${copied ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
-                <span className="font-space text-[12px] tracking-[0.4em] text-white font-bold drop-shadow-[0_0_10px_rgba(255,51,51,0.8)] flex items-center gap-3">
-                  <Mail size={16} /> ADDRESS_COPIED ✓
+                <span className="font-space text-[10px] md:text-[12px] tracking-[0.4em] text-white font-bold drop-shadow-[0_0_10px_rgba(255,51,51,0.8)] flex items-center gap-2 md:gap-3">
+                  <Mail className="w-3 h-3 md:w-4 md:h-4" /> ADDRESS_COPIED ✓
                 </span>
               </div>
             </button>
@@ -259,59 +259,59 @@ export default function Contact() {
               href="https://github.com/kaiizer777"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A0A0A]/70 border border-white/20 border-l-white/60 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white hover:bg-[#1A1A1A]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-3 px-4 md:p-6 bg-[#0A0A0A]/40 md:bg-[#0A0A0A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-white/10 md:border-white/20 border-l-white/40 md:border-l-white/60 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:border-white hover:bg-[#1A1A1A]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
               <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
-              <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-white/10 border border-white/20 shadow-[inset_0_1px_10px_rgba(255,255,255,0.1)] group-hover:bg-white/20 group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 text-white`}>
-                  <GithubIcon size={20} strokeWidth={1.5} />
+              <div className="flex items-center gap-3 md:gap-5 relative z-10">
+                <div className={`w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-lg md:rounded-xl bg-white/5 border border-white/10 shadow-[inset_0_1px_10px_rgba(255,255,255,0.05)] group-hover:bg-white/20 group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 text-white`}>
+                  <div className="w-4 h-4 md:w-5 md:h-5"><GithubIcon size={24} strokeWidth={1.5} /></div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-white/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                  <span className="font-space text-white/60 text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1 flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-white/80 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,1)] transition-colors duration-500" />
                     GitHub
                   </span>
-                  <span className={`font-bebas text-white group-hover:text-white text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]`}>kaiizer777</span>
+                  <span className={`font-bebas text-white group-hover:text-white text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]`}>kaiizer777</span>
                 </div>
               </div>
 
               <div className={`relative z-10 text-white/20 group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
-                <ArrowUpRight size={28} strokeWidth={1.5} />
+                <ArrowUpRight strokeWidth={1.5} className="w-5 h-5 md:w-7 md:h-7" />
               </div>
             </a>
           </div>
 
           {/* Right Column */}
-          <div className="flex flex-col gap-4 md:gap-6 w-full lg:w-[400px] z-20">
+          <div className="flex flex-col gap-3 md:gap-6 w-full lg:w-[400px] z-20">
             {/* Instagram */}
             <a
               href="https://instagram.com/kaiizer_dev"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A050A]/70 border border-[#E1306C]/30 border-l-[#E1306C]/80 shadow-[0_0_30px_rgba(225,48,108,0.1)] hover:border-[#E1306C] hover:bg-[#1A0A15]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(225,48,108,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-3 px-4 md:p-6 bg-[#0A050A]/40 md:bg-[#0A050A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#E1306C]/20 md:border-[#E1306C]/30 border-l-[#E1306C]/60 md:border-l-[#E1306C]/80 shadow-[0_0_20px_rgba(225,48,108,0.1)] hover:border-[#E1306C] hover:bg-[#1A0A15]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(225,48,108,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E1306C] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
               <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(225,48,108,0.02)_2px,rgba(225,48,108,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
-              <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-[#E1306C]/10 border border-[#E1306C]/20 shadow-[inset_0_1px_10px_rgba(225,48,108,0.1)] group-hover:bg-[#E1306C]/20 group-hover:shadow-[inset_0_0_20px_rgba(225,48,108,0.3)] transition-all duration-500 text-[#E1306C]`}>
-                  <InstagramIcon size={20} strokeWidth={1.5} />
+              <div className="flex items-center gap-3 md:gap-5 relative z-10">
+                <div className={`w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-lg md:rounded-xl bg-[#E1306C]/10 border border-[#E1306C]/20 shadow-[inset_0_1px_10px_rgba(225,48,108,0.1)] group-hover:bg-[#E1306C]/20 group-hover:shadow-[inset_0_0_20px_rgba(225,48,108,0.3)] transition-all duration-500 text-[#E1306C]`}>
+                  <div className="w-4 h-4 md:w-5 md:h-5"><InstagramIcon size={24} strokeWidth={1.5} /></div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-[#E1306C]/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                  <span className="font-space text-[#E1306C]/60 text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1 flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-[#E1306C]/80 group-hover:bg-[#E1306C] group-hover:shadow-[0_0_8px_rgba(225,48,108,1)] transition-colors duration-500" />
                     Instagram
                   </span>
-                  <span className={`font-bebas text-white group-hover:text-[#E1306C] text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(225,48,108,0.8)] truncate max-w-[180px] sm:max-w-none`}>@kaiizer_dev</span>
+                  <span className={`font-bebas text-white group-hover:text-[#E1306C] text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(225,48,108,0.8)] truncate max-w-[200px] sm:max-w-none`}>@kaiizer_dev</span>
                 </div>
               </div>
 
               <div className={`relative z-10 text-white/20 group-hover:text-[#E1306C] transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
-                <ArrowUpRight size={28} strokeWidth={1.5} />
+                <ArrowUpRight strokeWidth={1.5} className="w-5 h-5 md:w-7 md:h-7" />
               </div>
             </a>
 
@@ -320,27 +320,27 @@ export default function Contact() {
               href="https://wa.me/918709914537"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#030A05]/70 border border-[#25D366]/30 border-l-[#25D366]/80 shadow-[0_0_30px_rgba(37,211,102,0.1)] hover:border-[#25D366] hover:bg-[#0A1A0F]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(37,211,102,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-3 px-4 md:p-6 bg-[#030A05]/40 md:bg-[#030A05]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#25D366]/20 md:border-[#25D366]/30 border-l-[#25D366]/60 md:border-l-[#25D366]/80 shadow-[0_0_20px_rgba(37,211,102,0.1)] hover:border-[#25D366] hover:bg-[#0A1A0F]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(37,211,102,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#25D366] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
               <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(37,211,102,0.02)_2px,rgba(37,211,102,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
-              <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 shadow-[inset_0_1px_10px_rgba(37,211,102,0.1)] group-hover:bg-[#25D366]/20 group-hover:shadow-[inset_0_0_20px_rgba(37,211,102,0.3)] transition-all duration-500 text-[#25D366]`}>
-                  <MessageCircle size={20} strokeWidth={1.5} className="md:w-6 md:h-6" />
+              <div className="flex items-center gap-3 md:gap-5 relative z-10">
+                <div className={`w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-lg md:rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 shadow-[inset_0_1px_10px_rgba(37,211,102,0.1)] group-hover:bg-[#25D366]/20 group-hover:shadow-[inset_0_0_20px_rgba(37,211,102,0.3)] transition-all duration-500 text-[#25D366]`}>
+                  <MessageCircle strokeWidth={1.5} className="w-4 h-4 md:w-6 md:h-6" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-[#25D366]/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                  <span className="font-space text-[#25D366]/60 text-[8px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1 flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-[#25D366]/80 group-hover:bg-[#25D366] group-hover:shadow-[0_0_8px_rgba(37,211,102,1)] transition-colors duration-500" />
                     WhatsApp
                   </span>
-                  <span className={`font-bebas text-white group-hover:text-[#25D366] text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.8)]`}>+91 87099 14537</span>
+                  <span className={`font-bebas text-white group-hover:text-[#25D366] text-xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.8)]`}>+91 87099 14537</span>
                 </div>
               </div>
 
               <div className={`relative z-10 text-white/20 group-hover:text-[#25D366] transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
-                <ArrowUpRight size={28} strokeWidth={1.5} />
+                <ArrowUpRight strokeWidth={1.5} className="w-5 h-5 md:w-7 md:h-7" />
               </div>
             </a>
           </div>
