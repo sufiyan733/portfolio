@@ -34,8 +34,10 @@ export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const mobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(mobile);
 
@@ -120,6 +122,8 @@ export default function Projects() {
     return () => clearTimeout(initTimeout);
   }, []);
 
+  const activeProjects = mounted ? projects.filter(p => isMobile || p.title !== "Twin") : projects.filter(p => p.title !== "Twin");
+
   return (
     <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
       
@@ -148,8 +152,8 @@ export default function Projects() {
         {/* Global Tactical Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
-        <div ref={scrollContainerRef} className="flex h-full" style={{ width: `${projects.length * 100}vw` }}>
-          {projects.map((project, idx) => (
+        <div ref={scrollContainerRef} className="flex h-full" style={{ width: `${activeProjects.length * 100}vw` }}>
+          {activeProjects.map((project, idx) => (
             <div key={idx} className="project-panel w-screen h-full flex items-center justify-center p-4 md:p-12 relative border-r border-red/10 z-10 will-change-transform" style={{ backfaceVisibility: 'hidden' }}>
               
               {/* Massive Background Number */}

@@ -211,26 +211,17 @@ export default function Skills() {
 
           <div className="flex flex-col lg:flex-row justify-between items-start mt-16 md:mt-24 gap-8 lg:gap-16">
 
-            {/* Main Title Area (Monolithic Wipe Reveal) */}
+            {/* Main Title Area */}
             <div className="relative flex-1 parallax-title">
-              <div className="font-space text-red/60 text-[10px] tracking-[0.4em] uppercase mb-10 flex items-center gap-4 data-item">
-                <span className="w-1.5 h-1.5 bg-red/80 rounded-full animate-pulse shadow-[0_0_10px_var(--red)]" />
-                [SYS_ARSENAL] // CORE_MODULES
+              <div className="font-space text-white/90 text-[10px] md:text-[11px] tracking-[0.4em] uppercase mb-8 inline-flex items-center gap-3 data-item border border-white/10 border-l-[3px] border-l-red bg-white/[0.03] px-4 py-2 shadow-[0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-md w-max">
+                <span className="w-1.5 h-1.5 bg-red rounded-full animate-pulse shadow-[0_0_10px_var(--red)]" />
+                [SYS_ARSENAL] <span className="text-white/30 mx-1">//</span> CORE_MODULES
               </div>
 
-              <div className="relative">
-                {/* Background Wireframe Layer */}
-                <h2 className="font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[14rem] text-transparent leading-[0.8] tracking-tighter uppercase select-none pointer-events-none" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.08)' }}>
+              <div className="relative mt-2">
+                {/* Clean Solid Layer */}
+                <h2 className="font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[14rem] text-white leading-[0.8] tracking-tighter uppercase select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
                   ARSENAL
-                </h2>
-
-                {/* Foreground Solid Layer (Wipes in on scroll) */}
-                <h2 className="font-bebas text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[14rem] text-white leading-[0.8] tracking-tighter uppercase no-global-reveal absolute top-0 left-0 flex">
-                  {"ARSENAL".split("").map((char, i) => (
-                    <span key={i} className="arsenal-char block will-change-transform">
-                      {char}
-                    </span>
-                  ))}
                 </h2>
               </div>
             </div>
@@ -238,37 +229,43 @@ export default function Skills() {
             {/* Precision Editorial Block */}
             <div className="parallax-panel flex flex-col justify-start max-w-sm w-full relative z-20 mt-8 lg:mt-0 lg:pt-8">
               
-              <div className="flex flex-col data-item border-l border-white/5 pl-8 lg:pl-12 relative">
+              <div className="flex flex-col data-item border-l border-white/5 pl-8 lg:pl-12 relative group/editorial">
                 {/* Accent Highlight */}
-                <div className="absolute top-0 left-0 w-[1px] h-1/2 bg-gradient-to-b from-red to-transparent shadow-[0_0_15px_var(--red)]" />
-                <div className="absolute top-0 left-[-3px] w-1.5 h-1.5 bg-red shadow-[0_0_10px_var(--red)]" />
+                <div className="absolute top-0 left-0 w-[2px] h-1/2 bg-gradient-to-b from-red to-transparent shadow-[0_0_15px_var(--red)] group-hover/editorial:h-[80%] transition-all duration-700 ease-out" />
+                <div className="absolute top-0 left-[-2px] w-1.5 h-3 bg-red shadow-[0_0_10px_var(--red)]" />
 
-                <div className="font-space text-[10px] text-white/30 tracking-[0.3em] uppercase mb-4 flex items-center gap-3">
+                <div className="font-space text-[9px] md:text-[10px] text-white/80 tracking-[0.3em] uppercase mb-5 flex items-center gap-3 bg-white/[0.03] w-max px-3 py-1.5 border border-white/10 border-l-[3px] border-l-red backdrop-blur-sm">
                   [ ARCHITECTURAL_OVERVIEW ]
                 </div>
 
-                <h3 className="font-bebas text-4xl lg:text-5xl text-white leading-[0.9] tracking-tight mb-4">
+                <h3 className="font-bebas text-4xl lg:text-6xl text-white leading-[0.9] tracking-tight mb-6">
                   PRECISION STACK <br/>
-                  <span className="text-white/40">INTEGRATION</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red to-red/60 drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]">INTEGRATION</span>
                 </h3>
 
-                <p className="font-space text-[11px] text-white/40 leading-[1.8] uppercase tracking-[0.15em] mb-6">
+                <p className="font-space text-[11px] text-white/60 leading-[2] uppercase tracking-[0.2em] mb-10 border-l-[3px] border-red pl-5 bg-gradient-to-r from-white/[0.02] to-transparent py-3 max-w-sm">
                   Deploying cutting-edge rendering engines and structural frameworks to construct ruthless, high-performance interfaces.
                 </p>
 
                 {/* Strict Data Table */}
                 <div className="flex flex-col w-full relative mt-4 md:mt-0">
                    {/* Top Line Accent */}
-                   <div className="absolute -top-4 left-0 w-8 h-[1px] bg-red/30" />
+                   <div className="absolute -top-6 left-0 w-12 h-[1px] bg-gradient-to-r from-red/50 to-transparent" />
 
-                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 mb-4 sm:mb-2 gap-1 sm:gap-0">
-                     <span className="font-space text-[9px] text-white/30 uppercase tracking-[0.4em]">Frontend_Logic</span>
-                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest">NEXT.JS / REACT</span>
+                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 mb-4 sm:mb-3 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
+                     <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
+                       <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
+                       Frontend_Logic
+                     </span>
+                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">NEXT.JS / REACT</span>
                    </div>
 
-                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 gap-1 sm:gap-0">
-                     <span className="font-space text-[9px] text-white/30 uppercase tracking-[0.4em]">Motion_Physics</span>
-                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest">GSAP / WEBGL</span>
+                   <div className="flex flex-col sm:flex-row justify-between sm:items-end border-b border-white/5 pb-2 gap-1 sm:gap-0 hover:border-red/40 transition-colors duration-500 group/row cursor-default">
+                     <span className="font-space text-[9px] text-white/50 uppercase tracking-[0.4em] group-hover/row:text-red/60 transition-colors duration-500 flex items-center gap-2">
+                       <span className="w-1 h-1 bg-red/0 group-hover/row:bg-red transition-colors duration-500" />
+                       Motion_Physics
+                     </span>
+                     <span className="font-bebas text-xl lg:text-2xl text-white tracking-widest group-hover/row:text-white group-hover/row:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-500">GSAP / WEBGL</span>
                    </div>
                 </div>
               </div>
@@ -279,7 +276,7 @@ export default function Skills() {
           {/* Bottom Structural Line */}
           <div className="w-full h-[1px] bg-white/10 relative mt-12 origin-right struct-line-x">
             <div className="absolute top-0 right-0 w-32 h-[1px] bg-red/50 origin-right struct-line-x" />
-            <div className="absolute top-0 left-0 w-1 h-3 bg-red -translate-y-full opacity-0 hud-point" />
+            <div className="absolute top-0 left-0 w-1.5 h-1.5 bg-red rounded-full -translate-y-1/2 opacity-0 hud-point shadow-[0_0_10px_var(--red)]" />
           </div>
 
         </div>
@@ -310,7 +307,7 @@ export default function Skills() {
           {skillsData.map((skill, index) => (
             <div
               key={index}
-              className="skill-cell group min-h-[140px] sm:aspect-square md:aspect-auto md:h-[280px] relative overflow-hidden flex flex-col justify-between p-4 md:p-8 bg-[#050505] md:bg-[#030303] md:hover:bg-[#0a0a0f] transition-colors duration-500 cursor-crosshair z-10 border border-white/5 md:border-transparent"
+              className="skill-cell group min-h-[140px] sm:aspect-square md:aspect-auto md:h-[280px] relative overflow-hidden flex flex-col justify-between p-4 md:p-8 bg-[#050505] md:bg-[#030303] md:hover:bg-[#0a0a0f] transition-colors duration-500 cursor-crosshair z-10 border border-white/10"
             >
 
               {/* Dot Matrix Background - Always partially visible on mobile, full on desktop hover */}
@@ -321,17 +318,17 @@ export default function Skills() {
 
               {/* Top Row */}
               <div className="flex justify-between items-start font-space text-[9px] md:text-[10px] tracking-widest relative z-10">
-                <span className="text-white/60 md:text-white/20 md:group-hover:text-white/50 transition-colors duration-300">
+                <span className="text-white/80 md:text-white/60 md:group-hover:text-white transition-colors duration-300">
                   // {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="text-red font-bold md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_10px_rgba(255,51,51,0.5)] md:shadow-red/20">
+                <span className="text-red font-bold md:opacity-60 md:group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_10px_rgba(255,51,51,0.5)] md:shadow-red/20">
                   [{skill.class}]
                 </span>
               </div>
 
               {/* Main typography */}
               <div className="relative z-10 flex flex-col items-start mt-4 mb-4 md:mt-0 md:mb-0">
-                <h3 className={`font-bebas text-white md:text-white/30 md:group-hover:text-white transition-colors duration-500 leading-[0.9] pr-2 break-normal w-full tracking-wide ${skill.name.length > 8
+                <h3 className={`font-bebas text-white md:text-white/80 md:group-hover:text-white transition-colors duration-500 leading-[0.9] pr-2 break-normal w-full tracking-wide ${skill.name.length > 8
                     ? "text-3xl sm:text-4xl md:text-4xl lg:text-5xl"
                     : "text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
                   }`}>
@@ -341,10 +338,10 @@ export default function Skills() {
 
               {/* Bottom Row */}
               <div className="flex justify-between items-end relative z-10">
-                <div className="w-1.5 h-1.5 bg-red md:bg-white/10 md:group-hover:bg-red shadow-[0_0_8px_rgba(255,51,51,0.8)] md:shadow-none md:group-hover:shadow-[0_0_10px_var(--red)] transition-all duration-300" />
+                <div className="w-1.5 h-1.5 bg-red md:bg-white/40 md:group-hover:bg-red shadow-[0_0_8px_rgba(255,51,51,0.8)] md:shadow-none md:group-hover:shadow-[0_0_10px_var(--red)] transition-all duration-300" />
 
                 {/* Data Bars */}
-                <div className="flex items-end gap-[2px] h-3 opacity-80 md:opacity-20 md:group-hover:opacity-100 transition-opacity duration-300">
+                <div className="flex items-end gap-[2px] h-3 opacity-80 md:opacity-80 md:group-hover:opacity-100 transition-opacity duration-300">
                   <div className="w-[2px] h-full bg-red animate-pulse-slow" style={{ animationDelay: '0ms' }} />
                   <div className="w-[2px] h-[60%] bg-red animate-pulse-slow" style={{ animationDelay: '150ms' }} />
                   <div className="w-[2px] h-[80%] bg-red animate-pulse-slow" style={{ animationDelay: '300ms' }} />

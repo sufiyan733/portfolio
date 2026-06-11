@@ -136,7 +136,7 @@ export default function About() {
 
   const skills = [
     { name: "Frontend / React / Next.js", width: "95" },
-    { name: "Backend / Node.js", width: "90" },
+    { name: "Backend / Node.js / FastAPI", width: "90" },
     { name: "Databases / SQL / NoSQL", width: "85" },
     { name: "Animation / GSAP / Three.js", width: "80" },
   ];
