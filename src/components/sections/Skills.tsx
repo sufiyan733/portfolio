@@ -165,7 +165,7 @@ export default function Skills() {
   }, []);
 
   return (
-    <section id="skills" ref={containerRef} onMouseMove={handleMouseMove} className="relative min-h-screen py-24 md:py-40 bg-bg overflow-hidden flex flex-col justify-center border-t border-white/5 z-10 selection:bg-red/20">
+    <section id="skills" ref={containerRef} onMouseMove={handleMouseMove} className="relative min-h-screen py-8 md:py-16 bg-bg overflow-hidden flex flex-col justify-center border-t border-white/5 z-10 selection:bg-red/20">
 
       {/* 3D Particles background — desktop only, too heavy for mobile GPUs */}
       <div className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-screen hidden md:block">

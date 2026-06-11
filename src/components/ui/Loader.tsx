@@ -95,7 +95,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
 
   const splitText = (text: string, className: string) => {
     return text.split("").map((char, i) => (
-      <span key={i} className={`inline-block ${className} will-change-transform`}>
+      <span key={i} className={`inline-block opacity-0 ${className} will-change-transform`}>
         {char === " " ? "\u00A0" : char}
       </span>
     ));

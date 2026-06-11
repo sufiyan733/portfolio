@@ -150,7 +150,7 @@ export default function About() {
   };
 
   return (
-    <section id="about" ref={containerRef} className="relative min-h-screen py-32 overflow-hidden flex flex-col justify-center">
+    <section id="about" ref={containerRef} className="relative min-h-screen py-16 md:py-16 overflow-hidden flex flex-col justify-center">
       {/* Background Glow (Follows Mouse) */}
       <div 
         ref={glowRef}
