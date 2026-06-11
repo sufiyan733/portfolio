@@ -112,6 +112,38 @@ export default function Contact() {
           }
         }
       );
+
+      // Mouse Parallax Effect for Background Depth
+      const handleMouseMove = (e: MouseEvent) => {
+        if (window.innerWidth <= 768) return;
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        
+        gsap.to(".bg-parallax", {
+          x: x * -40,
+          y: y * -40,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+        
+        gsap.to(".bg-parallax-reverse", {
+          x: x * 20,
+          y: y * 20,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+      };
+      
+      const currentContainer = containerRef.current;
+      if (currentContainer) {
+        currentContainer.addEventListener("mousemove", handleMouseMove);
+      }
+
+      return () => {
+        if (currentContainer) {
+          currentContainer.removeEventListener("mousemove", handleMouseMove);
+        }
+      };
     }, containerRef);
 
     return () => ctx.revert();
@@ -127,42 +159,50 @@ export default function Contact() {
   return (
     <section id="contact" ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-32 mt-20 md:mt-32">
 
-      {/* Cinematic Top Separator (Black Void + Energy Line) */}
-      <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red/80 to-transparent z-30 shadow-[0_0_15px_rgba(255,51,51,0.8)]" />
+      {/* Top Energy Blend */}
+      <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#030303] to-transparent z-20 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red/50 to-transparent z-30 shadow-[0_0_30px_rgba(255,51,51,0.6)]" />
 
-      {/* Background Tactical Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none z-0 mt-20" />
+      {/* Volumetric Top Light (Cinematic Stage Lighting) */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150vw] h-[60vh] bg-[radial-gradient(ellipse_at_top,rgba(255,51,51,0.12),transparent_70%)] pointer-events-none z-0 mix-blend-screen" />
 
-      {/* Background Deep Red Glow */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vh] bg-red/10 blur-[150px] pointer-events-none z-0 rounded-full ${isMobile ? '' : 'mix-blend-screen'}`} />
+      {/* Dual-Layer Tactical Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.06)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_30%,transparent_100%)] pointer-events-none z-0 bg-parallax-reverse" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.02)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_30%,transparent_100%)] pointer-events-none z-0 bg-parallax-reverse" />
 
-      {/* Massive Background Title */}
-      <div className="absolute top-32 left-1/2 -translate-x-1/2 w-full overflow-hidden flex justify-center pointer-events-none z-0">
-          <h2 ref={titleRef} className="font-bebas text-[18vw] leading-none text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.05)] whitespace-nowrap will-change-transform">
-            CONTACTS
-          </h2>
+      {/* Core Red Atmosphere */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.06),transparent_60%)] pointer-events-none z-0 ${isMobile ? '' : 'mix-blend-screen'}`} />
+
+      {/* Massive Cinematic Background Title */}
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-0 opacity-100 mix-blend-screen select-none bg-parallax">
+        <h2 
+          ref={titleRef} 
+          className="font-bebas text-[28vw] leading-none tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-red/30 via-red/5 to-transparent drop-shadow-[0_0_80px_rgba(255,51,51,0.15)] whitespace-nowrap"
+          style={{ WebkitTextStroke: "1px rgba(255,51,51,0.1)" }}
+        >
+          CONTACTS
+        </h2>
       </div>
 
       {/* Hero Background Character */}
       <div className="absolute inset-0 pointer-events-none flex items-end justify-center z-10 overflow-hidden">
-        <div className={`ayanokoji-wrapper relative w-full max-w-[1000px] h-[95vh] opacity-100 ${isMobile ? '' : '[mask-image:linear-gradient(to_top,transparent_0%,black_5%,black_100%)]'}`}>
+        <div className={`ayanokoji-wrapper relative w-full max-w-[1000px] h-[95vh] opacity-100 ${isMobile ? '' : '[mask-image:linear-gradient(to_top,transparent_0%,black_10%,black_100%)]'}`}>
           <Image 
             src="/ayanokoji.png" 
             alt="The Strategist" 
             fill 
-            className={`object-contain object-bottom scale-[1.05] ${isMobile ? '' : 'filter drop-shadow-[0_0_60px_rgba(255,30,30,0.6)]'} will-change-transform`}
+            className={`object-contain object-bottom scale-[1.05] ${isMobile ? '' : 'filter drop-shadow-[0_0_50px_rgba(255,30,30,0.5)]'} will-change-transform`}
             priority
           />
         </div>
       </div>
 
       {/* HTML Particle Field */}
-      <div className={`absolute inset-0 z-10 pointer-events-none opacity-20 overflow-hidden mix-blend-screen ${isMobile ? 'hidden' : ''}`}>
+      <div className={`absolute inset-0 z-10 pointer-events-none opacity-40 overflow-hidden mix-blend-screen ${isMobile ? 'hidden' : ''} [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]`}>
         {particles.map((p, i) => (
           <div
             key={i}
-            className="absolute bg-red rounded-full will-change-transform blur-[1px]"
+            className="absolute bg-red rounded-full will-change-transform shadow-[0_0_8px_rgba(255,51,51,0.8)]"
             style={p}
           />
         ))}
@@ -184,27 +224,30 @@ export default function Contact() {
             {/* Email */}
             <button
               onClick={handleCopy}
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 border border-white/10 hover:border-red/50 hover:bg-[#1a1a1a]/80 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,51,51,0.15)] transition-all duration-500'} will-change-transform relative overflow-hidden text-left w-full rounded-xl`}
+              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A0303]/70 border border-red/30 border-l-red/80 shadow-[0_0_30px_rgba(255,51,51,0.1)] hover:border-red hover:bg-[#1A0505]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,51,51,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden text-left w-full rounded-2xl`}
               data-cursor="cta"
             >
-              <div className={`absolute left-0 top-0 w-[2px] h-full bg-red origin-top scale-y-0 group-hover:scale-y-100 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} z-20`} />
-              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.015)_2px,rgba(255,51,51,0.015)_4px)] opacity-0 group-hover:opacity-100 ${isMobile ? '' : 'transition-opacity duration-700'} pointer-events-none z-0`} />
+              <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
+              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.02)_2px,rgba(255,51,51,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
               <div className={`flex items-center gap-4 md:gap-5 relative z-10 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} ${copied ? '-translate-y-10 opacity-0' : 'translate-y-0 opacity-100'}`}>
-                <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-red/10 border border-red/30 group-hover:bg-red/20 group-hover:border-red/60 ${isMobile ? '' : 'transition-colors duration-500'} text-red`}>
-                  <Mail size={18} strokeWidth={1.5} className="md:w-5 md:h-5" />
+                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-red/10 border border-red/20 shadow-[inset_0_1px_10px_rgba(255,51,51,0.1)] group-hover:bg-red/20 group-hover:shadow-[inset_0_0_20px_rgba(255,51,51,0.3)] transition-all duration-500 text-red`}>
+                  <Mail size={20} strokeWidth={1.5} className="md:w-6 md:h-6" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">Email</span>
-                  <span className={`font-bebas text-red text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide truncate max-w-[180px] sm:max-w-none drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]`}>kaizerxdev@gmail.com</span>
+                  <span className="font-space text-red/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-red/80 group-hover:bg-red group-hover:shadow-[0_0_8px_rgba(255,51,51,1)] transition-colors duration-500" />
+                    Email
+                  </span>
+                  <span className={`font-bebas text-white group-hover:text-red text-2xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[180px] sm:max-w-none group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]`}>kaizerxdev@gmail.com</span>
                 </div>
               </div>
 
-              <div className={`relative z-10 text-red/50 group-hover:text-red ${isMobile ? '' : 'transition-all duration-500'} ${copied ? 'opacity-0 scale-50' : `opacity-100 scale-100 transform ${isMobile ? '' : 'group-hover:-translate-y-1 group-hover:translate-x-1'}`}`}>
-                <ArrowUpRight size={24} strokeWidth={1.5} />
+              <div className={`relative z-10 text-white/20 group-hover:text-red transition-all duration-500 ${copied ? 'opacity-0 scale-50' : `opacity-100 scale-100 transform group-hover:-translate-y-2 group-hover:translate-x-2`}`}>
+                <ArrowUpRight size={28} strokeWidth={1.5} />
               </div>
 
-              <div className={`absolute inset-0 flex items-center justify-center bg-red/10 backdrop-blur-md ${isMobile ? '' : 'transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} ${copied ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+              <div className={`absolute inset-0 flex items-center justify-center bg-red/10 backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${copied ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
                 <span className="font-space text-[12px] tracking-[0.4em] text-white font-bold drop-shadow-[0_0_10px_rgba(255,51,51,0.8)] flex items-center gap-3">
                   <Mail size={16} /> ADDRESS_COPIED ✓
                 </span>
@@ -216,25 +259,27 @@ export default function Contact() {
               href="https://github.com/kaiizer777"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 border border-white/10 hover:border-white/50 hover:bg-[#1a1a1a]/80 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(255,255,255,0.08)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl`}
+              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A0A0A]/70 border border-white/20 border-l-white/60 shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white hover:bg-[#1A1A1A]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
               data-cursor="eye"
             >
-              <div className={`absolute left-0 top-0 w-[2px] h-full bg-white origin-top scale-y-0 group-hover:scale-y-100 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} z-20`} />
-              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,255,255,0.015)_2px,rgba(255,255,255,0.015)_4px)] opacity-0 group-hover:opacity-100 ${isMobile ? '' : 'transition-opacity duration-700'} pointer-events-none z-0`} />
-              <div className={`absolute inset-0 shadow-[0_0_20px_rgba(255,255,255,0)] group-hover:shadow-[inset_0_0_50px_rgba(255,255,255,0.03)] ${isMobile ? '' : 'transition-shadow duration-500'} rounded pointer-events-none z-0`} />
+              <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
+              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
               <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/10 border border-white/30 group-hover:bg-white/20 group-hover:border-white/60 ${isMobile ? '' : 'transition-colors duration-500'} text-white`}>
-                  <GithubIcon size={18} strokeWidth={1.5} />
+                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-white/10 border border-white/20 shadow-[inset_0_1px_10px_rgba(255,255,255,0.1)] group-hover:bg-white/20 group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 text-white`}>
+                  <GithubIcon size={20} strokeWidth={1.5} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">GitHub</span>
-                  <span className={`font-bebas text-white text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]`}>kaiizer777</span>
+                  <span className="font-space text-white/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-white/80 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,1)] transition-colors duration-500" />
+                    GitHub
+                  </span>
+                  <span className={`font-bebas text-white group-hover:text-white text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]`}>kaiizer777</span>
                 </div>
               </div>
 
-              <div className={`relative z-10 text-white/50 group-hover:text-white ${isMobile ? '' : 'transition-all duration-500'} transform ${isMobile ? '' : 'group-hover:-translate-y-1 group-hover:translate-x-1'}`}>
-                <ArrowUpRight size={24} strokeWidth={1.5} />
+              <div className={`relative z-10 text-white/20 group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
+                <ArrowUpRight size={28} strokeWidth={1.5} />
               </div>
             </a>
           </div>
@@ -246,25 +291,27 @@ export default function Contact() {
               href="https://instagram.com/kaiizer_dev"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 border border-white/10 hover:border-[#E1306C]/50 hover:bg-[#1a1a1a]/80 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(225,48,108,0.15)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl`}
+              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#0A050A]/70 border border-[#E1306C]/30 border-l-[#E1306C]/80 shadow-[0_0_30px_rgba(225,48,108,0.1)] hover:border-[#E1306C] hover:bg-[#1A0A15]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(225,48,108,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
               data-cursor="eye"
             >
-              <div className={`absolute left-0 top-0 w-[2px] h-full bg-[#E1306C] origin-top scale-y-0 group-hover:scale-y-100 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} z-20`} />
-              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(225,48,108,0.015)_2px,rgba(225,48,108,0.015)_4px)] opacity-0 group-hover:opacity-100 ${isMobile ? '' : 'transition-opacity duration-700'} pointer-events-none z-0`} />
-              <div className={`absolute inset-0 shadow-[0_0_20px_rgba(225,48,108,0)] group-hover:shadow-[inset_0_0_50px_rgba(225,48,108,0.03)] ${isMobile ? '' : 'transition-shadow duration-500'} rounded pointer-events-none z-0`} />
+              <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E1306C] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
+              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(225,48,108,0.02)_2px,rgba(225,48,108,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
               <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#E1306C]/10 border border-[#E1306C]/30 group-hover:bg-[#E1306C]/20 group-hover:border-[#E1306C]/60 ${isMobile ? '' : 'transition-colors duration-500'} text-[#E1306C]`}>
-                  <InstagramIcon size={18} strokeWidth={1.5} />
+                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-[#E1306C]/10 border border-[#E1306C]/20 shadow-[inset_0_1px_10px_rgba(225,48,108,0.1)] group-hover:bg-[#E1306C]/20 group-hover:shadow-[inset_0_0_20px_rgba(225,48,108,0.3)] transition-all duration-500 text-[#E1306C]`}>
+                  <InstagramIcon size={20} strokeWidth={1.5} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">Instagram</span>
-                  <span className={`font-bebas text-[#E1306C] text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.3)] truncate max-w-[180px] sm:max-w-none`}>@kaiizer_dev</span>
+                  <span className="font-space text-[#E1306C]/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-[#E1306C]/80 group-hover:bg-[#E1306C] group-hover:shadow-[0_0_8px_rgba(225,48,108,1)] transition-colors duration-500" />
+                    Instagram
+                  </span>
+                  <span className={`font-bebas text-white group-hover:text-[#E1306C] text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(225,48,108,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(225,48,108,0.8)] truncate max-w-[180px] sm:max-w-none`}>@kaiizer_dev</span>
                 </div>
               </div>
 
-              <div className={`relative z-10 text-[#E1306C]/50 group-hover:text-[#E1306C] ${isMobile ? '' : 'transition-all duration-500'} transform ${isMobile ? '' : 'group-hover:-translate-y-1 group-hover:translate-x-1'}`}>
-                <ArrowUpRight size={24} strokeWidth={1.5} />
+              <div className={`relative z-10 text-white/20 group-hover:text-[#E1306C] transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
+                <ArrowUpRight size={28} strokeWidth={1.5} />
               </div>
             </a>
 
@@ -273,25 +320,27 @@ export default function Contact() {
               href="https://wa.me/918709914537"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-gradient-to-br from-[#111111]/90 to-[#050505]/60 border border-white/10 hover:border-[#25D366]/50 hover:bg-[#1a1a1a]/80 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(37,211,102,0.15)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-xl`}
+              className={`contact-card group flex items-center justify-between p-4 md:p-6 bg-[#030A05]/70 border border-[#25D366]/30 border-l-[#25D366]/80 shadow-[0_0_30px_rgba(37,211,102,0.1)] hover:border-[#25D366] hover:bg-[#0A1A0F]/90 ${isMobile ? '' : 'backdrop-blur-3xl hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(37,211,102,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl`}
               data-cursor="eye"
             >
-              <div className={`absolute left-0 top-0 w-[2px] h-full bg-[#25D366] origin-top scale-y-0 group-hover:scale-y-100 ${isMobile ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]'} z-20`} />
-              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(37,211,102,0.015)_2px,rgba(37,211,102,0.015)_4px)] opacity-0 group-hover:opacity-100 ${isMobile ? '' : 'transition-opacity duration-700'} pointer-events-none z-0`} />
-              <div className={`absolute inset-0 shadow-[0_0_20px_rgba(37,211,102,0)] group-hover:shadow-[inset_0_0_50px_rgba(37,211,102,0.03)] ${isMobile ? '' : 'transition-shadow duration-500'} rounded pointer-events-none z-0`} />
+              <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#25D366] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
+              <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(37,211,102,0.02)_2px,rgba(37,211,102,0.02)_4px)] opacity-50 group-hover:opacity-100 pointer-events-none z-0`} />
               
               <div className="flex items-center gap-4 md:gap-5 relative z-10">
-                <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#25D366]/10 border border-[#25D366]/30 group-hover:bg-[#25D366]/20 group-hover:border-[#25D366]/60 ${isMobile ? '' : 'transition-colors duration-500'} text-[#25D366]`}>
-                  <MessageCircle size={18} strokeWidth={1.5} className="md:w-5 md:h-5" />
+                <div className={`w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 shadow-[inset_0_1px_10px_rgba(37,211,102,0.1)] group-hover:bg-[#25D366]/20 group-hover:shadow-[inset_0_0_20px_rgba(37,211,102,0.3)] transition-all duration-500 text-[#25D366]`}>
+                  <MessageCircle size={20} strokeWidth={1.5} className="md:w-6 md:h-6" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-space text-white/40 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-0.5 md:mb-1">WhatsApp</span>
-                  <span className={`font-bebas text-[#25D366] text-xl md:text-3xl ${isMobile ? '' : 'transition-colors duration-500'} tracking-wide drop-shadow-[0_0_15px_rgba(37,211,102,0.3)]`}>+91 87099 14537</span>
+                  <span className="font-space text-[#25D366]/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-[#25D366]/80 group-hover:bg-[#25D366] group-hover:shadow-[0_0_8px_rgba(37,211,102,1)] transition-colors duration-500" />
+                    WhatsApp
+                  </span>
+                  <span className={`font-bebas text-white group-hover:text-[#25D366] text-2xl md:text-3xl transition-colors duration-500 tracking-wide drop-shadow-[0_0_15px_rgba(37,211,102,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(37,211,102,0.8)]`}>+91 87099 14537</span>
                 </div>
               </div>
 
-              <div className={`relative z-10 text-[#25D366]/50 group-hover:text-[#25D366] ${isMobile ? '' : 'transition-all duration-500'} transform ${isMobile ? '' : 'group-hover:-translate-y-1 group-hover:translate-x-1'}`}>
-                <ArrowUpRight size={24} strokeWidth={1.5} />
+              <div className={`relative z-10 text-white/20 group-hover:text-[#25D366] transition-all duration-500 transform group-hover:-translate-y-2 group-hover:translate-x-2`}>
+                <ArrowUpRight size={28} strokeWidth={1.5} />
               </div>
             </a>
           </div>
