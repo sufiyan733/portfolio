@@ -4,22 +4,66 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import Link from "next/link";
 
+const navLinks = [
+  { name: "HERO", href: "#hero" },
+  { name: "WHO AM I", href: "#about" },
+  { name: "ARSENAL", href: "#skills" },
+  { name: "MISSIONS", href: "#projects" },
+  { name: "OFFER", href: "#offer" },
+  { name: "CONTACT", href: "#contact" },
+];
+
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
+  // Handle active section tracking via Intersection Observer
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-50% 0px -50% 0px" } // Triggers when section is at the exact middle of screen
+    );
 
+    navLinks.forEach((link) => {
+      const el = document.querySelector(link.href);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Handle scroll detection for Navbar background
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogoHover = (e: React.MouseEvent) => {
-    const chars = e.currentTarget.querySelectorAll(".logo-char");
+  // Handle scroll lock when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      if ((window as any).lenis) (window as any).lenis.stop();
+    } else {
+      document.body.style.overflow = "";
+      if ((window as any).lenis) (window as any).lenis.start();
+    }
+  }, [isMobileMenuOpen]);
+
+  const handleLogoHover = () => {
+    if (!logoRef.current) return;
+    const chars = logoRef.current.querySelectorAll(".logo-char");
+    gsap.killTweensOf(chars);
     gsap.to(chars, {
       y: -10,
       opacity: 0,
@@ -38,13 +82,21 @@ export default function Navbar() {
     });
   };
 
-  const navLinks = [
-    { name: "WHO AM I", href: "#about" },
-    { name: "ARSENAL", href: "#skills" },
-    { name: "MISSIONS", href: "#projects" },
-    { name: "OFFER", href: "#offer" },
-    { name: "CONTACT", href: "#contact" },
-  ];
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    
+    // Exact match for the AGENTS.md requirement of using lenis to scroll and avoid breaking scrollTriggers
+    if ((window as any).lenis) {
+      (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset: 0, duration: 1.5 });
+    } else {
+      if (href === 'body') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <header 
@@ -59,8 +111,10 @@ export default function Navbar() {
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between relative z-10">
         <Link 
           href="/" 
+          ref={logoRef}
           className="font-bebas text-3xl text-red relative group"
           onMouseEnter={handleLogoHover}
+          onClick={(e) => handleNavClick(e, 'body')}
         >
           <span className="flex overflow-hidden">
             {"KAIZER.".split("").map((char, i) => (
@@ -75,10 +129,11 @@ export default function Navbar() {
             <Link 
               key={link.name} 
               href={link.href}
-              className="font-space text-sm tracking-widest text-white/70 hover:text-white relative group py-2 transition-colors"
+              onClick={(e) => handleNavClick(e, link.href)}
+              className={`font-space text-[13px] tracking-[0.25em] relative group py-2 transition-all duration-300 outline-none focus:outline-none ${activeSection === link.href ? "text-red drop-shadow-[0_0_8px_rgba(255,51,51,0.8)]" : "text-white/50 hover:text-white"}`}
             >
               {link.name}
-              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-red scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+              <span className={`absolute left-0 bottom-0 w-full h-[2px] origin-left transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${activeSection === link.href ? "bg-red scale-x-100 shadow-[0_0_8px_rgba(255,51,51,0.5)]" : "bg-red scale-x-0 group-hover:scale-x-100"}`} />
             </Link>
           ))}
         </nav>
@@ -122,28 +177,31 @@ export default function Navbar() {
 
         <div className="flex flex-col flex-1 mt-6 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <nav className="flex flex-col w-full gap-4">
-            {navLinks.map((link, i) => (
-              <Link 
-                key={link.name} 
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-6 group relative py-1"
-              >
-                {/* Tech dot indicator */}
-                <span className="w-1 h-1 bg-red/30 rounded-full group-active:scale-150 group-active:bg-red group-active:shadow-[0_0_10px_rgba(255,51,51,1)] transition-all duration-300" />
-                
-                <span className="font-space text-sm text-red/60 tracking-widest w-5">
-                  0{i + 1}
-                </span>
+            {navLinks.map((link, i) => {
+              const isActive = activeSection === link.href;
+              return (
+                <Link 
+                  key={link.name} 
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="flex items-center gap-6 group relative py-1 outline-none focus:outline-none"
+                >
+                  {/* Tech dot indicator */}
+                  <span className={`w-1 h-1 rounded-full transition-all duration-300 ${isActive ? "bg-red scale-150 shadow-[0_0_10px_rgba(255,51,51,1)]" : "bg-red/30 group-hover:bg-red/60 group-active:scale-150 group-active:bg-red group-active:shadow-[0_0_10px_rgba(255,51,51,1)]"}`} />
+                  
+                  <span className={`font-space text-sm tracking-widest w-5 transition-colors ${isActive ? "text-red" : "text-white/30"}`}>
+                    0{i + 1}
+                  </span>
 
-                {/* Vertical Separator */}
-                <span className="w-[1px] h-6 bg-white/10" />
+                  {/* Vertical Separator */}
+                  <span className="w-[1px] h-6 bg-white/10" />
 
-                <span className="font-bebas text-[2.5rem] tracking-wide text-white/90 active:text-red active:translate-x-2 transition-all duration-300 origin-left leading-none">
-                  {link.name}
-                </span>
-              </Link>
-            ))}
+                  <span className={`font-bebas text-[2.5rem] tracking-wide transition-all duration-300 origin-left leading-none ${isActive ? "text-red translate-x-2 drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]" : "text-white/70 hover:text-white active:text-red active:translate-x-2"}`}>
+                    {link.name}
+                  </span>
+                </Link>
+              );
+            })}
           </nav>
         </div>
       </div>

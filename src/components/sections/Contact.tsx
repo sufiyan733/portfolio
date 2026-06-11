@@ -174,7 +174,7 @@ export default function Contact() {
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.06),transparent_60%)] pointer-events-none z-0 ${isMobile ? '' : 'mix-blend-screen'}`} />
 
       {/* Massive Cinematic Background Title */}
-      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-0 opacity-100 mix-blend-screen select-none bg-parallax">
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-0 opacity-100 mix-blend-screen select-none">
         <h2 
           ref={titleRef} 
           className="font-bebas text-[28vw] leading-none tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-red/30 via-red/5 to-transparent drop-shadow-[0_0_80px_rgba(255,51,51,0.15)] whitespace-nowrap"

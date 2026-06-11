@@ -22,6 +22,9 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
 
     // Sync Lenis scroll position to ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
+    
+    // Expose lenis globally for components to trigger scroll
+    (window as any).lenis = lenis;
 
     // Drive Lenis via GSAP ticker (exact spec from AGENTS.md)
     const tickerFn = (time: number) => lenis.raf(time * 1000);
