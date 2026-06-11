@@ -60,8 +60,9 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
           // Progress bar is driven by this timeline, or we can use another element
         }
       }, "-=0.5")
+      .addLabel("percentageComplete")
       
-      // Particles
+      // Particles explode outwards while percentage counts
       .to(".loader-particle", {
         x: "random(-200, 200)",
         y: "random(-200, 200)",
@@ -70,18 +71,16 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         duration: 1,
         stagger: 0.02,
         ease: "power4.out"
-      }, "-=0.5")
+      }, "<")
       
-      // Wait a moment at 100%
-      .to({}, { duration: 0.2 })
-
       // At 100%: screen slices into 4 horizontal strips, each sliding off in alternating directions
+      // This starts EXACTLY when the percentage hits 100%
       .to(slicesRef.current, {
         xPercent: (i) => (i % 2 === 0 ? 100 : -100),
         duration: 0.8,
         ease: "power4.inOut",
         stagger: 0.06
-      })
+      }, "percentageComplete")
       // Fade out container to avoid blocking
       .to(containerRef.current, {
         autoAlpha: 0,
