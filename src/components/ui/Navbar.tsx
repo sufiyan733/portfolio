@@ -84,18 +84,27 @@ export default function Navbar() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    
+    // Start lenis immediately if it was stopped by the mobile menu
+    if ((window as any).lenis) {
+      (window as any).lenis.start();
+      document.body.style.overflow = "";
+    }
+    
     setIsMobileMenuOpen(false);
     
-    // Exact match for the AGENTS.md requirement of using lenis to scroll and avoid breaking scrollTriggers
-    if ((window as any).lenis) {
-      (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset: 0, duration: 1.5 });
-    } else {
-      if (href === 'body') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Small timeout ensures the DOM has unlocked before scrolling
+    setTimeout(() => {
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset: 0, duration: 1.5 });
       } else {
-        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        if (href === 'body') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-    }
+    }, 50);
   };
 
   return (
@@ -157,7 +166,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Card (Top Sheet) */}
       <div 
-        className={`fixed top-0 left-0 w-full max-h-[50vh] bg-[#020202]/70 backdrop-blur-3xl z-40 border-b border-white/5 rounded-b-[2rem] flex flex-col px-8 pt-10 pb-8 transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden will-change-transform origin-top shadow-[0_30px_60px_rgba(0,0,0,0.8),inset_0_-1px_0_rgba(255,51,51,0.2)]`}
+        className={`fixed top-0 left-0 w-full max-h-[70vh] bg-[#020202]/70 backdrop-blur-3xl z-40 border-b border-white/5 rounded-b-[2rem] flex flex-col px-8 pt-10 pb-8 transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden will-change-transform origin-top shadow-[0_30px_60px_rgba(0,0,0,0.8),inset_0_-1px_0_rgba(255,51,51,0.2)]`}
         style={{
           transform: isMobileMenuOpen ? "translateY(0)" : "translateY(-100%)",
           opacity: isMobileMenuOpen ? 1 : 0,
@@ -176,7 +185,7 @@ export default function Navbar() {
         </button>
 
         <div className="flex flex-col flex-1 mt-6 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <nav className="flex flex-col w-full gap-4">
+          <nav className="flex flex-col w-full gap-3">
             {navLinks.map((link, i) => {
               const isActive = activeSection === link.href;
               return (
@@ -184,19 +193,19 @@ export default function Navbar() {
                   key={link.name} 
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="flex items-center gap-6 group relative py-1 outline-none focus:outline-none"
+                  className="flex items-center gap-5 group relative py-1 outline-none focus:outline-none"
                 >
                   {/* Tech dot indicator */}
                   <span className={`w-1 h-1 rounded-full transition-all duration-300 ${isActive ? "bg-red scale-150 shadow-[0_0_10px_rgba(255,51,51,1)]" : "bg-red/30 group-hover:bg-red/60 group-active:scale-150 group-active:bg-red group-active:shadow-[0_0_10px_rgba(255,51,51,1)]"}`} />
                   
-                  <span className={`font-space text-sm tracking-widest w-5 transition-colors ${isActive ? "text-red" : "text-white/30"}`}>
+                  <span className={`font-space text-xs tracking-widest w-4 transition-colors ${isActive ? "text-red" : "text-white/30"}`}>
                     0{i + 1}
                   </span>
 
                   {/* Vertical Separator */}
-                  <span className="w-[1px] h-6 bg-white/10" />
+                  <span className="w-[1px] h-5 bg-white/10" />
 
-                  <span className={`font-bebas text-[2.5rem] tracking-wide transition-all duration-300 origin-left leading-none ${isActive ? "text-red translate-x-2 drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]" : "text-white/70 hover:text-white active:text-red active:translate-x-2"}`}>
+                  <span className={`font-bebas text-3xl tracking-wide transition-all duration-300 origin-left leading-none ${isActive ? "text-red translate-x-2 drop-shadow-[0_0_15px_rgba(255,51,51,0.6)]" : "text-white/70 hover:text-white active:text-red active:translate-x-2"}`}>
                     {link.name}
                   </span>
                 </Link>
