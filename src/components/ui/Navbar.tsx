@@ -16,6 +16,7 @@ const navLinks = [
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
+  const scrambleIntervalRef = useRef<any>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -63,23 +64,59 @@ export default function Navbar() {
   const handleLogoHover = () => {
     if (!logoRef.current) return;
     const chars = logoRef.current.querySelectorAll(".logo-char");
-    gsap.killTweensOf(chars);
-    gsap.to(chars, {
-      y: -10,
-      opacity: 0,
-      stagger: 0.05,
-      duration: 0.2,
-      ease: "power2.in",
-      onComplete: () => {
-        gsap.to(chars, {
-          y: 0,
-          opacity: 1,
-          stagger: 0.05,
-          duration: 0.3,
-          ease: "power2.out"
-        });
+    const container = logoRef.current.querySelector(".logo-container");
+    const underline = logoRef.current.querySelector(".logo-underline");
+    
+    const originalText = "KAIZER.";
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+    
+    // Animate spacing and underline
+    gsap.to(container, { gap: "4px", duration: 0.4, ease: "back.out(2)" });
+    gsap.to(underline, { scaleX: 1, duration: 0.4, ease: "expo.out" });
+    
+    let iteration = 0;
+    if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+    
+    scrambleIntervalRef.current = setInterval(() => {
+      chars.forEach((char, index) => {
+        if (index < iteration) {
+          char.textContent = originalText[index];
+          (char as HTMLElement).style.color = "var(--red)";
+          (char as HTMLElement).style.textShadow = "0 0 15px rgba(255,51,51,0.8)";
+        } else {
+          char.textContent = letters[Math.floor(Math.random() * letters.length)];
+          // Glitch color
+          const isWhite = Math.random() > 0.5;
+          (char as HTMLElement).style.color = isWhite ? "white" : "var(--red)";
+          (char as HTMLElement).style.textShadow = isWhite ? "0 0 10px rgba(255,255,255,0.5)" : "none";
+        }
+      });
+      
+      if (iteration >= originalText.length) {
+        if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
       }
+      iteration += 1 / 3;
+    }, 30);
+  };
+
+  const handleLogoLeave = () => {
+    if (!logoRef.current) return;
+    const chars = logoRef.current.querySelectorAll(".logo-char");
+    const container = logoRef.current.querySelector(".logo-container");
+    const underline = logoRef.current.querySelector(".logo-underline");
+    const originalText = "KAIZER.";
+    
+    if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+    
+    // Snap back to normal immediately to avoid sticking
+    chars.forEach((char, index) => {
+      char.textContent = originalText[index];
+      (char as HTMLElement).style.color = "var(--red)";
+      (char as HTMLElement).style.textShadow = "0 0 15px rgba(255,51,51,0.8)";
     });
+    
+    gsap.to(container, { gap: "0px", duration: 0.4, ease: "power2.out" });
+    gsap.to(underline, { scaleX: 0, duration: 0.4, ease: "power2.out" });
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -121,15 +158,20 @@ export default function Navbar() {
         <Link 
           href="/" 
           ref={logoRef}
-          className="font-bebas text-3xl text-red relative group"
+          className="relative group inline-flex cursor-pointer outline-none focus:outline-none"
           onMouseEnter={handleLogoHover}
+          onMouseLeave={handleLogoLeave}
           onClick={(e) => handleNavClick(e, 'body')}
         >
-          <span className="flex overflow-hidden">
-            {"KAIZER.".split("").map((char, i) => (
-              <span key={i} className="logo-char inline-block">{char}</span>
-            ))}
-          </span>
+          <div className="font-bebas text-3xl text-red relative flex flex-col items-center">
+            <span className="logo-container flex relative" style={{ textShadow: "0 0 15px rgba(255,51,51,0.8)" }}>
+              {"KAIZER.".split("").map((char, i) => (
+                <span key={i} className="logo-char inline-block min-w-[0.55em] text-center will-change-transform">{char}</span>
+              ))}
+            </span>
+            {/* Center-out underline */}
+            <span className="logo-underline absolute -bottom-1 left-0 w-full h-[2px] bg-white origin-center scale-x-0 shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+          </div>
         </Link>
 
         {/* Desktop Nav */}
