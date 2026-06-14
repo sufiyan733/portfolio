@@ -7,9 +7,9 @@ const services = [
   {
     id: "01",
     title: "LANDING PAGE",
-    tagline: `"Clean. Fast. Live."`,
+    tagline: "Clean. Fast. Live.",
     desc: "A modern, responsive landing page for your business, brand, or product. Looks great on every device. Hosted and deployed — ready to share the same day it's done.",
-    price: "5,000",
+    price: "7,500",
     delivery: "EST. DELIVERY // 7 DAYS",
     params: "7_PARAMS",
     features: [
@@ -25,9 +25,9 @@ const services = [
   {
     id: "02",
     title: "BUSINESS WEBSITE",
-    tagline: `"Your entire business, online."`,
+    tagline: "Your entire business, online.",
     desc: "Multi-page website for businesses that need more than a landing page. Home, About, Services, Portfolio, Contact — all built, hosted, and handed over with a CMS so you can edit content yourself.",
-    price: "10,000",
+    price: "30,000",
     delivery: "EST. DELIVERY // 14 DAYS",
     params: "6_PARAMS",
     features: [
@@ -42,9 +42,9 @@ const services = [
   {
     id: "03",
     title: "FULL STACK APP",
-    tagline: `"Login. Dashboard. Database. The whole thing."`,
+    tagline: "Pricing may vary depending upon the requirement.",
     desc: "A complete web application — user authentication, database, admin panel, and a clean frontend. For startups and small businesses that need real software, not just a website.",
-    price: "15,000",
+    price: "50,000",
     delivery: "EST. DELIVERY // 21 DAYS",
     params: "7_PARAMS",
     features: [
