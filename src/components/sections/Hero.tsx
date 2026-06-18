@@ -7,6 +7,23 @@ import dynamic from "next/dynamic";
 
 const ParticleField = dynamic(() => import("../three/ParticleField"), { ssr: false });
 
+// Hacker data stream — desktop only, throttled
+const DataStream = ({ isMobile }: { isMobile: boolean }) => {
+  const [stream, setStream] = useState("SYS.MEM.A4F2B1");
+  useEffect(() => {
+    if (isMobile) return; // No re-renders on mobile
+    const chars = "0123456789ABCDEF";
+    const interval = setInterval(() => {
+      let str = "";
+      for (let i = 0; i < 6; i++) {
+        str += chars[Math.floor(Math.random() * chars.length)];
+      }
+      setStream(`SYS.MEM.${str}`);
+    }, 400);
+    return () => clearInterval(interval);
+  }, [isMobile]);
+  return <div>{stream}</div>;
+};
 
 // Typewriter — uses setInterval only (no nested setTimeout)
 const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
@@ -170,7 +187,7 @@ export default function Hero() {
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
         <h1
           ref={titleContainerRef}
-          className="relative font-bebas text-[35vw] md:text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
+          className="relative font-bebas text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
         >
           {titleText.split("").map((char, i) => (
             <span 
@@ -188,7 +205,7 @@ export default function Hero() {
       </div>
 
       {/* Layer 3: Ayanokoji */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140vw] md:w-[65vw] h-[65vh] md:h-[95vh] z-20 flex justify-center items-end">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120vw] md:w-[65vw] h-[85vh] md:h-[95vh] z-20 flex justify-center items-end">
         <div
           ref={ayanokojiRef}
           className="relative w-full h-full will-change-transform opacity-0"
@@ -213,14 +230,27 @@ export default function Hero() {
       {/* Layer 4: Meta text */}
       <div className="absolute inset-0 z-30 pointer-events-none container mx-auto px-6 md:px-12 flex flex-col justify-between py-12 md:py-20 h-full">
         <div className="flex justify-between items-start w-full pt-16 md:pt-0">
-          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40">
+          {/* MOBILE VIEW METADATA (from commit b47598c) */}
+          <div className="hero-meta font-space text-[10px] tracking-[0.3em] uppercase flex flex-col gap-0.5 text-white/40 md:hidden">
+            <span className="text-red/80 font-medium tracking-[0.5em] leading-tight flex items-center gap-2"><span className="w-1 h-1 bg-red rounded-full shrink-0" />FULL STACK</span>
+            <span className="text-red/80 font-medium tracking-[0.5em] leading-tight pl-3">DEVELOPER</span>
+          </div>
+          <div className="hero-meta font-space text-[10px] tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 text-right items-end md:hidden">
+            <span className="opacity-50">Based in</span>
+            <span className="text-white/80">India</span>
+            <div className="w-[1px] h-12 bg-red/20 mt-4 overflow-hidden relative">
+              <div className="absolute top-0 left-0 w-full h-full bg-red origin-top animate-pulse" />
+            </div>
+          </div>
+
+          {/* PC VIEW METADATA (current) */}
+          <div className="hero-meta font-space text-xs tracking-[0.3em] uppercase hidden md:flex flex-col gap-1 text-white/40">
             <span className="opacity-50">Based in</span>
             <span className="text-white/80">India</span>
           </div>
-
-          <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] uppercase flex flex-col gap-1 text-white/40 text-right items-end">
+          <div className="hero-meta font-space text-xs tracking-[0.3em] uppercase hidden md:flex flex-col gap-1 text-white/40 text-right items-end">
             <span className="text-red/80 font-medium tracking-[0.5em] mb-2 flex items-center justify-end gap-2">
-              <span className="w-1 h-1 bg-red rounded-full md:animate-ping" />
+              <span className="w-1 h-1 bg-red rounded-full animate-ping" />
               FULL STACK DEVELOPER
             </span>
             <div className="w-[1px] h-12 bg-red/20 mt-4 overflow-hidden relative">
@@ -240,7 +270,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll to Descend */}
-      <div ref={scrollDescendRef} className="absolute bottom-12 md:bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none font-space text-[10px] tracking-[0.4em] text-white/60">
+      <div ref={scrollDescendRef} className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none font-space text-[10px] tracking-[0.4em] text-white/60">
         SCROLL TO DESCEND
       </div>
 

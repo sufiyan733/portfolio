@@ -83,6 +83,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
@@ -103,7 +104,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
   const hexSec = getHash(project.title + "SECURE");
 
   return (
-    <div className="project-panel w-screen h-[100dvh] flex items-center justify-center p-4 md:p-8 pt-24 md:pt-32 pb-4 md:pb-8 relative border-r border-red/10 z-10 will-change-transform overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
+    <div className="project-panel w-screen h-[100dvh] flex items-stretch md:items-center justify-center px-3 pb-0 pt-[104px] md:p-8 md:pt-32 relative border-r border-red/10 z-10 will-change-transform overflow-hidden md:overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
 
       {/* Massive Background Number */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
@@ -115,7 +116,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1400px] h-[80vh] md:h-[520px] lg:h-[580px] p-[2px] my-auto group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out ${isMobile
+        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1400px] h-full md:h-[520px] lg:h-[580px] p-[2px] my-0 md:my-auto group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
           ? "border border-red/40 rounded-sm bg-[#111111]"
           : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
@@ -182,27 +183,27 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           </div>
 
           {/* MAIN CONTENT SPLIT (Content-driven height) */}
-          <div className="w-full h-full relative z-10 overflow-hidden flex-1">
-            <div className="flex flex-col md:flex-row h-full items-stretch">
+          <div className="w-full relative z-10 overflow-hidden flex flex-col flex-1 min-h-0">
+            <div className="flex flex-col md:flex-row items-stretch flex-1 min-h-0">
 
               {/* Left Side: Typography & Data */}
-              <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-start md:justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[60%] p-3 md:p-6 lg:p-8 flex flex-col justify-start md:justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
 
-                <div className="pl-3 md:pl-4 mb-4 flex flex-wrap items-start gap-3">
-                  <h3 className={`font-bodoni text-4xl sm:text-5xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-1`}>
+                <div className="pl-3 md:pl-4 mb-2 md:mb-4 flex flex-wrap items-start gap-2 md:gap-3">
+                  <h3 className={`font-bodoni text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0 md:mb-1`}>
                     {project.title}
                   </h3>
-                  <span className="px-2.5 py-0.5 mt-2 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
+                  <span className="px-2.5 py-0.5 mt-1 md:mt-2 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
                     {project.tag}
                   </span>
-                  <div className="border-l-[3px] border-red pl-4 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-4 mb-2">
-                    <p className="font-inter font-light text-white/90 text-xs md:text-sm lg:text-base leading-relaxed mb-3">
+                  <div className="border-l-[3px] border-red pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-2 md:py-4 mb-1 md:mb-2 mt-1 md:mt-0">
+                    <p className="font-inter font-light text-white/90 text-xs md:text-sm lg:text-base leading-relaxed mb-2 md:mb-3">
                       {project.problem}
                     </p>
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-1 md:gap-2">
                       {project.outcomes.map((outcome: string, i: number) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <svg className="w-3 h-3 text-red mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <li key={i} className="flex items-start gap-2 md:gap-3">
+                          <svg className="w-3 h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
                           <span className="font-inter text-white/70 text-xs md:text-sm leading-snug">{outcome}</span>
                         </li>
                       ))}
@@ -210,44 +211,55 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
                 </div>
 
-                <div className="pl-3 md:pl-4 mt-auto pt-4">
-                  <div className="font-space text-[10px] text-red/60 tracking-[0.4em] mb-3 uppercase text-left">
-                    Tech_Parameters
+                <div className="pl-3 md:pl-4 mt-auto pt-2 md:pt-4">
+                  <div className="flex items-center justify-between pr-3 md:pr-0 mb-2 md:mb-3">
+                    <div className="font-space text-[10px] text-red/60 tracking-[0.4em] uppercase text-left">
+                      Tech_Parameters
+                    </div>
+                    {isMobile && project.images?.length > 0 && (
+                      <button 
+                        onClick={() => setIsGalleryOpen(true)}
+                        className="flex items-center gap-1.5 font-space text-[9px] text-white border border-red/40 px-2 py-1 bg-gradient-to-b from-red/20 to-red/5 hover:bg-red/20 active:bg-red/30 shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.1)] uppercase tracking-widest transition-colors rounded-sm cursor-pointer z-20 relative"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        Images
+                      </button>
+                    )}
                   </div>
 
                   {project.techGroups ? (
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2 md:gap-3">
                       {project.techGroups.map((group: any, i: number) => (
                         <div key={i}>
-                          <div className="font-space text-[9px] text-red/60 tracking-[0.2em] uppercase mb-1.5">[{group.label}]</div>
-                          <div className="flex flex-wrap gap-1.5">
+                          <div className="font-space text-[9px] text-red/60 tracking-[0.2em] uppercase mb-1 md:mb-1.5">[{group.label}]</div>
+                          <div className="flex flex-wrap gap-1 md:gap-1.5">
                             {group.items.map((tech: string, j: number) => (
-                              <span key={j} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                              <span key={j} className="px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                             ))}
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1 md:gap-1.5">
                       {project.techList?.map((tech: string, i: number) => (
-                        <span key={i} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                        <span key={i} className="px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                       ))}
                     </div>
                   )}
 
-                  <div className="mt-4 md:mt-6 font-space text-[9px] text-red/40 tracking-[0.3em] break-all hidden lg:block">
+                  <div className="mt-2 md:mt-6 font-space text-[9px] text-red/40 tracking-[0.3em] break-all hidden lg:block">
                     0x{hexAlloc} // MEMORY_ALLOC // 0x{hexSec} // SECURE
                   </div>
                 </div>
               </div>
 
               {/* Right Side: Visuals & Action */}
-              <div className={`w-full md:w-[50%] lg:w-[40%] p-4 md:p-6 lg:p-8 flex flex-col justify-between relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[40%] p-3 md:p-6 lg:p-8 flex flex-col justify-between relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
 
-                <div className="flex flex-col mb-3 md:mb-4">
+                <div className={`${isMobile ? 'hidden' : 'flex'} flex-col mb-2 md:mb-4`}>
                   {/* Navigation Header */}
-                  <div className="flex items-center justify-between mb-4 w-full">
+                  <div className="flex items-center justify-between mb-2 md:mb-4 w-full">
                     <div className="font-space text-[10px] text-red/60 tracking-[0.4em] uppercase">
                       Visual_Telemetry
                     </div>
@@ -267,7 +279,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
 
                   {/* Embedded Screen Display Area */}
-                  <div className="w-[75%] sm:w-[60%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
+                  <div className="w-full sm:w-[80%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
                     <div
                       className="w-full h-full bg-[#020202] relative overflow-hidden group/img cursor-pointer shadow-[inset_0_10px_30px_rgba(0,0,0,1),inset_0_0_0_1px_rgba(255,51,51,0.15)] rounded-sm"
                       onClick={() => setFullScreenImage(project.images[currentImageIndex])}
@@ -304,7 +316,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
                 </div>
 
-                <div className="mt-auto pt-3 md:pt-4">
+                <div className="mt-auto pt-2 md:pt-4 pb-1 md:pb-0">
                   <a
                     href={project.link}
                     target="_blank"
@@ -356,6 +368,61 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
               className="object-contain"
               priority
             />
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Mobile Image Gallery Popup */}
+      {isMobile && isGalleryOpen && createPortal(
+        <div
+          className="fixed inset-0 z-[9999] bg-[#020202]/98 flex flex-col items-center justify-center p-4 backdrop-blur-md"
+          onClick={() => setIsGalleryOpen(false)}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsGalleryOpen(false);
+            }}
+            className="absolute top-6 right-6 w-10 h-10 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 rounded-full cursor-pointer"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+
+          <div className="absolute top-6 left-6 flex flex-col gap-1 pointer-events-none">
+            <span className="font-bebas text-2xl text-white tracking-widest leading-none drop-shadow-md">{project.title}</span>
+            <span className="font-space text-[10px] text-red tracking-[0.3em] font-bold">
+              {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
+            </span>
+          </div>
+
+          <div className="relative w-full aspect-video mt-4 bg-black/50 border border-red/20 rounded-sm shadow-[0_0_30px_rgba(255,51,51,0.1)]" onClick={(e) => e.stopPropagation()}>
+             {project.images.map((img: string, i: number) => (
+                <div
+                  key={i}
+                  className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                >
+                  {!imageErrors[img] && (
+                    <Image
+                      src={`/${img}.png`}
+                      alt={img}
+                      fill
+                      className="object-contain"
+                      priority={i === currentImageIndex}
+                      onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
+                    />
+                  )}
+                </div>
+              ))}
+          </div>
+
+          <div className="flex gap-4 mt-8" onClick={(e) => e.stopPropagation()}>
+            <button onClick={prevImage} className="w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button onClick={nextImage} className="w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           </div>
         </div>,
         document.body
