@@ -114,23 +114,42 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[1px] my-auto group/hud motion-safe:transition-all motion-safe:duration-500 ease-out ${isMobile
+        className={`tactical-hud relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[2px] my-auto group/hud motion-safe:transition-all motion-safe:duration-500 ease-out ${isMobile
             ? "border border-red/40 rounded-sm bg-[#111111]"
-            : "bg-gradient-to-br from-red/30 via-[#222] to-[#000] shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_rgba(0,0,0,0.6)] motion-safe:hover:-translate-y-1 hover:shadow-[0_25px_50px_rgba(0,0,0,0.9),inset_1px_1px_0_rgba(255,255,255,0.15),inset_-1px_-1px_0_rgba(0,0,0,0.8)]"
+            : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] motion-safe:hover:-translate-y-2 hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
         style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" } : undefined}
       >
         <div
-          className={`w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-br from-[#0c0c0c] to-[#020202] shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] ${isMobile ? "" : ""
+          className={`w-full h-full flex flex-col relative overflow-hidden bg-[#050505] shadow-[inset_0_20px_50px_rgba(0,0,0,1),inset_0_0_20px_rgba(0,0,0,0.9)] rounded-sm ${isMobile ? "" : ""
             }`}
           style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" } : undefined}
         >
 
-          {/* Fixed HUD Corner Brackets */}
-          <div className="absolute top-16 left-6 w-6 h-6 border-t border-l border-red/60 z-30 hidden md:block pointer-events-none shadow-[1px_1px_0_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,100,100,0.2)]" />
-          <div className="absolute bottom-6 left-6 w-6 h-6 border-b border-l border-red/60 z-30 hidden md:block pointer-events-none shadow-[1px_-1px_0_rgba(0,0,0,0.8),inset_1px_-1px_0_rgba(255,100,100,0.2)]" />
-          <div className="absolute top-16 right-6 w-6 h-6 border-t border-r border-red/60 z-30 hidden md:block pointer-events-none shadow-[-1px_1px_0_rgba(0,0,0,0.8),inset_-1px_1px_0_rgba(255,100,100,0.2)]" />
-          <div className="absolute bottom-6 right-6 w-6 h-6 border-b border-r border-red/60 z-30 hidden md:block pointer-events-none shadow-[-1px_-1px_0_rgba(0,0,0,0.8),inset_-1px_-1px_0_rgba(255,100,100,0.2)]" />
+          {/* Deep Ambient Red Core Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,51,51,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
+
+          {/* Hardware Mount Brackets */}
+          <div className="absolute top-14 left-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="absolute bottom-4 left-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-0 left-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="absolute top-14 right-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
+            <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="absolute bottom-4 right-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-0 right-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
 
           {/* Static 3D Material Noise Texture */}
           <div className="absolute inset-0 opacity-[0.15] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
@@ -164,7 +183,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                 <div className="pl-3 md:pl-4 mb-4">
                   <h3 className={`font-bebas text-4xl md:text-5xl lg:text-6xl tracking-tighter text-white mb-4 flex items-start gap-3 ${isMobile ? '' : 'group-hover/hud:text-red transition-colors duration-700'} drop-shadow-[2px_4px_4px_rgba(0,0,0,0.8)]`}>
                     {project.title}
-                    <span className="px-2.5 py-0.5 mt-1 border border-red/30 bg-red/10 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase drop-shadow-none">
+                    <span className="px-2.5 py-0.5 mt-1 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
                       {project.tag}
                     </span>
                   </h3>
@@ -240,13 +259,17 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     </div>
                   </div>
 
-                  {/* Single Image Carousel Area */}
-                  <div
-                    className="w-full aspect-video bg-[#0a0a0a] border border-red/20 relative overflow-hidden group/img cursor-pointer z-30 shadow-[0_10px_20px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
-                    onClick={() => setFullScreenImage(project.images[currentImageIndex])}
-                  >
-                    {project.images.map((img: string, i: number) => (
-                      <div
+                  {/* Embedded Screen Display Area */}
+                  <div className="w-full aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
+                    <div
+                      className="w-full h-full bg-[#020202] relative overflow-hidden group/img cursor-pointer shadow-[inset_0_10px_30px_rgba(0,0,0,1),inset_0_0_0_1px_rgba(255,51,51,0.15)] rounded-sm"
+                      onClick={() => setFullScreenImage(project.images[currentImageIndex])}
+                    >
+                      {/* Glass screen reflection */}
+                      <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none z-20" />
+                      
+                      {project.images.map((img: string, i: number) => (
+                        <div
                         key={i}
                         className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                       >
@@ -270,6 +293,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                         )}
                       </div>
                     ))}
+                    </div>
                   </div>
                 </div>
 
@@ -278,7 +302,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#222222] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-200 shadow-[0_6px_12px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1)] hover:-translate-y-1 hover:shadow-[0_8px_16px_rgba(0,0,0,0.9),inset_1px_1px_0_rgba(255,255,255,0.15)] active:translate-y-0 active:shadow-[0_6px_12px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1)] shrink-0"
+                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_6px_0_#000,0_8px_15px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] hover:-translate-y-1 hover:shadow-[0_8px_0_#000,0_12px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.3)] active:translate-y-1.5 active:shadow-[0_0_0_#000,0_2px_4px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(0,0,0,0.6)] shrink-0 rounded-sm"
                     data-cursor="cta"
                   >
                     <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold">
