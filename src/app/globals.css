@@ -56,7 +56,7 @@ body::before {
     rgba(255, 255, 255, 0.03) 2px,
     rgba(255, 255, 255, 0.03) 4px
   );
-  z-index: 50;
+  z-index: 0;
   pointer-events: none;
 }
 

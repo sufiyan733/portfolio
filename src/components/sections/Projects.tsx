@@ -114,26 +114,32 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[1px] my-auto bg-red/40 group/hud will-change-transform ${isMobile
-            ? "border border-red/40 rounded-sm"
-            : "shadow-[0_0_50px_rgba(255,51,51,0.1)] hover:shadow-[0_0_80px_rgba(255,51,51,0.2)] hover:bg-red/60 transition-shadow duration-700"
+        className={`tactical-hud relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[1px] my-auto group/hud motion-safe:transition-all motion-safe:duration-500 ease-out ${isMobile
+            ? "border border-red/40 rounded-sm bg-[#111111]"
+            : "bg-gradient-to-br from-red/30 via-[#222] to-[#000] shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_rgba(0,0,0,0.6)] motion-safe:hover:-translate-y-1 hover:shadow-[0_25px_50px_rgba(0,0,0,0.9),inset_1px_1px_0_rgba(255,255,255,0.15),inset_-1px_-1px_0_rgba(0,0,0,0.8)]"
           }`}
         style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" } : undefined}
       >
         <div
-          className={`w-full h-full bg-[#030303] flex flex-col relative overflow-hidden ${isMobile ? "" : ""
+          className={`w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-br from-[#0c0c0c] to-[#020202] shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)] ${isMobile ? "" : ""
             }`}
           style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" } : undefined}
         >
 
           {/* Fixed HUD Corner Brackets */}
-          <div className="absolute top-16 left-6 w-6 h-6 border-t-2 border-l-2 border-red/60 z-30 hidden md:block pointer-events-none" />
-          <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-red/60 z-30 hidden md:block pointer-events-none" />
-          <div className="absolute top-16 right-6 w-6 h-6 border-t-2 border-r-2 border-red/60 z-30 hidden md:block pointer-events-none" />
-          <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-red/60 z-30 hidden md:block pointer-events-none" />
+          <div className="absolute top-16 left-6 w-6 h-6 border-t border-l border-red/60 z-30 hidden md:block pointer-events-none shadow-[1px_1px_0_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,100,100,0.2)]" />
+          <div className="absolute bottom-6 left-6 w-6 h-6 border-b border-l border-red/60 z-30 hidden md:block pointer-events-none shadow-[1px_-1px_0_rgba(0,0,0,0.8),inset_1px_-1px_0_rgba(255,100,100,0.2)]" />
+          <div className="absolute top-16 right-6 w-6 h-6 border-t border-r border-red/60 z-30 hidden md:block pointer-events-none shadow-[-1px_1px_0_rgba(0,0,0,0.8),inset_-1px_1px_0_rgba(255,100,100,0.2)]" />
+          <div className="absolute bottom-6 right-6 w-6 h-6 border-b border-r border-red/60 z-30 hidden md:block pointer-events-none shadow-[-1px_-1px_0_rgba(0,0,0,0.8),inset_-1px_-1px_0_rgba(255,100,100,0.2)]" />
+
+          {/* Static 3D Material Noise Texture */}
+          <div className="absolute inset-0 opacity-[0.15] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+          
+          {/* Subtle curved surface highlight */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.05),transparent_60%)] pointer-events-none z-0" />
 
           {/* Optimized Scanlines Overlay */}
-          <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-20 ${isMobile ? 'opacity-30' : 'opacity-50'}`} />
+          <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-0 ${isMobile ? 'opacity-30' : 'opacity-50'}`} />
 
           {/* TOP BAR: Systems Info */}
           <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
@@ -153,10 +159,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             <div className="flex flex-col md:flex-row h-full items-stretch">
 
               {/* Left Side: Typography & Data */}
-              <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative ${isMobile ? '' : 'bg-gradient-to-br from-red/[0.02] to-transparent'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
 
                 <div className="pl-3 md:pl-4 mb-4">
-                  <h3 className={`font-bebas text-4xl md:text-5xl lg:text-6xl tracking-tighter text-white mb-4 flex items-start gap-3 ${isMobile ? '' : 'group-hover/hud:text-red transition-colors duration-700'} drop-shadow-[0_0_15px_rgba(255,51,51,0.3)]`}>
+                  <h3 className={`font-bebas text-4xl md:text-5xl lg:text-6xl tracking-tighter text-white mb-4 flex items-start gap-3 ${isMobile ? '' : 'group-hover/hud:text-red transition-colors duration-700'} drop-shadow-[2px_4px_4px_rgba(0,0,0,0.8)]`}>
                     {project.title}
                     <span className="px-2.5 py-0.5 mt-1 border border-red/30 bg-red/10 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase drop-shadow-none">
                       {project.tag}
@@ -190,7 +196,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                           <div className="font-space text-[9px] text-red/60 tracking-[0.2em] uppercase mb-1.5">[{group.label}]</div>
                           <div className="flex flex-wrap gap-1.5">
                             {group.items.map((tech: string, j: number) => (
-                              <span key={j} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/20 bg-[#0a0a0a] group-hover/hud:border-red/40 transition-colors uppercase tracking-wider">{tech}</span>
+                              <span key={j} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                             ))}
                           </div>
                         </div>
@@ -199,7 +205,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   ) : (
                     <div className="flex flex-wrap gap-1.5">
                       {project.techList?.map((tech: string, i: number) => (
-                        <span key={i} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/20 bg-[#0a0a0a] group-hover/hud:border-red/40 transition-colors uppercase tracking-wider">{tech}</span>
+                        <span key={i} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                       ))}
                     </div>
                   )}
@@ -236,7 +242,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                   {/* Single Image Carousel Area */}
                   <div
-                    className="w-full aspect-video bg-[#0a0a0a] border border-red/20 relative overflow-hidden group/img cursor-pointer z-30"
+                    className="w-full aspect-video bg-[#0a0a0a] border border-red/20 relative overflow-hidden group/img cursor-pointer z-30 shadow-[0_10px_20px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
                     onClick={() => setFullScreenImage(project.images[currentImageIndex])}
                   >
                     {project.images.map((img: string, i: number) => (
@@ -272,19 +278,14 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/btn relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-[#0a0a0a] hover:border-red transition-colors duration-500 shadow-[inset_0_0_20px_rgba(255,51,51,0.05)] hover:shadow-[inset_0_0_40px_rgba(255,51,51,0.2)] shrink-0"
+                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#222222] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-200 shadow-[0_6px_12px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1)] hover:-translate-y-1 hover:shadow-[0_8px_16px_rgba(0,0,0,0.9),inset_1px_1px_0_rgba(255,255,255,0.15)] active:translate-y-0 active:shadow-[0_6px_12px_rgba(0,0,0,0.8),inset_1px_1px_0_rgba(255,255,255,0.1)] shrink-0"
                     data-cursor="cta"
                   >
-                    {/* Hardware scanning background */}
-                    <div className="absolute top-0 left-0 w-0 h-full bg-gradient-to-r from-red/20 to-red/40 group-hover/btn:w-full transition-all duration-500 ease-out" />
-                    {/* Laser edge */}
-                    <div className="absolute top-0 left-0 w-1 h-full bg-red shadow-[0_0_20px_rgba(255,51,51,1)] group-hover/btn:opacity-100 opacity-50 transition-opacity" />
-
-                    <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold group-hover/btn:tracking-[0.4em] transition-all duration-500">
+                    <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold">
                       OPEN PROJECT URL
                     </span>
 
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-500">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
