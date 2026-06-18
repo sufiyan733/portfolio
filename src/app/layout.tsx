@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Bebas_Neue, Space_Mono } from "next/font/google";
+import { Inter, Bebas_Neue, Space_Mono, Bodoni_Moda } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
 
@@ -20,6 +20,12 @@ const spaceMono = Space_Mono({
   subsets: ["latin"],
 });
 
+const bodoniModa = Bodoni_Moda({
+  variable: "--font-bodoni-moda",
+  weight: ["800"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "KAIZER | Full Stack Developer",
   description: "I don't talk about what I'll do. I build it. Cold logic, clean code, zero compromise.",
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${bebasNeue.variable} ${spaceMono.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${bebasNeue.variable} ${spaceMono.variable} ${bodoniModa.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-bg text-white selection:bg-glow selection:text-red">
         <LenisProvider>

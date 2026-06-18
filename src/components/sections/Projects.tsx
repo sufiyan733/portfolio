@@ -8,7 +8,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 const projects = [
   {
     tag: "SaaS",
-    title: "MULTITENANT",
+    title: "MultiTenant",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://www.multiitenant.com",
     problem: "A multi-tenant SaaS booking platform built solo for local businesses — salons, clinics, gyms, tutors.",
@@ -25,7 +25,7 @@ const projects = [
   },
   {
     tag: "SaaS",
-    title: "FREELANCEOS",
+    title: "FreelanceOS",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://freelance-os-iota.vercel.app",
     problem: "An all-in-one business OS built solo for Indian freelancers — client management, GST-compliant invoicing, payment tracking, and a magic-link client portal in one place.",
@@ -115,19 +115,26 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
       {/* TACTICAL HUD PANEL */}
       <div
         className={`tactical-hud relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[2px] my-auto group/hud motion-safe:transition-all motion-safe:duration-500 ease-out ${isMobile
-            ? "border border-red/40 rounded-sm bg-[#111111]"
-            : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] motion-safe:hover:-translate-y-2 hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
+          ? "border border-red/40 rounded-sm bg-[#111111]"
+          : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] motion-safe:hover:-translate-y-2 hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
         style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px))" } : undefined}
       >
         <div
-          className={`w-full h-full flex flex-col relative overflow-hidden bg-[#050505] shadow-[inset_0_20px_50px_rgba(0,0,0,1),inset_0_0_20px_rgba(0,0,0,0.9)] rounded-sm ${isMobile ? "" : ""
+          className={`w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#000000] shadow-[inset_0_30px_60px_-15px_rgba(0,0,0,1),inset_0_-20px_40px_rgba(0,0,0,0.9),inset_0_0_10px_rgba(0,0,0,1)] rounded-sm ${isMobile ? "" : ""
             }`}
           style={!isMobile ? { clipPath: "polygon(0 0, calc(100% - 39px) 0, 100% 39px, 100% 100%, 39px 100%, 0 calc(100% - 39px))" } : undefined}
         >
 
           {/* Deep Ambient Red Core Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,51,51,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,51,51,0.08)_0%,transparent_70%)] pointer-events-none z-0" />
+
+          {/* Glossy Curved Glass Reflections */}
+          <div className="absolute top-0 left-0 w-full h-[40%] bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none z-10 mix-blend-screen" />
+          <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[linear-gradient(45deg,transparent_45%,rgba(255,255,255,0.02)_48%,rgba(255,255,255,0.06)_50%,transparent_52%)] pointer-events-none z-10 mix-blend-screen" />
+
+          {/* Subtle micro-texture for physical glass feel */}
+          <div className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
           {/* Hardware Mount Brackets */}
           <div className="absolute top-14 left-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
@@ -153,7 +160,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
           {/* Static 3D Material Noise Texture */}
           <div className="absolute inset-0 opacity-[0.15] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
-          
+
           {/* Subtle curved surface highlight */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.05),transparent_60%)] pointer-events-none z-0" />
 
@@ -180,14 +187,13 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
               {/* Left Side: Typography & Data */}
               <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
 
-                <div className="pl-3 md:pl-4 mb-4">
-                  <h3 className={`font-bebas text-4xl md:text-5xl lg:text-6xl tracking-tighter text-white mb-4 flex items-start gap-3 ${isMobile ? '' : 'group-hover/hud:text-red transition-colors duration-700'} drop-shadow-[2px_4px_4px_rgba(0,0,0,0.8)]`}>
+                <div className="pl-3 md:pl-4 mb-4 flex flex-wrap items-start gap-4">
+                  <h3 className={`font-bodoni text-4xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default`}>
                     {project.title}
-                    <span className="px-2.5 py-0.5 mt-1 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
-                      {project.tag}
-                    </span>
                   </h3>
-
+                  <span className="px-2.5 py-0.5 mt-2 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
+                    {project.tag}
+                  </span>
                   <div className="border-l-2 border-red/50 pl-4 md:pl-6 bg-gradient-to-r from-red/[0.08] to-transparent py-3 mb-2">
                     <p className="font-inter font-light text-white/90 text-xs md:text-sm lg:text-base leading-relaxed mb-3">
                       {project.problem}
@@ -267,32 +273,32 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     >
                       {/* Glass screen reflection */}
                       <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none z-20" />
-                      
+
                       {project.images.map((img: string, i: number) => (
                         <div
-                        key={i}
-                        className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                      >
-                        {!imageErrors[img] && (
-                          <Image
-                            src={`/${img}.png`}
-                            alt={img}
-                            fill
-                            className="object-contain opacity-100"
-                            loading="lazy"
-                            onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
-                          />
-                        )}
-                        {imageErrors[img] && (
-                          <>
-                            {/* Fallback Placeholder text */}
-                            <div className={`absolute inset-0 flex items-center justify-center font-space text-lg tracking-widest ${imageErrors[img] ? 'text-red/40' : 'text-red/0'}`}>{img}</div>
-                            {/* Scanlines on placeholder */}
-                            <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.02)_2px,rgba(255,51,51,0.02)_4px)] pointer-events-none z-0" />
-                          </>
-                        )}
-                      </div>
-                    ))}
+                          key={i}
+                          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                        >
+                          {!imageErrors[img] && (
+                            <Image
+                              src={`/${img}.png`}
+                              alt={img}
+                              fill
+                              className="object-contain opacity-100"
+                              loading="lazy"
+                              onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
+                            />
+                          )}
+                          {imageErrors[img] && (
+                            <>
+                              {/* Fallback Placeholder text */}
+                              <div className={`absolute inset-0 flex items-center justify-center font-space text-lg tracking-widest ${imageErrors[img] ? 'text-red/40' : 'text-red/0'}`}>{img}</div>
+                              {/* Scanlines on placeholder */}
+                              <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.02)_2px,rgba(255,51,51,0.02)_4px)] pointer-events-none z-0" />
+                            </>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
