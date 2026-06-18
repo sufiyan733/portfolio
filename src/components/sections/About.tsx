@@ -9,7 +9,7 @@ export default function About() {
   const glowRef = useRef<HTMLDivElement>(null);
   const bgNumberRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
-  
+
   const [skillWidths, setSkillWidths] = useState([0, 0, 0, 0]);
 
   useEffect(() => {
@@ -40,20 +40,20 @@ export default function About() {
           const rect = containerRef.current.getBoundingClientRect();
           const x = e.clientX - rect.left - window.innerWidth / 2;
           const y = e.clientY - rect.top - window.innerHeight / 2;
-          
+
           xTo(x);
           yTo(y);
         };
-        
+
         containerRef.current?.addEventListener("mousemove", handleMouseMove);
       }
 
       // Reveal Title
-      gsap.fromTo(textRef.current, 
+      gsap.fromTo(textRef.current,
         { clipPath: "inset(0 100% 0 0)" },
-        { 
-          clipPath: "inset(0 0% 0 0)", 
-          duration: 1.2, 
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.2,
           ease: "power3.inOut",
           scrollTrigger: {
             trigger: textRef.current,
@@ -63,7 +63,7 @@ export default function About() {
       );
 
       // Glowing border animation
-      gsap.fromTo(".about-border", 
+      gsap.fromTo(".about-border",
         { strokeDashoffset: 1000 },
         {
           strokeDashoffset: 0,
@@ -79,7 +79,7 @@ export default function About() {
       // Word-by-word Quote Reveal
       if (quoteRef.current) {
         const words = quoteRef.current.querySelectorAll('.quote-word');
-        gsap.fromTo(words, 
+        gsap.fromTo(words,
           { clipPath: "inset(0 100% 0 0)" },
           {
             clipPath: "inset(0 0% 0 0)",
@@ -100,9 +100,9 @@ export default function About() {
         const fill = bar.querySelector(".skill-bar-fill");
         const targetWidthStr = bar.getAttribute("data-width") || "0%";
         const targetWidthNum = parseInt(targetWidthStr, 10);
-        
+
         const obj = { val: 0 };
-        
+
         gsap.to(obj, {
           val: targetWidthNum,
           duration: 1.5,
@@ -152,7 +152,7 @@ export default function About() {
   return (
     <section id="about" ref={containerRef} className="relative min-h-screen py-16 md:py-16 overflow-hidden flex flex-col justify-center">
       {/* Background Glow (Follows Mouse) */}
-      <div 
+      <div
         ref={glowRef}
         className="absolute top-1/2 left-1/2 w-[100vw] h-[100vw] md:w-[50vw] md:h-[50vw] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.05)_0%,transparent_60%)] pointer-events-none -translate-x-1/2 -translate-y-1/2 will-change-transform"
       />
@@ -165,12 +165,12 @@ export default function About() {
       {/* Decorative Border */}
       <div className="absolute inset-4 md:inset-8 border border-white/5 pointer-events-none z-0 overflow-hidden">
         <svg className="absolute w-full h-full" preserveAspectRatio="none">
-          <rect 
-            width="100%" 
-            height="100%" 
-            fill="none" 
-            stroke="var(--red)" 
-            strokeWidth="2" 
+          <rect
+            width="100%"
+            height="100%"
+            fill="none"
+            stroke="var(--red)"
+            strokeWidth="2"
             strokeDasharray="1000"
             strokeDashoffset="1000"
             className="about-border"
@@ -189,7 +189,7 @@ export default function About() {
             <span className="font-bebas text-6xl md:text-9xl text-red leading-[0.8] mt-2">"</span>
             <div className="flex flex-col gap-6 font-inter text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed max-w-xl">
               <p>
-                {wrapWords("I build websites that work — not just ones that look good in screenshots. ")}
+                {wrapWords("I build software engineered for security, speed, and stability — not just good looks. ")}
                 <span className="text-white font-medium">{wrapWords("Self-taught. Detail-obsessed. Deadline-respecting.")}</span>
               </p>
               <p>
@@ -207,12 +207,12 @@ export default function About() {
                   <span className="text-white/70">{skill.name}</span>
                 </div>
                 <div className="h-[2px] w-full bg-white/10 relative overflow-hidden">
-                  <div 
+                  <div
                     className="skill-bar-fill absolute top-0 left-0 h-full bg-red origin-left will-change-transform"
                     style={{ width: "0%" }}
                   />
                   {/* Glow on the tip of the progress bar */}
-                  <div className="absolute top-0 right-0 h-full w-4 bg-white/50 blur-[2px] -translate-y-1/2 will-change-transform" style={{ left: `calc(${skillWidths[index]}% - 8px)`}} />
+                  <div className="absolute top-0 right-0 h-full w-4 bg-white/50 blur-[2px] -translate-y-1/2 will-change-transform" style={{ left: `calc(${skillWidths[index]}% - 8px)` }} />
                 </div>
               </div>
             ))}

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import dynamic from "next/dynamic";
+import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
 
 const FloatingIcons = dynamic(() => import("../three/FloatingIcons"), { ssr: false });
 
@@ -17,6 +18,119 @@ const skillsData = [
   { name: "POSTGRESQL", class: "SYS_DATABASE" }
 ];
 
+function SkillCard({ skill, index }: { skill: { name: string; class: string }; index: number }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(max-width: 768px)").matches) return;
+    
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
+    
+    e.currentTarget.style.setProperty("--mouse-x", `${mouseX}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${mouseY}px`);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={{ scale: 1.05, zIndex: 50 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="skill-cell group min-h-[140px] sm:aspect-square md:aspect-auto md:h-[280px] relative flex flex-col justify-between p-4 md:p-8 bg-[#030303] border border-white/10 md:hover:border-red/50 transition-colors duration-500 cursor-crosshair focus:border-red active:scale-95 md:group-hover/grid:opacity-30 md:hover:!opacity-100 md:group-hover/grid:blur-[2px] md:hover:!blur-none"
+    >
+      {/* Glow and Depth - Shadow */}
+      <div className="absolute inset-0 z-0 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_40px_rgba(255,51,51,0.2)] pointer-events-none" />
+
+      {/* Flashlight Effect */}
+      <div 
+        className="absolute inset-0 z-0 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"
+        style={{
+          background: "radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,51,51,0.15), transparent 40%)"
+        }}
+      />
+      
+      {/* Ambient Grid with Shimmer Sweep */}
+      <div className="absolute inset-0 opacity-10 md:group-hover:opacity-30 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:12px_12px] z-0 overflow-hidden">
+         <motion.div 
+            initial={{ x: "-100%" }}
+            whileHover={{ x: "200%" }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-red/10 to-transparent skew-x-12"
+         />
+      </div>
+
+      {/* Top Red Scan Line */}
+      <div className="absolute top-0 left-0 h-[2px] bg-red w-0 md:group-hover:w-full transition-all duration-700 ease-[0.23,1,0.32,1] shadow-[0_0_10px_var(--red)] pointer-events-none z-10" />
+
+      {/* Corner Brackets */}
+      <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-red opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+      <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-red opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+      <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-red opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+      <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-red opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+
+      {/* Content Container with Z-translation for 3D pop */}
+      <div className="relative z-10 flex flex-col justify-between h-full pointer-events-none" style={{ transform: "translateZ(30px)" }}>
+        {/* Top Row */}
+        <div className="flex justify-between items-start font-space text-[9px] md:text-[10px] tracking-widest">
+          <span className="text-white/40 md:group-hover:text-white transition-colors duration-500">
+            // {String(index + 1).padStart(2, '0')}
+          </span>
+          <span className="text-red md:opacity-60 md:group-hover:opacity-100 transition-opacity duration-500 md:group-hover:drop-shadow-[0_0_8px_rgba(255,51,51,0.8)]">
+            [{skill.class}]
+          </span>
+        </div>
+
+        {/* Main typography */}
+        <div className="flex flex-col items-start mt-4 mb-4 md:mt-0 md:mb-0">
+          <h3 className={`font-bebas text-white/80 md:group-hover:text-white transition-all duration-700 ease-[0.23,1,0.32,1] origin-left leading-[0.9] pr-2 break-normal w-full tracking-wide md:group-hover:scale-105 md:group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)] ${
+              skill.name.length > 8 ? "text-3xl sm:text-4xl md:text-4xl lg:text-5xl" : "text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
+            }`}>
+            {skill.name}
+          </h3>
+        </div>
+
+        {/* Bottom Row - Icon Reactions */}
+        <div className="flex justify-between items-end">
+          <div className="w-1.5 h-1.5 bg-white/20 md:group-hover:bg-red md:group-hover:shadow-[0_0_10px_var(--red)] transition-all duration-500" />
+          
+          <div className="flex items-end gap-[2px] h-3 opacity-40 md:group-hover:opacity-100 transition-opacity duration-500">
+            <div className="w-[2px] h-full bg-red animate-pulse-slow" style={{ animationDelay: '0ms' }} />
+            <div className="w-[2px] h-[60%] md:group-hover:h-[90%] transition-all duration-500 ease-out bg-red animate-pulse-slow" style={{ animationDelay: '150ms' }} />
+            <div className="w-[2px] h-[80%] md:group-hover:h-full transition-all duration-500 ease-out bg-red animate-pulse-slow" style={{ animationDelay: '300ms' }} />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Skills() {
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -26,14 +140,6 @@ export default function Skills() {
     // Skip parallax on mobile — no mouse cursor
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) return;
-
-    if (gridRef.current) {
-      const rect = gridRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      gridRef.current.style.setProperty('--mouse-x', `${x}px`);
-      gridRef.current.style.setProperty('--mouse-y', `${y}px`);
-    }
 
     if (headerRef.current) {
       const rect = headerRef.current.getBoundingClientRect();
@@ -299,78 +405,13 @@ export default function Skills() {
 
         </div>
 
-        {/* HUD Data Grid with Mouse Tracking Spotlight */}
+        {/* HUD Data Grid */}
         <div
           ref={gridRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => {
-            if (gridRef.current) {
-              gridRef.current.style.setProperty('--mouse-x', `50%`);
-              gridRef.current.style.setProperty('--mouse-y', `50%`);
-            }
-          }}
-          className="skills-grid w-full relative group/grid grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/10 border border-white/10 overflow-hidden"
+          className="skills-grid w-full relative group/grid grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/10 border border-white/10 [perspective:1200px]"
         >
-
-          {/* Spotlight for the Grid Borders (shines through the 1px gaps) */}
-          <div className="absolute inset-0 z-0 opacity-0 md:group-hover/grid:opacity-100 transition-opacity duration-700 pointer-events-none"
-            style={{ background: 'radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,51,51,0.8), transparent 40%)' }}
-          />
-
-          {/* Spotlight for the Cell Surfaces */}
-          <div className="absolute inset-0 z-20 opacity-0 md:group-hover/grid:opacity-100 transition-opacity duration-700 pointer-events-none mix-blend-screen"
-            style={{ background: 'radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%)' }}
-          />
-
           {skillsData.map((skill, index) => (
-            <div
-              key={index}
-              className="skill-cell group min-h-[140px] sm:aspect-square md:aspect-auto md:h-[280px] relative overflow-hidden flex flex-col justify-between p-4 md:p-8 bg-[#050505] md:bg-[#030303] md:hover:bg-[#0a0a0f] transition-colors duration-500 cursor-crosshair z-10 border border-white/10"
-            >
-
-              {/* Dot Matrix Background - Always partially visible on mobile, full on desktop hover */}
-              <div className="absolute inset-0 opacity-30 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:12px_12px] z-0" />
-
-              {/* Scanline Effect on Hover */}
-              <div className="absolute -top-full left-0 w-full h-[1px] bg-red opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-[280px] transition-all duration-1000 ease-linear pointer-events-none z-0 shadow-[0_0_10px_var(--red)]" />
-
-              {/* Top Row */}
-              <div className="flex justify-between items-start font-space text-[9px] md:text-[10px] tracking-widest relative z-10">
-                <span className="text-white/80 md:text-white/60 md:group-hover:text-white transition-colors duration-300">
-                  // {String(index + 1).padStart(2, '0')}
-                </span>
-                <span className="text-red font-bold md:opacity-60 md:group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_10px_rgba(255,51,51,0.5)] md:shadow-red/20">
-                  [{skill.class}]
-                </span>
-              </div>
-
-              {/* Main typography */}
-              <div className="relative z-10 flex flex-col items-start mt-4 mb-4 md:mt-0 md:mb-0">
-                <h3 className={`font-bebas text-white md:text-white/80 md:group-hover:text-white transition-colors duration-500 leading-[0.9] pr-2 break-normal w-full tracking-wide ${skill.name.length > 8
-                    ? "text-3xl sm:text-4xl md:text-4xl lg:text-5xl"
-                    : "text-4xl sm:text-5xl md:text-5xl lg:text-6xl"
-                  }`}>
-                  {skill.name}
-                </h3>
-              </div>
-
-              {/* Bottom Row */}
-              <div className="flex justify-between items-end relative z-10">
-                <div className="w-1.5 h-1.5 bg-red md:bg-white/40 md:group-hover:bg-red shadow-[0_0_8px_rgba(255,51,51,0.8)] md:shadow-none md:group-hover:shadow-[0_0_10px_var(--red)] transition-all duration-300" />
-
-                {/* Data Bars */}
-                <div className="flex items-end gap-[2px] h-3 opacity-80 md:opacity-80 md:group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-[2px] h-full bg-red animate-pulse-slow" style={{ animationDelay: '0ms' }} />
-                  <div className="w-[2px] h-[60%] bg-red animate-pulse-slow" style={{ animationDelay: '150ms' }} />
-                  <div className="w-[2px] h-[80%] bg-red animate-pulse-slow" style={{ animationDelay: '300ms' }} />
-                </div>
-              </div>
-
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/0 md:group-hover:border-red transition-colors duration-300 pointer-events-none z-10" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/0 md:group-hover:border-red transition-colors duration-300 pointer-events-none z-10" />
-
-            </div>
+            <SkillCard key={index} skill={skill} index={index} />
           ))}
         </div>
 
