@@ -177,7 +177,7 @@ export default function Contact() {
       <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-0 opacity-100 mix-blend-screen select-none">
         <h2 
           ref={titleRef} 
-          className="font-bebas text-[28vw] leading-none tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-red/30 via-red/5 to-transparent drop-shadow-[0_0_80px_rgba(255,51,51,0.15)] whitespace-nowrap"
+          className="font-bebas text-[15vw] md:text-[28vw] leading-none tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-red/30 via-red/5 to-transparent drop-shadow-[0_0_80px_rgba(255,51,51,0.15)] whitespace-nowrap"
           style={{ WebkitTextStroke: "1px rgba(255,51,51,0.1)" }}
         >
           CONTACTS
@@ -224,7 +224,7 @@ export default function Contact() {
             {/* Email */}
             <button
               onClick={handleCopy}
-              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A0303]/40 md:bg-[#0A0303]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-red/20 md:border-red/30 border-l-red/60 md:border-l-red/80 shadow-[0_0_15px_rgba(255,51,51,0.05)] md:shadow-[0_0_20px_rgba(255,51,51,0.1)] hover:border-red hover:bg-[#1A0505]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,51,51,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden text-left w-full rounded-2xl md:rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A0303]/40 md:bg-[#0A0303]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-red/20 md:border-red/30 border-l-red/60 md:border-l-red/80 shadow-[0_0_15px_rgba(255,51,51,0.05)] md:shadow-[0_0_20px_rgba(255,51,51,0.1)] hover:border-red hover:bg-[#1A0505]/90 active:scale-95 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,51,51,0.3)]'} transition-all duration-500 will-change-transform relative overflow-hidden text-left w-full rounded-2xl md:rounded-2xl`}
               data-cursor="cta"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
@@ -259,7 +259,7 @@ export default function Contact() {
               href="https://github.com/kaiizer777"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A0A0A]/40 md:bg-[#0A0A0A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-white/10 md:border-white/20 border-l-white/40 md:border-l-white/60 shadow-[0_0_15px_rgba(255,255,255,0.03)] md:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:border-white hover:bg-[#1A1A1A]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A0A0A]/40 md:bg-[#0A0A0A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-white/10 md:border-white/20 border-l-white/40 md:border-l-white/60 shadow-[0_0_15px_rgba(255,255,255,0.03)] md:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:border-white hover:bg-[#1A1A1A]/90 active:scale-95 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]'} transition-all duration-500 will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
@@ -291,7 +291,7 @@ export default function Contact() {
               href="https://instagram.com/kaiizer_dev"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A050A]/40 md:bg-[#0A050A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#E1306C]/20 md:border-[#E1306C]/30 border-l-[#E1306C]/60 md:border-l-[#E1306C]/80 shadow-[0_0_15px_rgba(225,48,108,0.05)] md:shadow-[0_0_20px_rgba(225,48,108,0.1)] hover:border-[#E1306C] hover:bg-[#1A0A15]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(225,48,108,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#0A050A]/40 md:bg-[#0A050A]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#E1306C]/20 md:border-[#E1306C]/30 border-l-[#E1306C]/60 md:border-l-[#E1306C]/80 shadow-[0_0_15px_rgba(225,48,108,0.05)] md:shadow-[0_0_20px_rgba(225,48,108,0.1)] hover:border-[#E1306C] hover:bg-[#1A0A15]/90 active:scale-95 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(225,48,108,0.3)]'} transition-all duration-500 will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E1306C] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />
@@ -320,7 +320,7 @@ export default function Contact() {
               href="https://wa.me/918709914537"
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#030A05]/40 md:bg-[#030A05]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#25D366]/20 md:border-[#25D366]/30 border-l-[#25D366]/60 md:border-l-[#25D366]/80 shadow-[0_0_15px_rgba(37,211,102,0.05)] md:shadow-[0_0_20px_rgba(37,211,102,0.1)] hover:border-[#25D366] hover:bg-[#0A1A0F]/90 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(37,211,102,0.3)] transition-all duration-500'} will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
+              className={`contact-card group flex items-center justify-between p-2.5 px-4 md:p-6 bg-[#030A05]/40 md:bg-[#030A05]/70 backdrop-blur-xl md:backdrop-blur-3xl border border-[#25D366]/20 md:border-[#25D366]/30 border-l-[#25D366]/60 md:border-l-[#25D366]/80 shadow-[0_0_15px_rgba(37,211,102,0.05)] md:shadow-[0_0_20px_rgba(37,211,102,0.1)] hover:border-[#25D366] hover:bg-[#0A1A0F]/90 active:scale-95 ${isMobile ? '' : 'hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(37,211,102,0.3)]'} transition-all duration-500 will-change-transform relative overflow-hidden rounded-2xl md:rounded-2xl`}
               data-cursor="eye"
             >
               <div className={`absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#25D366] to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 z-20`} />

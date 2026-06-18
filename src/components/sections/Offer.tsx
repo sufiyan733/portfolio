@@ -135,7 +135,7 @@ export default function Offer() {
         </div>
         
         {/* Cards Grid */}
-        <div className="offer-cards-container grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
+        <div className="offer-cards-container grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 w-full">
           {services.map((service, idx) => (
             <div 
               key={idx} 
@@ -212,7 +212,7 @@ export default function Offer() {
                     {/* Action Button */}
                     <a 
                       href="#contact" 
-                      className="px-4 h-10 md:h-12 border border-red bg-red flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-300 shrink-0"
+                      className="px-4 h-12 border border-red bg-red flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-transform duration-300 shrink-0"
                       data-cursor="cta"
                       aria-label="Contact for this service"
                     >

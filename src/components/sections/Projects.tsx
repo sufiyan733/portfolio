@@ -115,7 +115,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1400px] h-auto md:h-[520px] lg:h-[580px] p-[2px] my-auto group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out ${isMobile
+        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1400px] h-[80vh] md:h-[520px] lg:h-[580px] p-[2px] my-auto group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out ${isMobile
           ? "border border-red/40 rounded-sm bg-[#111111]"
           : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
@@ -186,14 +186,13 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             <div className="flex flex-col md:flex-row h-full items-stretch">
 
               {/* Left Side: Typography & Data */}
-              <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[60%] p-4 md:p-6 lg:p-8 flex flex-col justify-start md:justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
 
-                <div className="pl-3 md:pl-4 mb-4 flex flex-wrap items-start gap-4">
-                  <h3 className={`font-bebas text-5xl md:text-6xl lg:text-[5.5rem] tracking-tight text-white uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-colors duration-500 hover:text-red cursor-default leading-[0.85] mb-1`}>
+                <div className="pl-3 md:pl-4 mb-4 flex flex-wrap items-start gap-3">
+                  <h3 className={`font-bodoni text-4xl sm:text-5xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-1`}>
                     {project.title}
                   </h3>
-                  <span className="px-3 py-1 mt-1 border border-red/40 bg-red/10 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[0_0_15px_rgba(255,51,51,0.2)] rounded-sm flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-red rounded-full animate-pulse shadow-[0_0_8px_var(--red)]" />
+                  <span className="px-2.5 py-0.5 mt-2 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
                     {project.tag}
                   </span>
                   <div className="border-l-[3px] border-red pl-4 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-4 mb-2">
@@ -223,7 +222,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                           <div className="font-space text-[9px] text-red/60 tracking-[0.2em] uppercase mb-1.5">[{group.label}]</div>
                           <div className="flex flex-wrap gap-1.5">
                             {group.items.map((tech: string, j: number) => (
-                              <span key={j} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/70 border border-white/10 bg-[#050505] shadow-[0_2px_5px_rgba(0,0,0,0.8)] uppercase tracking-widest hover:border-red/40 hover:text-white transition-colors cursor-default">{tech}</span>
+                              <span key={j} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                             ))}
                           </div>
                         </div>
@@ -232,7 +231,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   ) : (
                     <div className="flex flex-wrap gap-1.5">
                       {project.techList?.map((tech: string, i: number) => (
-                        <span key={i} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/70 border border-white/10 bg-[#050505] shadow-[0_2px_5px_rgba(0,0,0,0.8)] uppercase tracking-widest hover:border-red/40 hover:text-white transition-colors cursor-default">{tech}</span>
+                        <span key={i} className="px-2 py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
                       ))}
                     </div>
                   )}
@@ -244,7 +243,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
               </div>
 
               {/* Right Side: Visuals & Action */}
-              <div className={`w-full md:w-[50%] lg:w-[40%] p-4 md:p-6 lg:p-8 flex flex-col justify-between relative ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[40%] p-4 md:p-6 lg:p-8 flex flex-col justify-between relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
 
                 <div className="flex flex-col mb-3 md:mb-4">
                   {/* Navigation Header */}
@@ -268,7 +267,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
 
                   {/* Embedded Screen Display Area */}
-                  <div className="w-full aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
+                  <div className="w-[75%] sm:w-[60%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
                     <div
                       className="w-full h-full bg-[#020202] relative overflow-hidden group/img cursor-pointer shadow-[inset_0_10px_30px_rgba(0,0,0,1),inset_0_0_0_1px_rgba(255,51,51,0.15)] rounded-sm"
                       onClick={() => setFullScreenImage(project.images[currentImageIndex])}
@@ -305,16 +304,16 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
                 </div>
 
-                <div className="mt-auto pt-4">
+                <div className="mt-auto pt-3 md:pt-4">
                   <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative w-full h-12 md:h-14 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#220000] to-[#0a0000] motion-safe:transition-all motion-safe:duration-150 rounded-sm shrink-0 group/btn shadow-[0_6px_0_#5a0000,0_10px_20px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,100,100,0.3),inset_0_-2px_5px_rgba(0,0,0,0.8)] hover:shadow-[0_6px_0_#ff3333,0_15px_30px_rgba(255,51,51,0.4),inset_0_1px_2px_rgba(255,150,150,0.6),inset_0_-2px_5px_rgba(0,0,0,0.8)] hover:-translate-y-[1px] hover:border-red active:translate-y-[6px] active:shadow-[0_0px_0_#5a0000,0_0px_0px_rgba(0,0,0,0),inset_0_3px_8px_rgba(0,0,0,0.9)]"
+                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_6px_0_#000,0_8px_15px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] hover:-translate-y-1 hover:shadow-[0_8px_0_#000,0_12px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.3)] active:translate-y-1.5 active:shadow-[0_0_0_#000,0_2px_4px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(0,0,0,0.6)] shrink-0 rounded-sm group/btn"
                     data-cursor="cta"
                   >
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-                    <span className="font-space text-xs md:text-sm tracking-[0.4em] text-white/90 group-hover/btn:text-white uppercase relative z-10 font-bold group-hover/btn:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] transition-all">
+                    <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold">
                       OPEN PROJECT URL
                     </span>
 

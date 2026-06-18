@@ -187,7 +187,7 @@ export default function About() {
           {/* Left: Quote */}
           <div className="about-content flex gap-6 will-change-transform relative z-10" ref={quoteRef}>
             <span className="font-bebas text-6xl md:text-9xl text-red leading-[0.8] mt-2">"</span>
-            <div className="flex flex-col gap-6 font-inter text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed max-w-xl">
+            <div className="flex flex-col gap-6 font-inter text-lg md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed max-w-xl">
               <p>
                 {wrapWords("I build software engineered for security, speed, and stability — not just good looks. ")}
                 <span className="text-white font-medium">{wrapWords("Self-taught. Detail-obsessed. Deadline-respecting.")}</span>
@@ -203,7 +203,7 @@ export default function About() {
           <div className="about-content flex flex-col justify-center gap-10 will-change-transform relative z-10">
             {skills.map((skill, index) => (
               <div key={index} className="skill-bar-container flex flex-col gap-3" data-width={skill.width}>
-                <div className="flex font-space text-sm tracking-widest uppercase">
+                <div className="flex font-space text-[10px] md:text-sm tracking-widest uppercase">
                   <span className="text-white/70">{skill.name}</span>
                 </div>
                 <div className="h-[2px] w-full bg-white/10 relative overflow-hidden">

@@ -170,7 +170,7 @@ export default function Hero() {
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
         <h1
           ref={titleContainerRef}
-          className="relative font-bebas text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
+          className="relative font-bebas text-[35vw] md:text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
         >
           {titleText.split("").map((char, i) => (
             <span 
@@ -188,7 +188,7 @@ export default function Hero() {
       </div>
 
       {/* Layer 3: Ayanokoji */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120vw] md:w-[65vw] h-[85vh] md:h-[95vh] z-20 flex justify-center items-end">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140vw] md:w-[65vw] h-[65vh] md:h-[95vh] z-20 flex justify-center items-end">
         <div
           ref={ayanokojiRef}
           className="relative w-full h-full will-change-transform opacity-0"
@@ -240,7 +240,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll to Descend */}
-      <div ref={scrollDescendRef} className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none font-space text-[10px] tracking-[0.4em] text-white/60">
+      <div ref={scrollDescendRef} className="absolute bottom-12 md:bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none font-space text-[10px] tracking-[0.4em] text-white/60">
         SCROLL TO DESCEND
       </div>
 
