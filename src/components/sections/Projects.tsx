@@ -10,18 +10,20 @@ const projects = [
     tag: "SaaS",
     title: "MultiTenant",
     label: "[ SYS.STATUS: DEPLOYED ]",
-    link: "https://www.multiitenant.com",
-    problem: "A multi-tenant SaaS booking platform built solo for local businesses — salons, clinics, gyms, tutors.",
+    link: "https://www.multiitenant.online",
+    problem: "A security-hardened multi-tenant SaaS booking & commerce platform with custom domains and isolated subdomains, zero-friction guest checkout, POS terminal, and an embedded RAG-driven AI.",
     outcomes: [
-      "Tenant-isolated subdomains and dashboards",
-      "High level of performance and security",
-      "One codebase scaling to huge scales"
+      "AES-256-GCM authenticated encryption for customer PII at rest with unique IVs & auth tags.",
+      "Timing-safe HMAC-SHA256 webhook verification, Redis rate limiting & strict tenant DB isolation.",
+      "RAG-powered AI advisor (Ray) via Groq LLM for real-time analytics & operational insights.",
+      "End-to-end production flow with Razorpay integration (prepaid UPI/cards, webhooks & automated billing)."
     ],
     techGroups: [
       { label: "Frontend", items: ["Next.js", "TypeScript", "TanStack Query/Table", "Zod", "Zustand"] },
-      { label: "Backend", items: ["Drizzle ORM", "PostgreSQL", "Better Auth", "Razorpay", "Resend"] }
+      { label: "Backend & AI", items: ["Drizzle ORM", "Neon PostgreSQL", "RAG Pipeline", "Groq AI", "Razorpay", "Better Auth"] },
+      { label: "Security & Infra", items: ["AES-256-GCM", "HMAC-SHA256", "PII Encryption", "Upstash Redis", "Tenant Isolation"] }
     ],
-    images: ["mt1", "mt2", "mt3", "mt4"]
+    images: ["mt1_v2", "mt2_v2", "mt3_v2", "mt4_v2"]
   },
   {
     tag: "SaaS",
@@ -95,16 +97,9 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
   const sysId = String(idx + 1).padStart(2, '0');
 
-  const getHash = (str: string) => {
-    let h = 0;
-    for (let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
-    return Math.abs(h).toString(16).padStart(8, '0').toUpperCase();
-  };
-  const hexAlloc = getHash(project.title);
-  const hexSec = getHash(project.title + "SECURE");
 
   return (
-    <div className="project-panel w-screen h-[100dvh] flex items-stretch md:items-center justify-center px-3 pb-0 pt-[104px] md:p-8 md:pt-32 relative border-r border-red/10 z-10 will-change-transform overflow-hidden md:overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
+    <div className="project-panel w-screen h-[100dvh] flex items-stretch justify-center px-3 pt-20 pb-4 md:px-8 md:pt-24 md:pb-6 relative border-r border-red/10 z-10 will-change-transform overflow-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
 
       {/* Massive Background Number */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
@@ -116,11 +111,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1400px] h-full md:h-[520px] lg:h-[580px] p-[2px] my-0 md:my-auto group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
+        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1500px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
           ? "border border-red/40 rounded-sm bg-[#111111]"
           : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
-      // Removed clipPath styles to fix the "cutting" on the card corners
       >
         <div
           className={`w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#000000] shadow-[inset_0_30px_60px_-15px_rgba(0,0,0,1),inset_0_-20px_40px_rgba(0,0,0,0.9),inset_0_0_10px_rgba(0,0,0,1)] rounded-sm ${isMobile ? "" : ""
@@ -248,9 +242,6 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     </div>
                   )}
 
-                  <div className="mt-2 md:mt-6 font-space text-[9px] text-red/40 tracking-[0.3em] break-all hidden lg:block">
-                    0x{hexAlloc} // MEMORY_ALLOC // 0x{hexSec} // SECURE
-                  </div>
                 </div>
               </div>
 
@@ -523,27 +514,28 @@ export default function Projects() {
   return (
     <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
 
-      {/* 1. ABSOLUTE HEADER */}
-      <div className="projects-header absolute top-0 left-0 w-full pt-8 md:pt-12 bg-gradient-to-b from-[#020202] via-[#020202]/80 to-transparent flex flex-col justify-start px-6 md:px-16 pb-12 z-50 pointer-events-none">
-        <div className="flex justify-between items-end">
-          <div>
-            <h2 className="font-bebas text-5xl md:text-7xl tracking-tighter text-white leading-none drop-shadow-lg flex items-center gap-4">
-              <span className="w-3 h-3 bg-red rounded-full shadow-[0_0_10px_rgba(255,51,51,1)]" />
-              PROJECTS
-            </h2>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. HORIZONTAL SCROLL CONTAINER */}
+      {/* HORIZONTAL SCROLL CONTAINER */}
       <div className="w-full h-full relative overflow-hidden bg-[#020202]">
 
         {/* Global Tactical Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
         <div ref={scrollContainerRef} className="flex h-full w-max">
 
-          {/* Intro Spacer: Pushes the first project to the right so it requires scrolling to center */}
-          <div className="w-[40vw] md:w-[25vw] h-full shrink-0" />
+          {/* Intro Spacer: Section Title & Lead-in */}
+          <div className="w-[40vw] md:w-[28vw] h-full shrink-0 flex flex-col justify-center px-6 md:px-12 pointer-events-none z-20">
+            <div className="projects-header flex flex-col gap-2">
+              <div className="font-space text-[11px] text-red tracking-[0.4em] uppercase flex items-center gap-2">
+                <span className="w-2 h-2 bg-red rounded-full animate-ping" />
+                SYSTEM_PORTFOLIO
+              </div>
+              <h2 className="font-bebas text-6xl md:text-8xl lg:text-9xl tracking-tighter text-white leading-none drop-shadow-2xl">
+                PROJECTS
+              </h2>
+              <p className="font-space text-xs tracking-[0.25em] text-white/40 uppercase mt-2">
+                [ PRODUCTION SYSTEMS & ARCHIVES ]
+              </p>
+            </div>
+          </div>
 
           {activeProjects.map((project, idx) => (
             <ProjectCard key={idx} project={project} idx={idx} isMobile={isMobile} />

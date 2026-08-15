@@ -132,13 +132,25 @@ export default function Navbar() {
     
     // Small timeout ensures the DOM has unlocked before scrolling
     setTimeout(() => {
+      const isProjects = href === "#projects";
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      // Scroll slightly further down into the horizontal scroll pin so the first project card triggers and reveals
+      const projectsOffset = isMobile 
+        ? Math.round(window.innerHeight * 0.45) 
+        : Math.round(window.innerHeight * 0.35);
+      const offset = isProjects ? projectsOffset : 0;
+
       if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset: 0, duration: 1.5 });
+        (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset, duration: 1.5 });
       } else {
         if (href === 'body') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+          const el = document.querySelector(href);
+          if (el) {
+            const top = (el as HTMLElement).getBoundingClientRect().top + window.scrollY + offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
         }
       }
     }, 50);
