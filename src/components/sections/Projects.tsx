@@ -312,15 +312,15 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_6px_0_#000,0_8px_15px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] hover:-translate-y-1 hover:shadow-[0_8px_0_#000,0_12px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.3)] active:translate-y-1.5 active:shadow-[0_0_0_#000,0_2px_4px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(0,0,0,0.6)] shrink-0 rounded-sm group/btn"
+                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_6px_0_#000,0_8px_15px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
                     data-cursor="cta"
                   >
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] pointer-events-none" />
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
                     <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold">
                       OPEN PROJECT URL
                     </span>
 
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 group-hover/btn:drop-shadow-[0_0_10px_var(--red)] transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 transition-all">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
