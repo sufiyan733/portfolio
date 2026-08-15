@@ -164,7 +164,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-0 ${isMobile ? 'opacity-30' : 'opacity-50'}`} />
 
           {/* TOP BAR: Systems Info */}
-          <div className="h-12 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
+          <div className="h-8 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
             <div className="flex items-center gap-3 md:gap-4">
               <span className="w-3 h-3 border border-red flex items-center justify-center">
                 <span className={`w-1.5 h-1.5 bg-red ${isMobile ? '' : 'animate-[ping_2s_linear_infinite]'}`} />
