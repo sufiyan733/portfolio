@@ -115,38 +115,63 @@ const projects = [
   }
 ];
 
-const TechStackContent = ({ project }: { project: any }) => (
-  <div className="w-full border border-red/20 bg-gradient-to-b from-[#111]/80 to-[#050505]/80 shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.04),0_0_12px_rgba(255,51,51,0.04)] rounded-sm px-3 py-3 md:px-4 md:py-4 relative">
-    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red/20 to-transparent pointer-events-none" />
-    <div className="flex items-center gap-2 mb-2">
-      <span className="w-1 h-1 bg-red/60 rounded-full" />
-      <span className="font-space text-[9px] md:text-[10px] text-red/70 tracking-[0.3em] uppercase font-extrabold border-b border-red/50 pb-0.5">[TECH.STACK]</span>
-      <span className="flex-1 h-px bg-red/30" />
+const TechStackContent = ({ project, isMobileView }: { project: any, isMobileView?: boolean }) => {
+  if (isMobileView) {
+    const allTech = project.techGroups 
+      ? project.techGroups.flatMap((g: any) => g.items)
+      : (project.techList || []);
+
+    return (
+      <div className="w-full border border-red/20 bg-gradient-to-b from-[#111]/90 to-[#050505]/90 rounded-sm px-2.5 py-1.5 relative shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+        <div className="flex items-center gap-1.5 mb-1">
+          <span className="w-1 h-1 bg-red/60 rounded-full" />
+          <span className="font-space text-[8px] text-red/70 tracking-[0.25em] uppercase font-bold">[TECH.STACK]</span>
+          <span className="flex-1 h-px bg-red/20" />
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {allTech.map((tech: string, i: number) => (
+            <span key={i} className="px-1.5 py-0.5 text-[7.5px] sm:text-[8px] font-space text-white/90 border border-red/30 bg-[#151515] rounded-[2px] tracking-wider uppercase whitespace-nowrap">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full border border-red/20 bg-gradient-to-b from-[#111]/80 to-[#050505]/80 shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.04),0_0_12px_rgba(255,51,51,0.04)] rounded-sm px-3 py-3 md:px-4 md:py-4 relative">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red/20 to-transparent pointer-events-none" />
+      <div className="flex items-center gap-2 mb-2">
+        <span className="w-1 h-1 bg-red/60 rounded-full" />
+        <span className="font-space text-[9px] md:text-[10px] text-red/70 tracking-[0.3em] uppercase font-extrabold border-b border-red/50 pb-0.5">[TECH.STACK]</span>
+        <span className="flex-1 h-px bg-red/30" />
+      </div>
+      {project.techGroups ? (
+        <div className="flex flex-col gap-2 md:gap-3">
+          {project.techGroups.map((group: any, i: number) => (
+            <div key={i}>
+              <div className="text-center mb-1">
+                <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
+              </div>
+              <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
+                {group.items.map((tech: string, j: number) => (
+                  <span key={j} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
+          {project.techList?.map((tech: string, i: number) => (
+            <span key={i} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+          ))}
+        </div>
+      )}
     </div>
-    {project.techGroups ? (
-      <div className="flex flex-col gap-2 md:gap-3">
-        {project.techGroups.map((group: any, i: number) => (
-          <div key={i}>
-            <div className="text-left lg:text-center mb-1">
-              <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
-            </div>
-            <div className="flex flex-wrap gap-1 md:gap-1.5 justify-start lg:justify-center">
-              {group.items.map((tech: string, j: number) => (
-                <span key={j} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div className="flex flex-wrap gap-1 md:gap-1.5 justify-start lg:justify-center">
-        {project.techList?.map((tech: string, i: number) => (
-          <span key={i} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
-        ))}
-      </div>
-    )}
-  </div>
-);
+  );
+};
 
 const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, isMobile: boolean }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -166,7 +191,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
 
   return (
-    <div className="project-panel w-screen h-[100dvh] flex items-stretch justify-center px-3 pt-20 pb-4 md:px-8 md:pt-24 md:pb-6 relative border-r border-red/10 z-10 will-change-transform overflow-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
+    <div className="project-panel w-screen h-[100dvh] flex items-stretch justify-center px-2 pt-16 pb-3 sm:px-4 sm:pt-20 sm:pb-4 md:px-8 md:pt-24 md:pb-6 relative border-r border-red/10 z-10 will-change-transform overflow-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" style={{ backfaceVisibility: 'hidden' }}>
 
       {/* Massive Background Number */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bebas text-[80vw] md:text-[60vw] leading-none text-transparent opacity-[0.03] z-0 pointer-events-none select-none" style={{ WebkitTextStroke: '2px #ff3333' }}>
@@ -200,7 +225,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className="tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1425px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
+        className="tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1425px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm overflow-hidden"
       >
         <div
           className="w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#000000] shadow-[inset_0_30px_60px_-15px_rgba(0,0,0,1),inset_0_-20px_40px_rgba(0,0,0,0.9),inset_0_0_10px_rgba(0,0,0,1)] rounded-sm"
@@ -226,14 +251,14 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-0 opacity-40 md:opacity-50" />
 
           {/* TOP BAR: Systems Info */}
-          <div className="h-8 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
-            <div className="flex items-center gap-3 md:gap-4">
-              <span className="w-3 h-3 border border-red flex items-center justify-center">
-                <span className="w-1.5 h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
+          <div className="h-6 sm:h-7 lg:h-8 shrink-0 border-b border-red/20 flex items-center justify-between px-3 md:px-6 bg-red/[0.05] z-10">
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+              <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 border border-red flex items-center justify-center">
+                <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
               </span>
-              <span className="font-space text-xs tracking-widest text-white/90">SYS.ID: {sysId}</span>
+              <span className="font-space text-[10px] sm:text-xs tracking-widest text-white/90">SYS.ID: {sysId}</span>
             </div>
-            <div className="font-space text-[9px] md:text-[10px] tracking-widest text-red uppercase font-bold">
+            <div className="font-space text-[8px] sm:text-[9px] md:text-[10px] tracking-widest text-red uppercase font-bold">
               {project.label}
             </div>
           </div>
@@ -243,79 +268,87 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             <div className="flex flex-col lg:flex-row items-stretch flex-1 min-h-0">
 
               {/* Left Side: Typography & Data */}
-              <div className="w-full lg:w-[60%] p-3 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-start lg:justify-between border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
+              <div className="w-full lg:w-[60%] p-2.5 sm:p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
 
-                <div className="pl-1 sm:pl-3 md:pl-4 mb-2 md:mb-4 flex flex-wrap items-center gap-2 md:gap-3">
-                  <h3 className="font-bodoni text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0">
-                    {project.title}
-                  </h3>
-                  <span className="px-2.5 py-0.5 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
-                    {project.tag}
-                  </span>
+                <div className="pl-1 sm:pl-3 md:pl-4 flex flex-col gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                    <h3 className="font-bodoni text-xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0 leading-tight">
+                      {project.title}
+                    </h3>
+                    <span className="px-2 py-0.5 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
+                      {project.tag}
+                    </span>
 
-                  {/* Action Buttons (Images + Open URL) */}
-                  <div className="ml-auto flex items-center gap-2">
-                    {/* Open Images Button (Phone + iPad + Laptop/PC) */}
-                    <button
-                      onClick={() => setIsGalleryOpen(true)}
-                      className="relative h-7 md:h-8 px-2.5 md:px-3 border border-red/40 flex lg:hidden items-center gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn cursor-pointer"
-                      data-cursor="cta"
-                    >
-                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                      </svg>
-                      <span className="font-space text-[9px] md:text-[10px] tracking-[0.2em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
-                        OPEN IMAGES
-                      </span>
-                    </button>
+                    {/* Action Buttons (Images + Open URL) */}
+                    <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+                      {/* Open Images Button (Phone & iPad / Tablet) */}
+                      <button
+                        onClick={() => setIsGalleryOpen(true)}
+                        className="relative h-6 sm:h-7 md:h-8 px-2 sm:px-2.5 md:px-3 border border-red/40 flex lg:hidden items-center gap-1 sm:gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn cursor-pointer"
+                        data-cursor="cta"
+                      >
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <span className="font-space text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.15em] sm:tracking-[0.2em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
+                          IMAGES
+                        </span>
+                      </button>
 
-                    {/* Open URL Button */}
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative h-7 md:h-8 px-2.5 md:px-3 border border-red/40 flex items-center gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
-                      data-cursor="cta"
-                    >
-                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
-                      <span className="font-space text-[9px] md:text-[10px] tracking-[0.25em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
-                        OPEN URL
-                      </span>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                      </svg>
-                    </a>
+                      {/* Open URL Button */}
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative h-6 sm:h-7 md:h-8 px-2 sm:px-2.5 md:px-3 border border-red/40 flex items-center gap-1 sm:gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
+                        data-cursor="cta"
+                      >
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
+                        <span className="font-space text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.15em] sm:tracking-[0.25em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
+                          OPEN URL
+                        </span>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                      </a>
+                    </div>
                   </div>
-                </div>
 
-                {/* Problem Statement & Outcomes */}
-                <div className="border-l-[3px] border-red pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-2 md:py-4 mb-2 md:mb-3">
-                  <p className="font-inter font-light text-white/90 text-xs sm:text-sm lg:text-base leading-relaxed mb-2 md:mb-3">
-                    {project.problem}
-                  </p>
-                  <ul className="flex flex-col gap-1 md:gap-2">
-                    {project.outcomes.map((outcome: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 md:gap-3">
-                        <svg className="w-3 h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span className="font-inter text-white/70 text-xs md:text-sm leading-snug">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Problem Statement & Outcomes */}
+                  <div className="border-l-[2px] sm:border-l-[3px] border-red pl-2.5 sm:pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-1 sm:py-2 md:py-4 my-0.5 sm:my-1 md:my-0">
+                    <p className="font-inter font-light text-white/90 text-[10.5px] sm:text-xs md:text-sm lg:text-base leading-snug line-clamp-2 sm:line-clamp-3 lg:line-clamp-none mb-1 sm:mb-2">
+                      {project.problem}
+                    </p>
+                    <ul className="flex flex-col gap-0.5 sm:gap-1 md:gap-2">
+                      {project.outcomes.slice(0, 2).map((outcome: string, i: number) => (
+                        <li key={i} className="flex items-start gap-1.5 md:gap-3">
+                          <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span className="font-inter text-white/70 text-[9.5px] sm:text-xs md:text-sm leading-tight line-clamp-2 sm:line-clamp-none">{outcome}</span>
+                        </li>
+                      ))}
+                      {project.outcomes.slice(2).map((outcome: string, i: number) => (
+                        <li key={i + 2} className="hidden lg:flex items-start gap-3">
+                          <svg className="w-3 h-3 text-red mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span className="font-inter text-white/70 text-sm leading-snug">{outcome}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
                 {/* Stats Grid */}
                 {project.stats && (
-                  <div className="pl-1 sm:pl-3 md:pl-4 my-2 md:my-3">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
+                  <div className="pl-1 sm:pl-3 md:pl-4 my-1 sm:my-1.5 md:my-2">
+                    <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-3">
                       {project.stats.map((stat: any, i: number) => (
-                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-1.5 sm:py-2 md:py-3 rounded-sm">
-                          <div className="font-bebas text-base sm:text-lg md:text-2xl text-red leading-none">{stat.value}</div>
-                          <div className="font-space text-[7px] md:text-[8px] text-white/50 tracking-widest uppercase mt-0.5 sm:mt-1">{stat.label}</div>
+                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-1 sm:py-1.5 md:py-3 rounded-sm">
+                          <div className="font-bebas text-sm sm:text-base md:text-2xl text-red leading-none">{stat.value}</div>
+                          <div className="font-space text-[6px] sm:text-[7px] md:text-[8px] text-white/50 tracking-wider uppercase mt-0.5">{stat.label}</div>
                         </div>
                       ))}
                     </div>
@@ -324,10 +357,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Highlights */}
                 {project.highlights && (
-                  <div className="pl-1 sm:pl-3 md:pl-4 mb-2 md:mb-3">
-                    <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  <div className="pl-1 sm:pl-3 md:pl-4 my-0.5 sm:my-1 md:my-2">
+                    <div className="flex flex-wrap gap-1 md:gap-2">
                       {project.highlights.map((highlight: string, i: number) => (
-                        <span key={i} className="px-2 py-0.5 sm:py-1 text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
+                        <span key={i} className="px-1.5 py-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
                           {highlight}
                         </span>
                       ))}
@@ -336,8 +369,8 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                 )}
 
                 {/* Mobile & iPad / Tablet Tech Stack Box (Integrated in default view) */}
-                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4 pb-2 md:pb-4">
-                  <TechStackContent project={project} />
+                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4 mt-1">
+                  <TechStackContent project={project} isMobileView={true} />
                 </div>
               </div>
 
@@ -396,7 +429,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Tech Stack for PC View — centered in remaining space */}
                 <div className="flex-1 flex items-center">
-                  <TechStackContent project={project} />
+                  <TechStackContent project={project} isMobileView={false} />
                 </div>
               </div>
 
@@ -573,7 +606,7 @@ export default function Projects() {
               trigger: sectionRef.current,
               pin: true,
               anticipatePin: mobile ? 0 : 1,
-              scrub: mobile ? 2 : 1.5,
+              scrub: mobile ? 1.2 : 1.5,
               end: () => `+=${scrollContainerRef.current!.scrollWidth}`,
               invalidateOnRefresh: true,
               fastScrollEnd: mobile ? 3000 : false,
@@ -633,19 +666,22 @@ export default function Projects() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,51,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,51,51,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
         <div ref={scrollContainerRef} className="flex h-full w-max">
 
-          {/* Intro Spacer: Section Title & Lead-in */}
-          <div className="w-[40vw] md:w-[28vw] h-full shrink-0 flex flex-col justify-center px-6 md:px-12 pointer-events-none z-20">
-            <div className="projects-header flex flex-col gap-2">
-              <div className="font-space text-[11px] text-red tracking-[0.4em] uppercase flex items-center gap-2">
+          {/* Intro Slide: Section Title & Lead-in */}
+          <div className="w-screen lg:w-[28vw] h-full shrink-0 flex flex-col justify-center items-center lg:items-start px-6 md:px-12 pointer-events-none z-20">
+            <div className="projects-header flex flex-col items-center lg:items-start text-center lg:text-left gap-2 max-w-sm lg:max-w-none">
+              <div className="font-space text-[10px] sm:text-[11px] text-red tracking-[0.4em] uppercase flex items-center gap-2">
                 <span className="w-2 h-2 bg-red rounded-full animate-ping" />
                 SYSTEM_PORTFOLIO
               </div>
-              <h2 className="font-bebas text-6xl md:text-8xl lg:text-9xl tracking-tighter text-white leading-none drop-shadow-2xl">
+              <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter text-white leading-none drop-shadow-2xl">
                 PROJECTS
               </h2>
-              <p className="font-space text-xs tracking-[0.25em] text-white/40 uppercase mt-2">
+              <p className="font-space text-[10px] sm:text-xs tracking-[0.25em] text-white/40 uppercase mt-1 sm:mt-2">
                 [ PRODUCTION SYSTEMS & ARCHIVES ]
               </p>
+              <div className="lg:hidden mt-4 flex items-center gap-2 px-3 py-1 border border-red/30 bg-red/10 rounded-full">
+                <span className="font-space text-[9px] text-red tracking-widest uppercase animate-pulse">SCROLL TO EXPLORE →</span>
+              </div>
             </div>
           </div>
 
