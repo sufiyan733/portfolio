@@ -28,7 +28,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         ease: "power4.out",
       })
       
-      // "KAIZER" SplitText: each letter y:-120->0, stagger:0.07, ease:expo.out, duration:0.8
+      // "SUFIYAN" SplitText: each letter y:-120->0, stagger:0.07, ease:expo.out, duration:0.8
       .fromTo(".loader-char", {
         y: -120,
         opacity: 0,
@@ -139,7 +139,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       
       <div className="relative z-20 text-center flex flex-col items-center justify-center pointer-events-none">
         <h1 className="font-bebas text-8xl md:text-[10rem] text-white leading-none overflow-hidden pb-4">
-          {splitText("KAIZER", "loader-char")}
+          {splitText("SUFIYAN", "loader-char")}
         </h1>
         <div className="font-space text-red tracking-[0.3em] text-sm md:text-base uppercase mt-4 overflow-hidden h-8">
           {splitText("Full Stack Developer", "loader-sub-char")}

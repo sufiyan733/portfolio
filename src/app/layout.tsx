@@ -27,7 +27,7 @@ const bodoniModa = Bodoni_Moda({
 });
 
 export const metadata: Metadata = {
-  title: "KAIZER | Full Stack Developer",
+  title: "SUFIYAN | Full Stack Developer",
   description: "I don't talk about what I'll do. I build it. Cold logic, clean code, zero compromise.",
 };
 

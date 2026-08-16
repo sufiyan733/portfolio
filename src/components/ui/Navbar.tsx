@@ -67,7 +67,7 @@ export default function Navbar() {
     const container = logoRef.current.querySelector(".logo-container");
     const underline = logoRef.current.querySelector(".logo-underline");
     
-    const originalText = "KAIZER.";
+    const originalText = "SUFIYAN.";
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
     
     // Animate spacing and underline
@@ -104,7 +104,7 @@ export default function Navbar() {
     const chars = logoRef.current.querySelectorAll(".logo-char");
     const container = logoRef.current.querySelector(".logo-container");
     const underline = logoRef.current.querySelector(".logo-underline");
-    const originalText = "KAIZER.";
+    const originalText = "SUFIYAN.";
     
     if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
     
@@ -177,7 +177,7 @@ export default function Navbar() {
         >
           <div className="font-bebas text-3xl text-red relative flex flex-col items-center">
             <span className="logo-container flex relative" style={{ textShadow: "0 0 15px rgba(255,51,51,0.8)" }}>
-              {"KAIZER.".split("").map((char, i) => (
+              {"SUFIYAN.".split("").map((char, i) => (
                 <span key={i} className="logo-char inline-block min-w-[0.55em] text-center will-change-transform">{char}</span>
               ))}
             </span>

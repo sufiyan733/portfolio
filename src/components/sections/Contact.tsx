@@ -151,7 +151,7 @@ export default function Contact() {
 
   const handleCopy = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText("kaizerxdev@gmail.com");
+    navigator.clipboard.writeText("sufiyanxdev@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -239,7 +239,7 @@ export default function Contact() {
                     <span className="w-1 h-1 rounded-full bg-red/80 group-hover:bg-red group-hover:shadow-[0_0_8px_rgba(255,51,51,1)] transition-colors duration-500" />
                     Email
                   </span>
-                  <span className={`font-bebas text-white group-hover:text-red text-xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[200px] sm:max-w-none group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)] leading-none mt-1 md:mt-0`}>kaizerxdev@gmail.com</span>
+                  <span className={`font-bebas text-white group-hover:text-red text-xl md:text-3xl transition-colors duration-500 tracking-wide truncate max-w-[200px] sm:max-w-none group-hover:drop-shadow-[0_0_15px_rgba(255,51,51,0.6)] leading-none mt-1 md:mt-0`}>sufiyanxdev@gmail.com</span>
                 </div>
               </div>
 
