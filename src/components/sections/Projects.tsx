@@ -268,87 +268,105 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             <div className="flex flex-col lg:flex-row items-stretch flex-1 min-h-0">
 
               {/* Left Side: Typography & Data */}
-              <div className="w-full lg:w-[60%] p-2.5 sm:p-4 md:p-6 lg:p-8 flex flex-col justify-between border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
+              <div className="w-full lg:w-[60%] p-3 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-start lg:justify-between gap-2.5 sm:gap-3.5 md:gap-4 border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
 
-                <div className="pl-1 sm:pl-3 md:pl-4 flex flex-col gap-1.5 sm:gap-2">
-                  <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                    <h3 className="font-bodoni text-xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0 leading-tight">
-                      {project.title}
-                    </h3>
-                    <span className="px-2 py-0.5 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
-                      {project.tag}
-                    </span>
-
-                    {/* Action Buttons (Images + Open URL) */}
-                    <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-                      {/* Open Images Button (Phone & iPad / Tablet) */}
-                      <button
-                        onClick={() => setIsGalleryOpen(true)}
-                        className="relative h-6 sm:h-7 md:h-8 px-2 sm:px-2.5 md:px-3 border border-red/40 flex lg:hidden items-center gap-1 sm:gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn cursor-pointer"
-                        data-cursor="cta"
-                      >
-                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                          <polyline points="21 15 16 10 5 21"></polyline>
-                        </svg>
-                        <span className="font-space text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.15em] sm:tracking-[0.2em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
-                          IMAGES
-                        </span>
-                      </button>
-
-                      {/* Open URL Button */}
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative h-6 sm:h-7 md:h-8 px-2 sm:px-2.5 md:px-3 border border-red/40 flex items-center gap-1 sm:gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
-                        data-cursor="cta"
-                      >
-                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
-                        <span className="font-space text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.15em] sm:tracking-[0.25em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
-                          OPEN URL
-                        </span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                          <polyline points="15 3 21 3 21 9"></polyline>
-                          <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                      </a>
+                {/* Header Row: Title + Tag (Mobile/Desktop) & PC Open URL */}
+                <div className="pl-1 sm:pl-3 md:pl-4 flex flex-col gap-2">
+                  <div className="flex items-center justify-between gap-2 md:gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                      <h3 className="font-bodoni text-2xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0 leading-tight">
+                        {project.title}
+                      </h3>
+                      <span className="px-2 py-0.5 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
+                        {project.tag}
+                      </span>
                     </div>
+
+                    {/* PC View Only: Top Right Open URL Button */}
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hidden lg:flex relative h-8 px-3 border border-red/40 items-center gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
+                      data-cursor="cta"
+                    >
+                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
+                      <span className="font-space text-[10px] tracking-[0.25em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
+                        OPEN URL
+                      </span>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
                   </div>
 
-                  {/* Problem Statement & Outcomes */}
-                  <div className="border-l-[2px] sm:border-l-[3px] border-red pl-2.5 sm:pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-1 sm:py-2 md:py-4 my-0.5 sm:my-1 md:my-0">
-                    <p className="font-inter font-light text-white/90 text-[10.5px] sm:text-xs md:text-sm lg:text-base leading-snug line-clamp-2 sm:line-clamp-3 lg:line-clamp-none mb-1 sm:mb-2">
-                      {project.problem}
-                    </p>
-                    <ul className="flex flex-col gap-0.5 sm:gap-1 md:gap-2">
-                      {project.outcomes.slice(0, 2).map((outcome: string, i: number) => (
-                        <li key={i} className="flex items-start gap-1.5 md:gap-3">
-                          <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          <span className="font-inter text-white/70 text-[9.5px] sm:text-xs md:text-sm leading-tight line-clamp-2 sm:line-clamp-none">{outcome}</span>
-                        </li>
-                      ))}
-                      {project.outcomes.slice(2).map((outcome: string, i: number) => (
-                        <li key={i + 2} className="hidden lg:flex items-start gap-3">
-                          <svg className="w-3 h-3 text-red mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          <span className="font-inter text-white/70 text-sm leading-snug">{outcome}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Mobile & Tablet Dual Action Bar (2 Organized Buttons) */}
+                  <div className="flex lg:hidden items-center gap-2 w-full pt-0.5">
+                    <button
+                      onClick={() => setIsGalleryOpen(true)}
+                      className="flex-1 h-7 sm:h-8 px-3 border border-red/40 flex items-center justify-center gap-1.5 overflow-hidden bg-gradient-to-b from-[#242424] to-[#0d0d0d] shadow-[0_2px_6px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)] active:scale-[0.98] rounded-sm group cursor-pointer hover:border-red/70 transition-all"
+                      data-cursor="cta"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red shrink-0">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span className="font-space text-[8.5px] sm:text-[9.5px] tracking-[0.18em] text-white uppercase font-bold whitespace-nowrap">
+                        VIEW IMAGES
+                      </span>
+                    </button>
+
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 h-7 sm:h-8 px-3 border border-red/40 flex items-center justify-center gap-1.5 overflow-hidden bg-gradient-to-b from-[#242424] to-[#0d0d0d] shadow-[0_2px_6px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)] active:scale-[0.98] rounded-sm group hover:border-red/70 transition-all"
+                      data-cursor="cta"
+                    >
+                      <span className="font-space text-[8.5px] sm:text-[9.5px] tracking-[0.18em] text-white uppercase font-bold whitespace-nowrap">
+                        OPEN URL
+                      </span>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red shrink-0">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
                   </div>
+                </div>
+
+                {/* Problem Statement & Outcomes */}
+                <div className="border-l-[2px] sm:border-l-[3px] border-red pl-2.5 sm:pl-3 md:pl-6 bg-gradient-to-r from-red/[0.06] to-transparent py-1.5 sm:py-2.5 md:py-4 rounded-r-sm">
+                  <p className="font-inter font-light text-white/90 text-[11px] sm:text-xs md:text-sm lg:text-base leading-relaxed mb-1.5 sm:mb-2 md:mb-3">
+                    {project.problem}
+                  </p>
+                  <ul className="flex flex-col gap-1 sm:gap-1.5 md:gap-2">
+                    {project.outcomes.slice(0, 2).map((outcome: string, i: number) => (
+                      <li key={i} className="flex items-start gap-1.5 md:gap-3">
+                        <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span className="font-inter text-white/70 text-[10px] sm:text-xs md:text-sm leading-snug">{outcome}</span>
+                      </li>
+                    ))}
+                    {project.outcomes.slice(2).map((outcome: string, i: number) => (
+                      <li key={i + 2} className="hidden lg:flex items-start gap-3">
+                        <svg className="w-3 h-3 text-red mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span className="font-inter text-white/70 text-sm leading-snug">{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 {/* Stats Grid */}
                 {project.stats && (
-                  <div className="pl-1 sm:pl-3 md:pl-4 my-1 sm:my-1.5 md:my-2">
-                    <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-3">
+                  <div className="pl-1 sm:pl-3 md:pl-4">
+                    <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3">
                       {project.stats.map((stat: any, i: number) => (
-                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-1 sm:py-1.5 md:py-3 rounded-sm">
+                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-[#0a0a0a]/50 py-1 sm:py-2 md:py-3 rounded-sm shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]">
                           <div className="font-bebas text-sm sm:text-base md:text-2xl text-red leading-none">{stat.value}</div>
-                          <div className="font-space text-[6px] sm:text-[7px] md:text-[8px] text-white/50 tracking-wider uppercase mt-0.5">{stat.label}</div>
+                          <div className="font-space text-[6.5px] sm:text-[7.5px] md:text-[8px] text-white/50 tracking-wider uppercase mt-0.5">{stat.label}</div>
                         </div>
                       ))}
                     </div>
@@ -357,10 +375,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Highlights */}
                 {project.highlights && (
-                  <div className="pl-1 sm:pl-3 md:pl-4 my-0.5 sm:my-1 md:my-2">
-                    <div className="flex flex-wrap gap-1 md:gap-2">
+                  <div className="pl-1 sm:pl-3 md:pl-4">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
                       {project.highlights.map((highlight: string, i: number) => (
-                        <span key={i} className="px-1.5 py-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
+                        <span key={i} className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-[7.5px] sm:text-[8.5px] md:text-[9px] font-space text-red/90 border border-red/25 bg-red/[0.06] tracking-wider uppercase rounded-sm shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                           {highlight}
                         </span>
                       ))}
@@ -369,7 +387,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                 )}
 
                 {/* Mobile & iPad / Tablet Tech Stack Box (Integrated in default view) */}
-                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4 mt-1">
+                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4">
                   <TechStackContent project={project} isMobileView={true} />
                 </div>
               </div>
