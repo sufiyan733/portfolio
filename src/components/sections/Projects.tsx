@@ -11,12 +11,19 @@ const projects = [
     title: "MultiTenant",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://www.multiitenant.online",
-    problem: "A security-hardened multi-tenant SaaS booking & commerce platform with custom domains and isolated subdomains, zero-friction guest checkout, POS terminal, and an embedded RAG-driven AI.",
+    problem: "A production-grade multi-tenant SaaS platform serving Indian businesses with isolated subdomains, custom domain routing, and a 9-step middleware security pipeline — built to handle real payment flows, regulatory compliance, and zero-trust tenant isolation.",
     outcomes: [
-      "AES-256-GCM authenticated encryption for customer PII at rest with unique IVs & auth tags.",
-      "Timing-safe HMAC-SHA256 webhook verification, Redis rate limiting & strict tenant DB isolation.",
-      "RAG-powered AI advisor (Ray) via Groq LLM for real-time analytics & operational insights.",
-      "End-to-end production flow with Razorpay integration (prepaid UPI/cards, webhooks & automated billing)."
+      "4 independent AES-256-GCM encryption keys with deterministic PII lookups, streaming body-size enforcement, and timing-safe constant-time verification across all auth flows.",
+      "GST-compliant invoicing with atomic allocation (SELECT FOR UPDATE), credit notes, GSTR-1 export, and webhook-driven payment state machine with idempotency guards.",
+      "Full POS terminal with IndexedDB offline queue, barcode scanning, split-tender payments, and a no-code theme studio with 60+ customization columns and live iframe preview.",
+      "Strict tenant isolation with HMAC-signed proxy signatures, per-host origin allowlist, middleware-level trust header stripping, and Redis-cached subdomain/custom-domain routing.",
+      "RAG-powered AI advisor (Ray) via Groq LLM with 3-key fallback, 9 parallel analytics queries for real-time business insights, and per-plan rate limiting with optimistic concurrency control."
+    ],
+    stats: [
+      { label: "API Routes", value: "100+" },
+      { label: "DB Tables", value: "33" },
+      { label: "Lib Modules", value: "86" },
+      { label: "Security Layers", value: "65+" }
     ],
     techGroups: [
       { label: "Frontend", items: ["Next.js", "TypeScript", "TanStack Query/Table", "Zod", "Zustand"] },
@@ -36,6 +43,18 @@ const projects = [
       "India-first compliance from day one",
       "Free trial for 1st Month"
     ],
+    stats: [
+      { label: "Features", value: "40+" },
+      { label: "Tools Replaced", value: "5" },
+      { label: "GST Ready", value: "100%" },
+      { label: "Solo Built", value: "Yes" }
+    ],
+    highlights: [
+      "Magic-Link Client Portal",
+      "GST-Compliant Invoicing",
+      "Payment Tracking",
+      "Zero Config Setup"
+    ],
     techGroups: [
       { label: "Frontend", items: ["Next.js", "TypeScript", "TanStack Query/Table", "Zod", "Zustand"] },
       { label: "Backend", items: ["PostgreSQL", "Prisma ORM", "BetterAuth", "Redis", "Brevo", "UploadThing"] }
@@ -52,6 +71,18 @@ const projects = [
       "Architected for resilience",
       "High-volume data streaming"
     ],
+    stats: [
+      { label: "Languages", value: "3" },
+      { label: "AI Models", value: "2" },
+      { label: "Response Time", value: "<1s" },
+      { label: "Bed Tracking", value: "Live" }
+    ],
+    highlights: [
+      "Multi-Language AI Chat",
+      "Emergency SOS System",
+      "Real-Time Bed Availability",
+      "Digital Health Profile"
+    ],
     techList: ["Next.js", "PostgreSQL", "DRIZZLE ORM", "BETTER AUTH", "TAILWIND CSS"],
     images: ["ml1", "ml2", "ml3", "ml4"]
   },
@@ -64,6 +95,18 @@ const projects = [
     outcomes: [
       "High-performance canvas rendering"
     ],
+    stats: [
+      { label: "Algorithms", value: "20+" },
+      { label: "FPS", value: "60" },
+      { label: "Render Tech", value: "Canvas" },
+      { label: "Code Support", value: "JS" }
+    ],
+    highlights: [
+      "Real-Time Code Execution",
+      "Step-by-Step Visualization",
+      "Canvas API Rendering",
+      "Interview Prep Focus"
+    ],
     techList: ["NEXT.JS", "BETTERAUTH", "Algorithms", "Canvas API"],
     images: ["vs1", "vs2", "vs3", "vs4"]
   },
@@ -75,6 +118,18 @@ const projects = [
     problem: "A mobile-only application built in Next.js and wrapped as a PWA, showcasing advanced full stack capabilities.",
     outcomes: [
       "Pure logic, built for mathematical precision"
+    ],
+    stats: [
+      { label: "Platform", value: "PWA" },
+      { label: "Offline", value: "Yes" },
+      { label: "Stack", value: "Full" },
+      { label: "Mobile", value: "First" }
+    ],
+    highlights: [
+      "Progressive Web App",
+      "Offline Support",
+      "Mobile Optimized",
+      "Full Stack"
     ],
     techList: ["React", "Node.js", "REST API"],
     images: ["tw1", "tw2", "tw3", "tw4"]
@@ -109,9 +164,31 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
       {/* Optimized Volumetric Center Glow (No CSS Blur) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-[radial-gradient(circle_at_center,rgba(255,51,51,0.08),transparent_50%)] pointer-events-none z-0" />
 
+      {/* Hardware Mount Brackets */}
+          <div className="panel-bracket absolute top-20 left-8 w-8 h-8 z-30 hidden md:block pointer-events-none opacity-0">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="panel-bracket absolute bottom-2 left-8 w-8 h-8 z-30 hidden md:block pointer-events-none opacity-0">
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-0 left-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="panel-bracket absolute top-20 right-8 w-8 h-8 z-30 hidden md:block pointer-events-none opacity-0">
+            <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+          <div className="panel-bracket absolute bottom-2 right-8 w-8 h-8 z-30 hidden md:block pointer-events-none opacity-0">
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-0 right-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
+            <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
+          </div>
+
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1500px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
+        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1425px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
           ? "border border-red/40 rounded-sm bg-[#111111]"
           : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
           }`}
@@ -131,28 +208,6 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
           {/* Subtle micro-texture for physical glass feel */}
           <div className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
-
-          {/* Hardware Mount Brackets */}
-          <div className="absolute top-14 left-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
-          </div>
-          <div className="absolute bottom-4 left-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute bottom-0 left-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute bottom-1 left-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
-          </div>
-          <div className="absolute top-14 right-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
-            <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
-          </div>
-          <div className="absolute bottom-4 right-4 w-8 h-8 z-30 hidden md:block pointer-events-none">
-            <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-red/80 to-red/20 shadow-[0_-2px_4px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute bottom-0 right-0 w-1 h-full bg-gradient-to-t from-red/80 to-red/20 shadow-[-2px_0_4px_rgba(0,0,0,0.8),inset_1px_0_0_rgba(255,255,255,0.4)]" />
-            <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gradient-to-br from-[#444] to-[#111] border border-black shadow-[0_1px_0_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(0,0,0,1)] flex items-center justify-center"><div className="w-0.5 h-0.5 rounded-full bg-red/50 shadow-[0_0_2px_rgba(255,51,51,1)]" /></div>
-          </div>
 
           {/* Static 3D Material Noise Texture */}
           <div className="absolute inset-0 opacity-[0.15] z-0 pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
@@ -205,70 +260,38 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
                 </div>
 
-                <div className="pl-3 md:pl-4 mt-auto pt-2 md:pt-4">
-                  <div className="flex items-center justify-between pr-3 md:pr-0 mb-2 md:mb-3">
-                    <div className="font-space text-[10px] text-red/60 tracking-[0.4em] uppercase text-left">
-                      Tech_Parameters
-                    </div>
-                    {isMobile && project.images?.length > 0 && (
-                      <button 
-                        onClick={() => setIsGalleryOpen(true)}
-                        className="flex items-center gap-1.5 font-space text-[9px] text-white border border-red/40 px-2 py-1 bg-gradient-to-b from-red/20 to-red/5 hover:bg-red/20 active:bg-red/30 shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.1)] uppercase tracking-widest transition-colors rounded-sm cursor-pointer z-20 relative"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                        Images
-                      </button>
-                    )}
-                  </div>
-
-                  {project.techGroups ? (
-                    <div className="flex flex-col gap-2 md:gap-3">
-                      {project.techGroups.map((group: any, i: number) => (
-                        <div key={i}>
-                          <div className="font-space text-[9px] text-red/60 tracking-[0.2em] uppercase mb-1 md:mb-1.5">[{group.label}]</div>
-                          <div className="flex flex-wrap gap-1 md:gap-1.5">
-                            {group.items.map((tech: string, j: number) => (
-                              <span key={j} className="px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
-                            ))}
-                          </div>
+                {/* Stats Grid */}
+                {project.stats && (
+                  <div className="pl-3 md:pl-4 mt-auto pt-2 md:pt-3">
+                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-3 md:mb-4">
+                      {project.stats.map((stat: any, i: number) => (
+                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-2 md:py-3 rounded-sm">
+                          <div className="font-bebas text-lg md:text-2xl text-red leading-none">{stat.value}</div>
+                          <div className="font-space text-[7px] md:text-[8px] text-white/50 tracking-widest uppercase mt-1">{stat.label}</div>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <div className="flex flex-wrap gap-1 md:gap-1.5">
-                      {project.techList?.map((tech: string, i: number) => (
-                        <span key={i} className="px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                  </div>
+                )}
+
+                {/* Highlights */}
+                {project.highlights && (
+                  <div className="pl-3 md:pl-4 pb-2 md:pb-4">
+                    <div className="flex flex-wrap gap-1.5 md:gap-2">
+                      {project.highlights.map((highlight: string, i: number) => (
+                        <span key={i} className="px-2 py-1 text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
+                          {highlight}
+                        </span>
                       ))}
                     </div>
-                  )}
-
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Right Side: Visuals & Action */}
-              <div className={`w-full md:w-[50%] lg:w-[40%] p-3 md:p-6 lg:p-8 flex flex-col justify-between relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
+              <div className={`w-full md:w-[50%] lg:w-[40%] px-3 md:px-6 lg:px-8 pt-1 md:pt-2 lg:pt-2 pb-3 md:pb-6 lg:pb-8 flex flex-col justify-start relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
 
-                <div className={`${isMobile ? 'hidden' : 'flex'} flex-col mb-2 md:mb-4`}>
-                  {/* Navigation Header */}
-                  <div className="flex items-center justify-between mb-2 md:mb-4 w-full">
-                    <div className="font-space text-[10px] text-red/60 tracking-[0.4em] uppercase">
-                      Visual_Telemetry
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="font-space text-[10px] text-red tracking-widest">
-                        {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
-                      </div>
-                      <div className="flex gap-1">
-                        <button onClick={prevImage} className="w-8 h-8 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red z-20 relative cursor-pointer group/nav">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover/nav:-translate-x-0.5 transition-transform"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <button onClick={nextImage} className="w-8 h-8 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red z-20 relative cursor-pointer group/nav">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover/nav:translate-x-0.5 transition-transform"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
+                <div className={`${isMobile ? 'hidden' : 'flex'} flex-col`}>
                   {/* Embedded Screen Display Area */}
                   <div className="w-full sm:w-[80%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
                     <div
@@ -303,29 +326,68 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                           )}
                         </div>
                       ))}
+
+                      {/* Bottom Navigation Overlay */}
+                      <div className="absolute bottom-4 left-0 w-full flex items-center justify-center gap-3 py-2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-20">
+                        <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <span className="font-space text-[10px] text-red/80 tracking-widest pointer-events-none">
+                          {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
+                        </span>
+                        <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-auto pt-2 md:pt-4 pb-1 md:pb-0">
+                <div className="mt-1 md:mt-2 flex justify-center">
                   <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative w-full h-10 md:h-12 border border-red/40 flex items-center justify-between px-6 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_6px_0_#000,0_8px_15px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
+                    className="relative w-[50%] h-8 md:h-9 border border-red/40 flex items-center justify-between px-4 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
                     data-cursor="cta"
                   >
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
-                    <span className="font-space text-xs md:text-sm tracking-[0.3em] text-white uppercase relative z-10 font-bold">
+                    <span className="font-space text-[10px] md:text-xs tracking-[0.3em] text-white uppercase relative z-10 font-bold ml-2">
                       OPEN PROJECT URL
                     </span>
 
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 transition-all">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 transition-all">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
                   </a>
+                </div>
+
+                {/* Tech Stack */}
+                <div className="mt-3 md:mt-4">
+                  {project.techGroups ? (
+                    <div className="flex flex-col gap-2 md:gap-3">
+                      {project.techGroups.map((group: any, i: number) => (
+                        <div key={i}>
+                          <div className="text-center mb-1">
+                            <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
+                            {group.items.map((tech: string, j: number) => (
+                              <span key={j} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
+                      {project.techList?.map((tech: string, i: number) => (
+                        <span key={i} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -349,6 +411,30 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             className="absolute top-8 right-8 md:top-12 md:right-12 w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 group cursor-pointer"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:scale-110 transition-transform"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+
+          {/* Prev Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentImageIndex((prev) => (prev === 0 ? project.images.length - 1 : prev - 1));
+              setFullScreenImage(project.images[(currentImageIndex - 1 + project.images.length) % project.images.length]);
+            }}
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 cursor-pointer"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+              setFullScreenImage(project.images[(currentImageIndex + 1) % project.images.length]);
+            }}
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 cursor-pointer"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
 
           <div className="relative w-full h-full max-w-[90vw] max-h-[85vh]">
@@ -460,6 +546,10 @@ export default function Projects() {
             if (hud) {
               gsap.set(hud, { y: mobile ? 40 : 100, opacity: 0, scale: mobile ? 1 : 0.95 });
             }
+            const brackets = panel.querySelectorAll(".panel-bracket");
+            if (brackets.length) {
+              gsap.set(brackets, { opacity: 0 });
+            }
           });
 
           // Calculate precise scroll distance
@@ -473,7 +563,7 @@ export default function Projects() {
               trigger: sectionRef.current,
               pin: true,
               anticipatePin: mobile ? 0 : 1,
-              scrub: mobile ? 1.2 : 1,
+              scrub: mobile ? 2 : 1.5,
               end: () => `+=${scrollContainerRef.current!.scrollWidth}`,
               invalidateOnRefresh: true,
               fastScrollEnd: mobile ? 3000 : false,
@@ -484,6 +574,7 @@ export default function Projects() {
           // Intro animation for HUD cards (lighter on mobile)
           panels.forEach((panel) => {
             const hud = panel.querySelector(".tactical-hud");
+            const brackets = panel.querySelectorAll(".panel-bracket");
             if (hud) {
               gsap.to(hud, {
                 y: 0,
@@ -494,7 +585,20 @@ export default function Projects() {
                 scrollTrigger: {
                   trigger: panel,
                   containerAnimation: scrollTween,
-                  start: "left 20%",
+                  start: "left 50%",
+                  toggleActions: "play none none reverse",
+                }
+              });
+            }
+            if (brackets.length) {
+              gsap.to(brackets, {
+                opacity: 1,
+                duration: mobile ? 0.8 : 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: panel,
+                  containerAnimation: scrollTween,
+                  start: "left 50%",
                   toggleActions: "play none none reverse",
                 }
               });
