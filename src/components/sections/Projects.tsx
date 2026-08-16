@@ -39,6 +39,38 @@ const projects = [
     images: ["mt1_v2", "mt2_v2", "mt3_v2", "mt4_v2"]
   },
   {
+    tag: "AI Agent",
+    title: "Onyx-Agent",
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://github.com/kaiizer777/onyx-scrapper",
+    problem: "A self-hosted, $0/month autonomous web research and scraping engine built in Go — combining an autonomous ReAct loop, parallel multi-provider discovery (SearXNG, TinyFish, Jina), stealth headless browser automation, DAG-based pedagogical outlines, and SQLite FTS5 local knowledge indexing.",
+    outcomes: [
+      "Multi-provider discovery engine querying SearXNG, TinyFish, and Jina in parallel with URL deduplication, fallback routing, and zero-cost operation.",
+      "Autonomous ReAct agent loop with natural language semantic element locator, automated DOM actions, and schema-driven structured JSON extraction.",
+      "Deep Research Orchestrator decomposing complex queries into sub-questions with parallel worker pools and automated cited markdown reports.",
+      "Stealth browser automation via go-rod with randomized viewports, human-like delays, anti-bot circuit breakers, and Colly fast-path scraping.",
+      "Pedagogical Teacher Agent pipeline with DAG dependency graph execution (Kahn's TopoSort), multi-turn clarification, and 5-dimension critic refinement."
+    ],
+    stats: [
+      { label: "Operating Cost", value: "$0/mo" },
+      { label: "Discovery Layer", value: "3-Way" },
+      { label: "Agent Modes", value: "3" },
+      { label: "Search Index", value: "FTS5" }
+    ],
+    highlights: [
+      "Autonomous ReAct Loop",
+      "Multi-Provider Discovery",
+      "Stealth Browser & Colly",
+      "Teacher Agent DAG"
+    ],
+    techGroups: [
+      { label: "Core & Agents", items: ["Go (Golang)", "ReAct Loop", "DAG TopoSort", "Evaluator-Critic", "MiMo V2.5", "Groq / OpenAI"] },
+      { label: "Discovery & Scraping", items: ["SearXNG", "TinyFish API", "Jina Reader/Reranker", "go-rod Stealth", "Colly", "Circuit Breakers"] },
+      { label: "Storage & Infra", items: ["SQLite FTS5", "SSE Streaming", "Telegram Gateway", "Ticker Scheduler", "Docker Compose"] }
+    ],
+    videos: ["onyx_demo1", "onyx_demo2"]
+  },
+  {
     tag: "SaaS",
     title: "FreelanceOS",
     label: "[ SYS.STATUS: DEPLOYED ]",
@@ -180,17 +212,24 @@ const TechStackContent = ({ project, isMobileView }: { project: any, isMobileVie
 };
 
 const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, isMobile: boolean }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
-  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
+  const isVideo = Boolean(project.videos && project.videos.length > 0);
+  const mediaItems: string[] = isVideo ? project.videos : (project.images || []);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [mediaErrors, setMediaErrors] = useState<Record<string, boolean>>({});
+  const [fullScreenMedia, setFullScreenMedia] = useState<string | null>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+  const nextMedia = () => {
+    setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length);
   };
 
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? project.images.length - 1 : prev - 1));
+  const prevMedia = () => {
+    setCurrentMediaIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1));
+  };
+
+  const getMediaSrc = (item: string, isVid: boolean) => {
+    if (item.includes(".")) return item.startsWith("/") ? item : `/${item}`;
+    return `/${item}.${isVid ? "mp4" : "png"}`;
   };
 
   const sysId = String(idx + 1).padStart(2, '0');
@@ -274,7 +313,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
             <div className="flex flex-col lg:flex-row items-stretch flex-1 min-h-0">
 
               {/* Left Side: Typography & Data */}
-              <div className="w-full lg:w-[60%] p-3 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-start lg:justify-between gap-2.5 sm:gap-3.5 md:gap-4 border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
+              <div className="w-full lg:w-[60%] px-3 sm:px-5 md:px-6 lg:px-8 pt-1.5 sm:pt-2 md:pt-2.5 lg:pt-3 pb-3 sm:pb-4 md:pb-5 lg:pb-6 flex flex-col justify-start lg:justify-between gap-2.5 sm:gap-3.5 md:gap-4 border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
 
                 {/* Header Row: Title + Tag (Mobile/Desktop) & PC Open URL */}
                 <div className="pl-1 sm:pl-3 md:pl-4 flex flex-col gap-2">
@@ -315,13 +354,19 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                       className="flex-1 h-7 sm:h-8 px-3 border border-red/40 flex items-center justify-center gap-1.5 overflow-hidden bg-gradient-to-b from-[#242424] to-[#0d0d0d] shadow-[0_2px_6px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)] active:scale-[0.98] rounded-sm group cursor-pointer hover:border-red/70 transition-all"
                       data-cursor="cta"
                     >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red shrink-0">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                      </svg>
+                      {isVideo ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red shrink-0">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                      ) : (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red shrink-0">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                      )}
                       <span className="font-space text-[8.5px] sm:text-[9.5px] tracking-[0.18em] text-white uppercase font-bold whitespace-nowrap">
-                        VIEW IMAGES
+                        {isVideo ? "VIEW DEMOS" : "VIEW IMAGES"}
                       </span>
                     </button>
 
@@ -367,8 +412,8 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Stats Grid */}
                 {project.stats && (
-                  <div className="pl-1 sm:pl-3 md:pl-4">
-                    <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3">
+                  <div className="w-full">
+                    <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 w-full">
                       {project.stats.map((stat: any, i: number) => (
                         <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-[#0a0a0a]/50 py-1 sm:py-2 md:py-3 rounded-sm shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]">
                           <div className="font-bebas text-sm sm:text-base md:text-2xl text-red leading-none">{stat.value}</div>
@@ -381,8 +426,8 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Highlights */}
                 {project.highlights && (
-                  <div className="pl-1 sm:pl-3 md:pl-4">
-                    <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
+                  <div className="w-full flex justify-center">
+                    <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 md:gap-2">
                       {project.highlights.map((highlight: string, i: number) => (
                         <span key={i} className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-[7.5px] sm:text-[8.5px] md:text-[9px] font-space text-red/90 border border-red/25 bg-red/[0.06] tracking-wider uppercase rounded-sm shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                           {highlight}
@@ -393,7 +438,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                 )}
 
                 {/* Mobile & iPad / Tablet Tech Stack Box (Integrated in default view) */}
-                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4">
+                <div className="block lg:hidden w-full">
                   <TechStackContent project={project} isMobileView={true} />
                 </div>
               </div>
@@ -406,44 +451,65 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   <div className="w-full sm:w-[80%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
                     <div
                       className="w-full h-full bg-[#020202] relative overflow-hidden group/img cursor-pointer shadow-[inset_0_10px_30px_rgba(0,0,0,1),inset_0_0_0_1px_rgba(255,51,51,0.15)] rounded-sm"
-                      onClick={() => setFullScreenImage(project.images[currentImageIndex])}
+                      onClick={() => setFullScreenMedia(mediaItems[currentMediaIndex])}
                     >
 
-                      {project.images.map((img: string, i: number) => (
-                        <div
-                          key={i}
-                          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                        >
-                          {!imageErrors[img] && (
-                            <Image
-                              src={`/${img}.png`}
-                              alt={img}
-                              fill
-                              className="object-contain opacity-100"
-                              loading="lazy"
-                              onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
-                            />
-                          )}
-                          {imageErrors[img] && (
-                            <>
-                              {/* Fallback Placeholder text */}
-                              <div className={`absolute inset-0 flex items-center justify-center font-space text-lg tracking-widest ${imageErrors[img] ? 'text-red/40' : 'text-red/0'}`}>{img}</div>
-                              {/* Scanlines on placeholder */}
-                              <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.02)_2px,rgba(255,51,51,0.02)_4px)] pointer-events-none z-0" />
-                            </>
-                          )}
-                        </div>
-                      ))}
+                      {mediaItems.map((item: string, i: number) => {
+                        const isCurrent = i === currentMediaIndex;
+                        const src = getMediaSrc(item, isVideo);
+                        return (
+                          <div
+                            key={i}
+                            className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${isCurrent ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                          >
+                            {!mediaErrors[item] ? (
+                              isVideo ? (
+                                <video
+                                  src={src}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  className="w-full h-full object-contain"
+                                  onError={() => setMediaErrors(prev => ({ ...prev, [item]: true }))}
+                                />
+                              ) : (
+                                <Image
+                                  src={src}
+                                  alt={item}
+                                  fill
+                                  className="object-contain opacity-100"
+                                  loading="lazy"
+                                  onError={() => setMediaErrors(prev => ({ ...prev, [item]: true }))}
+                                />
+                              )
+                            ) : (
+                              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
+                                <div className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-red animate-ping" />
+                                  <span className="font-space text-xs tracking-widest text-red/80 font-bold uppercase">
+                                    {isVideo ? `[ VIDEO STREAM ${String(i + 1).padStart(2, '0')} / DEMO ]` : item}
+                                  </span>
+                                </div>
+                                <span className="font-space text-[9px] text-white/40 tracking-wider">
+                                  {isVideo ? `DEMO_${i + 1}.MP4` : "SIGNAL OFFLINE"}
+                                </span>
+                                <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.03)_2px,rgba(255,51,51,0.03)_4px)] pointer-events-none z-0" />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
 
                       {/* Bottom Navigation Overlay */}
                       <div className="absolute bottom-4 left-0 w-full flex items-center justify-center gap-3 py-2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-20">
-                        <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
+                        <button onClick={(e) => { e.stopPropagation(); prevMedia(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                         </button>
                         <span className="font-space text-[10px] text-red/80 tracking-widest pointer-events-none">
-                          {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
+                          {(currentMediaIndex + 1).toString().padStart(2, '0')} / {mediaItems.length.toString().padStart(2, '0')}
                         </span>
-                        <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
+                        <button onClick={(e) => { e.stopPropagation(); nextMedia(); }} className="pointer-events-auto w-8 h-8 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red cursor-pointer">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
                       </div>
@@ -463,16 +529,16 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
         </div>
       </div>
 
-      {/* Fullscreen Image Overlay (PC View Zoom) */}
-      {fullScreenImage && createPortal(
+      {/* Fullscreen Media Overlay (PC View Zoom) */}
+      {fullScreenMedia && createPortal(
         <div
           className="fixed inset-0 z-[9999] bg-[#020202]/95 flex items-center justify-center p-4 md:p-12 backdrop-blur-md"
-          onClick={() => setFullScreenImage(null)}
+          onClick={() => setFullScreenMedia(null)}
         >
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setFullScreenImage(null);
+              setFullScreenMedia(null);
             }}
             className="absolute top-8 right-8 md:top-12 md:right-12 w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 group cursor-pointer"
           >
@@ -483,8 +549,9 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setCurrentImageIndex((prev) => (prev === 0 ? project.images.length - 1 : prev - 1));
-              setFullScreenImage(project.images[(currentImageIndex - 1 + project.images.length) % project.images.length]);
+              const prevIdx = (currentMediaIndex === 0 ? mediaItems.length - 1 : currentMediaIndex - 1);
+              setCurrentMediaIndex(prevIdx);
+              setFullScreenMedia(mediaItems[prevIdx]);
             }}
             className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 cursor-pointer"
           >
@@ -495,28 +562,48 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
-              setFullScreenImage(project.images[(currentImageIndex + 1) % project.images.length]);
+              const nextIdx = (currentMediaIndex + 1) % mediaItems.length;
+              setCurrentMediaIndex(nextIdx);
+              setFullScreenMedia(mediaItems[nextIdx]);
             }}
             className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 border border-red/40 bg-[#0a0a0a]/80 hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 cursor-pointer"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
 
-          <div className="relative w-full h-full max-w-[90vw] max-h-[85vh]">
-            <Image
-              src={`/${fullScreenImage}.png`}
-              alt={fullScreenImage}
-              fill
-              className="object-contain"
-              priority
-            />
+          <div className="relative w-full h-full max-w-[90vw] max-h-[85vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            {!mediaErrors[fullScreenMedia] ? (
+              isVideo ? (
+                <video
+                  src={getMediaSrc(fullScreenMedia, true)}
+                  controls
+                  autoPlay
+                  loop
+                  playsInline
+                  className="max-w-full max-h-[85vh] object-contain rounded-sm border border-red/20"
+                />
+              ) : (
+                <div className="relative w-full h-full">
+                  <Image
+                    src={getMediaSrc(fullScreenMedia, false)}
+                    alt={fullScreenMedia}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              )
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-3 text-red/60 font-space tracking-widest text-lg">
+                <span>{isVideo ? `[ VIDEO DEMO ${currentMediaIndex + 1} NOT FOUND ]` : `[ ${fullScreenMedia} NOT FOUND ]`}</span>
+              </div>
+            )}
           </div>
         </div>,
         document.body
       )}
 
-      {/* Image Gallery Modal (Phone & iPad / Tablet) */}
+      {/* Media Gallery Modal (Phone & iPad / Tablet) */}
       {isGalleryOpen && createPortal(
         <div
           className="fixed inset-0 z-[9999] bg-[#020202]/98 flex flex-col items-center justify-center p-4 md:p-8 backdrop-blur-md"
@@ -535,41 +622,58 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <div className="absolute top-4 left-4 md:top-6 md:left-6 flex flex-col gap-1 pointer-events-none">
             <span className="font-bebas text-2xl md:text-3xl text-white tracking-widest leading-none drop-shadow-md">{project.title}</span>
             <span className="font-space text-[10px] md:text-xs text-red tracking-[0.3em] font-bold">
-              SYS.IMAGE: {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
+              {isVideo ? "SYS.DEMO: " : "SYS.IMAGE: "} {(currentMediaIndex + 1).toString().padStart(2, '0')} / {mediaItems.length.toString().padStart(2, '0')}
             </span>
           </div>
 
           <div className="relative w-full max-w-4xl aspect-video mt-8 sm:mt-4 bg-black/60 border border-red/30 rounded-sm shadow-[0_0_40px_rgba(255,51,51,0.15)] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-             {project.images.map((img: string, i: number) => (
+            {mediaItems.map((item: string, i: number) => {
+              const isCurrent = i === currentMediaIndex;
+              const src = getMediaSrc(item, isVideo);
+              return (
                 <div
                   key={i}
-                  className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${i === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                  className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${isCurrent ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                 >
-                  {!imageErrors[img] && (
-                    <Image
-                      src={`/${img}.png`}
-                      alt={img}
-                      fill
-                      className="object-contain"
-                      priority={i === currentImageIndex}
-                      onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
-                    />
-                  )}
-                  {imageErrors[img] && (
-                    <div className="absolute inset-0 flex items-center justify-center font-space text-base text-red/40 tracking-widest">{img}</div>
+                  {!mediaErrors[item] ? (
+                    isVideo ? (
+                      <video
+                        src={src}
+                        controls
+                        autoPlay={isCurrent}
+                        loop
+                        playsInline
+                        className="w-full h-full object-contain"
+                        onError={() => setMediaErrors(prev => ({ ...prev, [item]: true }))}
+                      />
+                    ) : (
+                      <Image
+                        src={src}
+                        alt={item}
+                        fill
+                        className="object-contain"
+                        priority={isCurrent}
+                        onError={() => setMediaErrors(prev => ({ ...prev, [item]: true }))}
+                      />
+                    )
+                  ) : (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center font-space text-sm sm:text-base text-red/60 tracking-widest p-4 text-center">
+                      <span>{isVideo ? `[ VIDEO STREAM ${i + 1} OFFLINE ]` : item}</span>
+                    </div>
                   )}
                 </div>
-              ))}
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-6 mt-6 md:mt-8" onClick={(e) => e.stopPropagation()}>
-            <button onClick={prevImage} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
+            <button onClick={prevMedia} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
             <span className="font-space text-xs text-white/70 tracking-widest">
-              {(currentImageIndex + 1)} OF {project.images.length}
+              {(currentMediaIndex + 1)} OF {mediaItems.length}
             </span>
-            <button onClick={nextImage} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
+            <button onClick={nextMedia} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
