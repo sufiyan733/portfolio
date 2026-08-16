@@ -187,7 +187,7 @@ export default function Hero() {
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden select-none">
         <h1
           ref={titleContainerRef}
-          className="relative font-bebas text-[45vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
+          className="relative font-bebas text-[35vw] leading-none tracking-tighter whitespace-nowrap overflow-hidden flex will-change-transform"
         >
           {titleText.split("").map((char, i) => (
             <span 
