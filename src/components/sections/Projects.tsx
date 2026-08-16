@@ -37,27 +37,30 @@ const projects = [
     title: "FreelanceOS",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://freelance-os-iota.vercel.app",
-    problem: "An all-in-one business OS built solo for Indian freelancers — client management, GST-compliant invoicing, payment tracking, and a magic-link client portal in one place.",
+    problem: "A production-grade business operating system built solo for Indian freelancers — eliminating tool sprawl by unifying client management, GST-compliant invoicing, payment reconciliation, and a passwordless magic-link client portal into a single, zero-config platform.",
     outcomes: [
-      "Replaces five disconnected tools with one",
-      "India-first compliance from day one",
-      "Free trial for 1st Month"
+      "5-tool consolidation with unified client lifecycle — from lead capture to invoice settlement — replacing CRMs, invoice generators, payment trackers, contract managers, and client portals with a single codebase.",
+      "GST-compliant invoicing engine with automatic CGST/SGST/IGST computation, HSN code mapping, e-invoice readiness, and PDF generation with real-time tax summary dashboards.",
+      "Magic-link client portal with token-based passwordless auth, scoped document sharing, live payment status tracking, and branded self-service dashboards — zero credentials required.",
+      "Role-based access control with granular permission scoping, session management via BetterAuth, and Redis-cached session invalidation for instant revocation across devices.",
+      "Email automation pipeline via Brevo transactional API — invoice delivery, payment reminders, overdue alerts, and onboarding sequences with open/click tracking and retry logic."
     ],
     stats: [
+      { label: "API Routes", value: "50+" },
+      { label: "DB Tables", value: "18" },
       { label: "Features", value: "40+" },
-      { label: "Tools Replaced", value: "5" },
-      { label: "GST Ready", value: "100%" },
-      { label: "Solo Built", value: "Yes" }
+      { label: "Lib Modules", value: "35+" }
     ],
     highlights: [
       "Magic-Link Client Portal",
       "GST-Compliant Invoicing",
-      "Payment Tracking",
+      "Payment Reconciliation",
       "Zero Config Setup"
     ],
     techGroups: [
       { label: "Frontend", items: ["Next.js", "TypeScript", "TanStack Query/Table", "Zod", "Zustand"] },
-      { label: "Backend", items: ["PostgreSQL", "Prisma ORM", "BetterAuth", "Redis", "Brevo", "UploadThing"] }
+      { label: "Backend & Auth", items: ["Prisma ORM", "Neon PostgreSQL", "BetterAuth", "Redis", "Brevo Email API", "UploadThing"] },
+      { label: "Compliance & Infra", items: ["GST Tax Engine", "HSN Code Mapping", "E-Invoice Ready", "PDF Generation", "Role-Based Access"] }
     ],
     images: ["fr1", "fr2", "fr3", "fr4"]
   },
@@ -109,32 +112,41 @@ const projects = [
     ],
     techList: ["NEXT.JS", "BETTERAUTH", "Algorithms", "Canvas API"],
     images: ["vs1", "vs2", "vs3", "vs4"]
-  },
-  {
-    tag: "Hobby",
-    title: "Twin",
-    label: "[ SYS.STATUS: DEPLOYED ]",
-    link: "https://twin-l3hf.vercel.app",
-    problem: "A mobile-only application built in Next.js and wrapped as a PWA, showcasing advanced full stack capabilities.",
-    outcomes: [
-      "Pure logic, built for mathematical precision"
-    ],
-    stats: [
-      { label: "Platform", value: "PWA" },
-      { label: "Offline", value: "Yes" },
-      { label: "Stack", value: "Full" },
-      { label: "Mobile", value: "First" }
-    ],
-    highlights: [
-      "Progressive Web App",
-      "Offline Support",
-      "Mobile Optimized",
-      "Full Stack"
-    ],
-    techList: ["React", "Node.js", "REST API"],
-    images: ["tw1", "tw2", "tw3", "tw4"]
   }
 ];
+
+const TechStackContent = ({ project }: { project: any }) => (
+  <div className="w-full border border-red/20 bg-gradient-to-b from-[#111]/80 to-[#050505]/80 shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.04),0_0_12px_rgba(255,51,51,0.04)] rounded-sm px-3 py-3 md:px-4 md:py-4 relative">
+    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red/20 to-transparent pointer-events-none" />
+    <div className="flex items-center gap-2 mb-2">
+      <span className="w-1 h-1 bg-red/60 rounded-full" />
+      <span className="font-space text-[9px] md:text-[10px] text-red/70 tracking-[0.3em] uppercase font-extrabold border-b border-red/50 pb-0.5">[TECH.STACK]</span>
+      <span className="flex-1 h-px bg-red/30" />
+    </div>
+    {project.techGroups ? (
+      <div className="flex flex-col gap-2 md:gap-3">
+        {project.techGroups.map((group: any, i: number) => (
+          <div key={i}>
+            <div className="text-left lg:text-center mb-1">
+              <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
+            </div>
+            <div className="flex flex-wrap gap-1 md:gap-1.5 justify-start lg:justify-center">
+              {group.items.map((tech: string, j: number) => (
+                <span key={j} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="flex flex-wrap gap-1 md:gap-1.5 justify-start lg:justify-center">
+        {project.techList?.map((tech: string, i: number) => (
+          <span key={i} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
+        ))}
+      </div>
+    )}
+  </div>
+);
 
 const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, isMobile: boolean }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -188,15 +200,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
       {/* TACTICAL HUD PANEL */}
       <div
-        className={`tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1425px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col ${isMobile
-          ? "border border-red/40 rounded-sm bg-[#111111]"
-          : "bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
-          }`}
+        className="tactical-hud opacity-0 translate-y-24 relative z-10 w-full max-w-[1425px] h-full p-[2px] my-0 group/hud motion-safe:transition-shadow motion-safe:duration-500 ease-out flex flex-col bg-gradient-to-br from-[#333] via-[#111] to-[#000] shadow-[0_30px_60px_-10px_rgba(0,0,0,1),inset_1px_1px_0_rgba(255,255,255,0.2),inset_-2px_-2px_0_rgba(0,0,0,0.8)] hover:shadow-[0_40px_80px_-10px_rgba(0,0,0,1),0_0_40px_rgba(255,51,51,0.1),inset_1px_1px_0_rgba(255,255,255,0.3),inset_-2px_-2px_0_rgba(0,0,0,0.8)] rounded-sm"
       >
         <div
-          className={`w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#000000] shadow-[inset_0_30px_60px_-15px_rgba(0,0,0,1),inset_0_-20px_40px_rgba(0,0,0,0.9),inset_0_0_10px_rgba(0,0,0,1)] rounded-sm ${isMobile ? "" : ""
-            }`}
-        // Removed inner clipPath
+          className="w-full h-full flex flex-col relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#000000] shadow-[inset_0_30px_60px_-15px_rgba(0,0,0,1),inset_0_-20px_40px_rgba(0,0,0,0.9),inset_0_0_10px_rgba(0,0,0,1)] rounded-sm"
         >
 
           {/* Deep Ambient Red Core Glow */}
@@ -216,13 +223,13 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.05),transparent_60%)] pointer-events-none z-0" />
 
           {/* Optimized Scanlines Overlay */}
-          <div className={`absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-0 ${isMobile ? 'opacity-30' : 'opacity-50'}`} />
+          <div className="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_2px,rgba(255,51,51,0.04)_2px,rgba(255,51,51,0.04)_4px)] pointer-events-none z-0 opacity-40 md:opacity-50" />
 
           {/* TOP BAR: Systems Info */}
           <div className="h-8 shrink-0 border-b border-red/20 flex items-center justify-between px-4 md:px-6 bg-red/[0.05] z-10">
             <div className="flex items-center gap-3 md:gap-4">
               <span className="w-3 h-3 border border-red flex items-center justify-center">
-                <span className={`w-1.5 h-1.5 bg-red ${isMobile ? '' : 'animate-[ping_2s_linear_infinite]'}`} />
+                <span className="w-1.5 h-1.5 bg-red animate-[ping_2s_linear_infinite]" />
               </span>
               <span className="font-space text-xs tracking-widest text-white/90">SYS.ID: {sysId}</span>
             </div>
@@ -233,41 +240,82 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
           {/* MAIN CONTENT SPLIT (Content-driven height) */}
           <div className="w-full relative z-10 overflow-hidden flex flex-col flex-1 min-h-0">
-            <div className="flex flex-col md:flex-row items-stretch flex-1 min-h-0">
+            <div className="flex flex-col lg:flex-row items-stretch flex-1 min-h-0">
 
               {/* Left Side: Typography & Data */}
-              <div className={`w-full md:w-[50%] lg:w-[60%] p-3 md:p-6 lg:p-8 flex flex-col justify-start md:justify-between border-b md:border-b-0 md:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? '' : 'bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]'}`}>
+              <div className="w-full lg:w-[60%] p-3 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-start lg:justify-between border-b-0 lg:border-r border-red/20 relative z-20 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-br from-[#111] to-transparent shadow-[10px_0_20px_-5px_rgba(0,0,0,0.8)]">
 
-                <div className="pl-3 md:pl-4 mb-2 md:mb-4 flex flex-wrap items-start gap-2 md:gap-3">
-                  <h3 className={`font-bodoni text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0 md:mb-1`}>
+                <div className="pl-1 sm:pl-3 md:pl-4 mb-2 md:mb-4 flex flex-wrap items-center gap-2 md:gap-3">
+                  <h3 className="font-bodoni text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-[#888888] to-white [filter:drop-shadow(0_8px_8px_rgba(0,0,0,0.9))] transition-transform duration-500 hover:-translate-y-1 cursor-default mb-0">
                     {project.title}
                   </h3>
-                  <span className="px-2.5 py-0.5 mt-1 md:mt-2 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
+                  <span className="px-2.5 py-0.5 border border-red/30 bg-gradient-to-b from-red/20 to-red/5 text-[10px] md:text-[11px] lg:text-xs font-space text-red tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_2px_4px_rgba(0,0,0,0.5)] rounded-sm">
                     {project.tag}
                   </span>
-                  <div className="border-l-[3px] border-red pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-2 md:py-4 mb-1 md:mb-2 mt-1 md:mt-0">
-                    <p className="font-inter font-light text-white/90 text-xs md:text-sm lg:text-base leading-relaxed mb-2 md:mb-3">
-                      {project.problem}
-                    </p>
-                    <ul className="flex flex-col gap-1 md:gap-2">
-                      {project.outcomes.map((outcome: string, i: number) => (
-                        <li key={i} className="flex items-start gap-2 md:gap-3">
-                          <svg className="w-3 h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          <span className="font-inter text-white/70 text-xs md:text-sm leading-snug">{outcome}</span>
-                        </li>
-                      ))}
-                    </ul>
+
+                  {/* Action Buttons (Images + Open URL) */}
+                  <div className="ml-auto flex items-center gap-2">
+                    {/* Open Images Button (Phone + iPad + Laptop/PC) */}
+                    <button
+                      onClick={() => setIsGalleryOpen(true)}
+                      className="relative h-7 md:h-8 px-2.5 md:px-3 border border-red/40 flex lg:hidden items-center gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn cursor-pointer"
+                      data-cursor="cta"
+                    >
+                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span className="font-space text-[9px] md:text-[10px] tracking-[0.2em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
+                        OPEN IMAGES
+                      </span>
+                    </button>
+
+                    {/* Open URL Button */}
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative h-7 md:h-8 px-2.5 md:px-3 border border-red/40 flex items-center gap-1.5 md:gap-2 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
+                      data-cursor="cta"
+                    >
+                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
+                      <span className="font-space text-[9px] md:text-[10px] tracking-[0.25em] text-white uppercase relative z-10 font-bold whitespace-nowrap">
+                        OPEN URL
+                      </span>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 shrink-0">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
                   </div>
+                </div>
+
+                {/* Problem Statement & Outcomes */}
+                <div className="border-l-[3px] border-red pl-3 md:pl-6 bg-gradient-to-r from-red/[0.05] to-transparent py-2 md:py-4 mb-2 md:mb-3">
+                  <p className="font-inter font-light text-white/90 text-xs sm:text-sm lg:text-base leading-relaxed mb-2 md:mb-3">
+                    {project.problem}
+                  </p>
+                  <ul className="flex flex-col gap-1 md:gap-2">
+                    {project.outcomes.map((outcome: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 md:gap-3">
+                        <svg className="w-3 h-3 text-red mt-0.5 md:mt-1 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span className="font-inter text-white/70 text-xs md:text-sm leading-snug">{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 {/* Stats Grid */}
                 {project.stats && (
-                  <div className="pl-3 md:pl-4 mt-auto pt-2 md:pt-3">
-                    <div className="grid grid-cols-4 gap-2 md:gap-3 mb-3 md:mb-4">
+                  <div className="pl-1 sm:pl-3 md:pl-4 my-2 md:my-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
                       {project.stats.map((stat: any, i: number) => (
-                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-2 md:py-3 rounded-sm">
-                          <div className="font-bebas text-lg md:text-2xl text-red leading-none">{stat.value}</div>
-                          <div className="font-space text-[7px] md:text-[8px] text-white/50 tracking-widest uppercase mt-1">{stat.label}</div>
+                        <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-transparent py-1.5 sm:py-2 md:py-3 rounded-sm">
+                          <div className="font-bebas text-base sm:text-lg md:text-2xl text-red leading-none">{stat.value}</div>
+                          <div className="font-space text-[7px] md:text-[8px] text-white/50 tracking-widest uppercase mt-0.5 sm:mt-1">{stat.label}</div>
                         </div>
                       ))}
                     </div>
@@ -276,30 +324,33 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 
                 {/* Highlights */}
                 {project.highlights && (
-                  <div className="pl-3 md:pl-4 pb-2 md:pb-4">
+                  <div className="pl-1 sm:pl-3 md:pl-4 mb-2 md:mb-3">
                     <div className="flex flex-wrap gap-1.5 md:gap-2">
                       {project.highlights.map((highlight: string, i: number) => (
-                        <span key={i} className="px-2 py-1 text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
+                        <span key={i} className="px-2 py-0.5 sm:py-1 text-[8px] md:text-[9px] font-space text-red/80 border border-red/20 bg-red/[0.05] tracking-wider uppercase rounded-sm">
                           {highlight}
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
+
+                {/* Mobile & iPad / Tablet Tech Stack Box (Integrated in default view) */}
+                <div className="block lg:hidden pl-1 sm:pl-3 md:pl-4 pb-2 md:pb-4">
+                  <TechStackContent project={project} />
+                </div>
               </div>
 
-              {/* Right Side: Visuals & Action */}
-              <div className={`w-full md:w-[50%] lg:w-[40%] px-3 md:px-6 lg:px-8 pt-1 md:pt-2 lg:pt-2 pb-3 md:pb-6 lg:pb-8 flex flex-col justify-start relative shrink-0 ${isMobile ? '' : 'bg-gradient-to-tl from-red/[0.05] to-transparent'}`}>
+              {/* Right Side: Visuals & Action (PC View >= 1024px) */}
+              <div className="hidden lg:flex lg:w-[40%] px-3 md:px-6 lg:px-8 pt-1 md:pt-2 lg:pt-2 pb-2 md:pb-4 flex-col justify-start relative shrink-0 h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] bg-gradient-to-tl from-red/[0.05] to-transparent">
 
-                <div className={`${isMobile ? 'hidden' : 'flex'} flex-col`}>
+                <div className="flex flex-col shrink-0">
                   {/* Embedded Screen Display Area */}
                   <div className="w-full sm:w-[80%] md:w-full mx-auto aspect-video p-1 bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-sm shadow-[0_10px_20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(0,0,0,0.8)] relative z-30">
                     <div
                       className="w-full h-full bg-[#020202] relative overflow-hidden group/img cursor-pointer shadow-[inset_0_10px_30px_rgba(0,0,0,1),inset_0_0_0_1px_rgba(255,51,51,0.15)] rounded-sm"
                       onClick={() => setFullScreenImage(project.images[currentImageIndex])}
                     >
-                      {/* Glass screen reflection */}
-                      <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none z-20" />
 
                       {project.images.map((img: string, i: number) => (
                         <div
@@ -343,51 +394,9 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                   </div>
                 </div>
 
-                <div className="mt-1 md:mt-2 flex justify-center">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative w-[50%] h-8 md:h-9 border border-red/40 flex items-center justify-between px-4 overflow-hidden bg-gradient-to-b from-[#2a2a2a] to-[#0a0a0a] motion-safe:transition-all motion-safe:duration-100 shadow-[0_4px_0_#000,0_6px_10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] active:translate-y-[1px] active:shadow-[0_1px_0_#000,0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(0,0,0,0.4)] shrink-0 rounded-sm group/btn"
-                    data-cursor="cta"
-                  >
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-red/20 to-transparent -translate-x-full pointer-events-none" />
-                    <span className="font-space text-[10px] md:text-xs tracking-[0.3em] text-white uppercase relative z-10 font-bold ml-2">
-                      OPEN PROJECT URL
-                    </span>
-
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red relative z-10 transition-all">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </div>
-
-                {/* Tech Stack */}
-                <div className="mt-3 md:mt-4">
-                  {project.techGroups ? (
-                    <div className="flex flex-col gap-2 md:gap-3">
-                      {project.techGroups.map((group: any, i: number) => (
-                        <div key={i}>
-                          <div className="text-center mb-1">
-                            <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
-                          </div>
-                          <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
-                            {group.items.map((tech: string, j: number) => (
-                              <span key={j} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-wrap gap-1 md:gap-1.5 justify-center">
-                      {project.techList?.map((tech: string, i: number) => (
-                        <span key={i} className="px-2 py-0.5 md:py-1 text-[8px] md:text-[9px] font-space text-white/80 border border-red/30 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_1px_1px_0_rgba(255,255,255,0.05)] uppercase tracking-wider">{tech}</span>
-                      ))}
-                    </div>
-                  )}
+                {/* Tech Stack for PC View — centered in remaining space */}
+                <div className="flex-1 flex items-center">
+                  <TechStackContent project={project} />
                 </div>
               </div>
 
@@ -397,7 +406,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
         </div>
       </div>
 
-      {/* Fullscreen Image Overlay */}
+      {/* Fullscreen Image Overlay (PC View Zoom) */}
       {fullScreenImage && createPortal(
         <div
           className="fixed inset-0 z-[9999] bg-[#020202]/95 flex items-center justify-center p-4 md:p-12 backdrop-blur-md"
@@ -450,10 +459,10 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
         document.body
       )}
 
-      {/* Mobile Image Gallery Popup */}
-      {isMobile && isGalleryOpen && createPortal(
+      {/* Image Gallery Modal (Phone & iPad / Tablet) */}
+      {isGalleryOpen && createPortal(
         <div
-          className="fixed inset-0 z-[9999] bg-[#020202]/98 flex flex-col items-center justify-center p-4 backdrop-blur-md"
+          className="fixed inset-0 z-[9999] bg-[#020202]/98 flex flex-col items-center justify-center p-4 md:p-8 backdrop-blur-md"
           onClick={() => setIsGalleryOpen(false)}
         >
           <button
@@ -461,19 +470,19 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
               e.stopPropagation();
               setIsGalleryOpen(false);
             }}
-            className="absolute top-6 right-6 w-10 h-10 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 rounded-full cursor-pointer"
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red z-50 rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
 
-          <div className="absolute top-6 left-6 flex flex-col gap-1 pointer-events-none">
-            <span className="font-bebas text-2xl text-white tracking-widest leading-none drop-shadow-md">{project.title}</span>
-            <span className="font-space text-[10px] text-red tracking-[0.3em] font-bold">
-              {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
+          <div className="absolute top-4 left-4 md:top-6 md:left-6 flex flex-col gap-1 pointer-events-none">
+            <span className="font-bebas text-2xl md:text-3xl text-white tracking-widest leading-none drop-shadow-md">{project.title}</span>
+            <span className="font-space text-[10px] md:text-xs text-red tracking-[0.3em] font-bold">
+              SYS.IMAGE: {(currentImageIndex + 1).toString().padStart(2, '0')} / {project.images.length.toString().padStart(2, '0')}
             </span>
           </div>
 
-          <div className="relative w-full aspect-video mt-4 bg-black/50 border border-red/20 rounded-sm shadow-[0_0_30px_rgba(255,51,51,0.1)]" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-4xl aspect-video mt-8 sm:mt-4 bg-black/60 border border-red/30 rounded-sm shadow-[0_0_40px_rgba(255,51,51,0.15)] overflow-hidden" onClick={(e) => e.stopPropagation()}>
              {project.images.map((img: string, i: number) => (
                 <div
                   key={i}
@@ -489,15 +498,21 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                       onError={() => setImageErrors(prev => ({ ...prev, [img]: true }))}
                     />
                   )}
+                  {imageErrors[img] && (
+                    <div className="absolute inset-0 flex items-center justify-center font-space text-base text-red/40 tracking-widest">{img}</div>
+                  )}
                 </div>
               ))}
           </div>
 
-          <div className="flex gap-4 mt-8" onClick={(e) => e.stopPropagation()}>
-            <button onClick={prevImage} className="w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center gap-6 mt-6 md:mt-8" onClick={(e) => e.stopPropagation()}>
+            <button onClick={prevImage} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <button onClick={nextImage} className="w-12 h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+            <span className="font-space text-xs text-white/70 tracking-widest">
+              {(currentImageIndex + 1)} OF {project.images.length}
+            </span>
+            <button onClick={nextImage} className="w-11 h-11 md:w-12 md:h-12 border border-red/40 bg-[#0a0a0a] hover:border-red hover:bg-red/10 flex items-center justify-center transition-colors text-red/80 hover:text-red rounded-sm cursor-pointer shadow-[0_4px_10px_rgba(0,0,0,0.5)] active:scale-95">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
@@ -512,10 +527,8 @@ export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const mobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(mobile);
 
@@ -551,9 +564,6 @@ export default function Projects() {
               gsap.set(brackets, { opacity: 0 });
             }
           });
-
-          // Calculate precise scroll distance
-          const totalScrollDistance = window.innerWidth * panels.length;
 
           // Master horizontal timeline animating the container itself
           const scrollTween = gsap.to(scrollContainerRef.current, {
@@ -613,8 +623,6 @@ export default function Projects() {
     return () => clearTimeout(initTimeout);
   }, []);
 
-  const activeProjects = mounted ? projects.filter(p => isMobile || p.title !== "Twin") : projects.filter(p => p.title !== "Twin");
-
   return (
     <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
 
@@ -641,7 +649,7 @@ export default function Projects() {
             </div>
           </div>
 
-          {activeProjects.map((project, idx) => (
+          {projects.map((project, idx) => (
             <ProjectCard key={idx} project={project} idx={idx} isMobile={isMobile} />
           ))}
 
