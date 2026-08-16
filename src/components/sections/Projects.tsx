@@ -39,7 +39,7 @@ const projects = [
     images: ["mt1_v2", "mt2_v2", "mt3_v2", "mt4_v2"]
   },
   {
-    tag: "AI Agent",
+    tag: "Research Agent",
     title: "Onyx-Agent",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://github.com/kaiizer777/onyx-scrapper",
@@ -101,6 +101,38 @@ const projects = [
       { label: "Compliance & Infra", items: ["GST Tax Engine", "HSN Code Mapping", "E-Invoice Ready", "PDF Generation", "Role-Based Access"] }
     ],
     images: ["fr1", "fr2", "fr3", "fr4"]
+  },
+  {
+    tag: "Browser Agent",
+    title: "MEW-AGENT",
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://github.com/kaiizer777/mew-agent",
+    problem: "A high-performance, visible computer-use browser agent written in Rust from scratch — driving real Chromium via CDP with accessibility-first tree perception, a two-agent LLM harness, multi-worker research orchestration, and a 6-layer resilience engine built for $0 infrastructure cost.",
+    outcomes: [
+      "Accessibility-first perception using Accessibility.getFullAXTree and structural diffing with stable @eX refs — slashing token footprint by 70%+ vs full-page screenshots.",
+      "Two-agent LLM harness (intent-routing ChatAgent + ReAct-loop BrowserAgent) connected via typed Handoff and Result contracts with deterministic pre-flight DAG planning.",
+      "Multi-worker research orchestration fanning out across platforms concurrently via Tokio JoinSet with isolated CDP browser contexts and per-domain concurrency caps.",
+      "6-layer resilience engine auto-recovering from stale refs, cookie/modal interrupts, mid-task session loss, Cloudflare 429 backoff, and irreversible action pause gates.",
+      "Native Tauri 2 desktop shell with high-throughput Channel<any> streaming live partial findings, step progress lines, and 4K downscaled screencast frames."
+    ],
+    stats: [
+      { label: "Crates", value: "7" },
+      { label: "Token Cut", value: "70%+" },
+      { label: "Resilience", value: "6-Layer" },
+      { label: "Concurrency", value: "3x Workers" }
+    ],
+    highlights: [
+      "AX-Tree First Perception",
+      "Two-Agent Split & DAG",
+      "6-Layer Resilience Core",
+      "Tauri 2 Live Stream"
+    ],
+    techGroups: [
+      { label: "Core & Engine", items: ["Rust", "Chromium CDP", "chromiumoxide", "Tokio", "Tauri 2", "TypeScript"] },
+      { label: "Agent & Perception", items: ["AX-Tree Diffing", "ReAct Loop", "Pre-Flight DAG", "Episodic Memory", "Live Streaming"] },
+      { label: "Resilience & Evasion", items: ["Stealth Chromium", "Pacing Guards", "Anti-Bot Evasion", "OAuth Auth", "Trace Auditing"] }
+    ],
+    videos: ["mew_demo1", "mew_demo2"]
   },
   {
     tag: "Hackathon",
