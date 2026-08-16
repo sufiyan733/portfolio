@@ -11,19 +11,25 @@ const projects = [
     title: "MultiTenant",
     label: "[ SYS.STATUS: DEPLOYED ]",
     link: "https://www.multiitenant.online",
-    problem: "A production-grade multi-tenant SaaS platform serving Indian businesses with isolated subdomains, custom domain routing, and a 9-step middleware security pipeline — built to handle real payment flows, regulatory compliance, and zero-trust tenant isolation.",
+    problem: "A production-grade multi-tenant SaaS platform serving Indian businesses with isolated subdomains, custom domain routing, and a 9-step middleware security pipeline with zero-trust tenant isolation.",
     outcomes: [
-      "4 independent AES-256-GCM encryption keys with deterministic PII lookups, streaming body-size enforcement, and timing-safe constant-time verification across all auth flows.",
-      "GST-compliant invoicing with atomic allocation (SELECT FOR UPDATE), credit notes, GSTR-1 export, and webhook-driven payment state machine with idempotency guards.",
-      "Full POS terminal with IndexedDB offline queue, barcode scanning, split-tender payments, and a no-code theme studio with 60+ customization columns and live iframe preview.",
-      "Strict tenant isolation with HMAC-signed proxy signatures, per-host origin allowlist, middleware-level trust header stripping, and Redis-cached subdomain/custom-domain routing.",
-      "RAG-powered AI advisor (Ray) via Groq LLM with 3-key fallback, 9 parallel analytics queries for real-time business insights, and per-plan rate limiting with optimistic concurrency control."
+      "4 independent AES-256-GCM encryption keys with deterministic PII lookups and constant-time auth verification across all flows.",
+      "GST-compliant invoicing with atomic allocation (SELECT FOR UPDATE), credit notes, and webhook-driven payment state machine.",
+      "Full POS terminal with IndexedDB offline queue, barcode scanning, split-tender payments, and live iframe theme studio preview.",
+      "Strict tenant isolation with HMAC-signed proxy signatures, per-host origin allowlist, and Redis-cached domain routing.",
+      "RAG-powered AI advisor (Ray) via Groq LLM with 3-key fallback and 9 parallel real-time analytics queries."
     ],
     stats: [
       { label: "API Routes", value: "100+" },
       { label: "DB Tables", value: "33" },
       { label: "Lib Modules", value: "86" },
       { label: "Security Layers", value: "65+" }
+    ],
+    highlights: [
+      "Zero-Trust Tenant Isolation",
+      "GST Invoicing & Credit Notes",
+      "Offline POS & Theme Studio",
+      "RAG AI Advisor Pipeline"
     ],
     techGroups: [
       { label: "Frontend", items: ["Next.js", "TypeScript", "TanStack Query/Table", "Zod", "Zustand"] },
