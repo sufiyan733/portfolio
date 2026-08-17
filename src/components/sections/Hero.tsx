@@ -264,7 +264,7 @@ export default function Hero() {
             <TypewriterText text="Cold logic. Clean code. Zero compromise. Architecting systems that win." delay={2} />
           </div>
           <div className="hero-meta font-space text-[10px] md:text-xs tracking-[0.3em] text-white/30 flex items-center gap-4">
-            <span>[ AWWWARDS LVL. ]</span>
+            <span>[ AI ENTHUSIAST ]</span>
           </div>
         </div>
       </div>
