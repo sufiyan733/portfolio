@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import Image from "next/image";
 import { MessageCircle, Mail, ArrowUpRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const GithubIcon = ({ size = 24, strokeWidth = 1.5 }: { size?: number; strokeWidth?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
@@ -28,26 +29,29 @@ type Particle = {
   opacity: number;
 };
 
+function createParticleRandom(seed = 1984) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
+const rnd = createParticleRandom(1984);
+const PARTICLES: Particle[] = Array.from({ length: 50 }, () => ({
+  width: `${rnd() * 2 + 1}px`,
+  height: `${rnd() * 2 + 1}px`,
+  top: `${rnd() * 100}%`,
+  left: `${rnd() * 100}%`,
+  animation: `float-particle ${rnd() * 10 + 10}s linear infinite`,
+  opacity: rnd() * 0.5 + 0.1,
+}));
+
 export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [copied, setCopied] = useState(false);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Generate particles client-side only
-  useEffect(() => {
-    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-    const generated = Array.from({ length: 50 }, () => ({
-      width: `${Math.random() * 2 + 1}px`,
-      height: `${Math.random() * 2 + 1}px`,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      animation: `float-particle ${Math.random() * 10 + 10}s linear infinite`,
-      opacity: Math.random() * 0.5 + 0.1,
-    }));
-    setParticles(generated);
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -199,7 +203,7 @@ export default function Contact() {
 
       {/* HTML Particle Field */}
       <div className={`absolute inset-0 z-10 pointer-events-none opacity-40 overflow-hidden mix-blend-screen ${isMobile ? 'hidden' : ''} [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]`}>
-        {particles.map((p, i) => (
+        {PARTICLES.map((p, i) => (
           <div
             key={i}
             className="absolute bg-red rounded-full will-change-transform shadow-[0_0_8px_rgba(255,51,51,0.8)]"

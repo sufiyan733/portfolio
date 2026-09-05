@@ -8,6 +8,14 @@ import { createNoise3D } from "simplex-noise";
 
 const noise3D = createNoise3D();
 
+function createRandomGenerator(seed = 1337) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
 function Particles() {
   const ref = useRef<THREE.Points>(null);
   const { mouse, viewport, invalidate } = useThree();
@@ -18,13 +26,14 @@ function Particles() {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     const initialPositions = new Float32Array(count * 3);
+    const random = createRandomGenerator(42);
     
     let redCount = 0;
     
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 10;
-      const y = (Math.random() - 0.5) * 10;
-      const z = (Math.random() - 0.5) * 5;
+      const x = (random() - 0.5) * 10;
+      const y = (random() - 0.5) * 10;
+      const z = (random() - 0.5) * 5;
       
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
@@ -35,7 +44,7 @@ function Particles() {
       initialPositions[i * 3 + 2] = z;
       
       // Select 80 red particles randomly, or if we run out, just use random
-      const isRed = (redCount < 80 && Math.random() < (80 / count)) || (i > count - 80 && redCount < 80);
+      const isRed = (redCount < 80 && random() < (80 / count)) || (i > count - 80 && redCount < 80);
       
       if (isRed) {
         redCount++;
@@ -82,10 +91,11 @@ function Particles() {
   });
 
   useEffect(() => {
+    const points = ref.current;
     return () => {
-      if (ref.current) {
-        ref.current.geometry.dispose();
-        (ref.current.material as THREE.Material).dispose();
+      if (points) {
+        points.geometry.dispose();
+        (points.material as THREE.Material).dispose();
       }
     };
   }, []);

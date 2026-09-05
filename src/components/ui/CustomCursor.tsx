@@ -18,8 +18,8 @@ export default function CustomCursor() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches || window.matchMedia("(hover: none)").matches;
     if (isMobile) return;
 
-    let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    let ringPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const ringPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     
     // Arrays for trail positions
     const trailPositions = Array(trailsCount).fill({ x: mouse.x, y: mouse.y });

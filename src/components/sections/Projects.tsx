@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const projects = [
   {
@@ -185,10 +186,35 @@ const projects = [
   }
 ];
 
-const TechStackContent = ({ project, isMobileView }: { project: any, isMobileView?: boolean }) => {
+interface TechGroup {
+  label: string;
+  items: string[];
+}
+
+interface ProjectStat {
+  label: string;
+  value: string;
+}
+
+interface ProjectData {
+  tag: string;
+  title: string;
+  label: string;
+  link: string;
+  problem: string;
+  outcomes: string[];
+  stats?: ProjectStat[];
+  techGroups?: TechGroup[];
+  techList?: string[];
+  images?: string[];
+  videos?: string[];
+  highlights?: string[];
+}
+
+const TechStackContent = ({ project, isMobileView }: { project: ProjectData; isMobileView?: boolean }) => {
   if (isMobileView) {
     const allTech = project.techGroups 
-      ? project.techGroups.flatMap((g: any) => g.items)
+      ? project.techGroups.flatMap((g: TechGroup) => g.items)
       : (project.techList || []);
 
     return (
@@ -219,7 +245,7 @@ const TechStackContent = ({ project, isMobileView }: { project: any, isMobileVie
       </div>
       {project.techGroups ? (
         <div className="flex flex-col gap-2 md:gap-3">
-          {project.techGroups.map((group: any, i: number) => (
+          {project.techGroups.map((group: TechGroup, i: number) => (
             <div key={i}>
               <div className="text-center mb-1">
                 <span className="font-space text-[9px] md:text-[10px] text-red/50 tracking-[0.2em] uppercase border-b border-red/30 pb-0.5">[{group.label}]</span>
@@ -243,9 +269,9 @@ const TechStackContent = ({ project, isMobileView }: { project: any, isMobileVie
   );
 };
 
-const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, isMobile: boolean }) => {
+const ProjectCard = ({ project, idx }: { project: ProjectData; idx: number }) => {
   const isVideo = Boolean(project.videos && project.videos.length > 0);
-  const mediaItems: string[] = isVideo ? project.videos : (project.images || []);
+  const mediaItems: string[] = isVideo ? (project.videos ?? []) : (project.images ?? []);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaErrors, setMediaErrors] = useState<Record<string, boolean>>({});
   const [fullScreenMedia, setFullScreenMedia] = useState<string | null>(null);
@@ -446,7 +472,7 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
                 {project.stats && (
                   <div className="w-full">
                     <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 w-full">
-                      {project.stats.map((stat: any, i: number) => (
+                      {project.stats.map((stat: ProjectStat, i: number) => (
                         <div key={i} className="text-center border border-red/20 bg-gradient-to-b from-red/[0.08] to-[#0a0a0a]/50 py-1 sm:py-2 md:py-3 rounded-sm shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)]">
                           <div className="font-bebas text-sm sm:text-base md:text-2xl text-red leading-none">{stat.value}</div>
                           <div className="font-space text-[6.5px] sm:text-[7.5px] md:text-[8px] text-white/50 tracking-wider uppercase mt-0.5">{stat.label}</div>
@@ -719,15 +745,15 @@ const ProjectCard = ({ project, idx, isMobile }: { project: any, idx: number, is
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const mobile = window.matchMedia("(max-width: 768px)").matches;
-    setIsMobile(mobile);
+    let ctx: gsap.Context | undefined;
+    const mobile = isMobile;
 
     // Wait for fonts + layout to settle before creating ScrollTrigger
     const initTimeout = setTimeout(() => {
-      const ctx = gsap.context(() => {
+      ctx = gsap.context(() => {
         // Reveal header
         gsap.fromTo(".projects-header",
           { y: -50, opacity: 0 },
@@ -809,12 +835,13 @@ export default function Projects() {
           });
         }
       }, sectionRef);
-
-      return () => ctx.revert();
     }, 100);
 
-    return () => clearTimeout(initTimeout);
-  }, []);
+    return () => {
+      clearTimeout(initTimeout);
+      ctx?.revert();
+    };
+  }, [isMobile]);
 
   return (
     <section id="projects" ref={sectionRef} className="relative bg-[#020202] text-red overflow-hidden h-[100dvh] flex flex-col">
@@ -846,7 +873,7 @@ export default function Projects() {
           </div>
 
           {projects.map((project, idx) => (
-            <ProjectCard key={idx} project={project} idx={idx} isMobile={isMobile} />
+            <ProjectCard key={idx} project={project} idx={idx} />
           ))}
 
         </div>

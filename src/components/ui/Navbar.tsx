@@ -3,6 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import Link from "next/link";
+import type Lenis from "lenis";
+
+const getLenisInstance = (): Lenis | undefined => {
+  if (typeof window === "undefined") return undefined;
+  return (window as unknown as { lenis?: Lenis }).lenis;
+};
 
 const navLinks = [
   { name: "HERO", href: "#hero" },
@@ -16,7 +22,7 @@ const navLinks = [
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
-  const scrambleIntervalRef = useRef<any>(null);
+  const scrambleIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -52,12 +58,13 @@ export default function Navbar() {
 
   // Handle scroll lock when mobile menu is open
   useEffect(() => {
+    const lenis = getLenisInstance();
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
-      if ((window as any).lenis) (window as any).lenis.stop();
+      if (lenis) lenis.stop();
     } else {
       document.body.style.overflow = "";
-      if ((window as any).lenis) (window as any).lenis.start();
+      if (lenis) lenis.start();
     }
   }, [isMobileMenuOpen]);
 
@@ -123,8 +130,9 @@ export default function Navbar() {
     e.preventDefault();
     
     // Start lenis immediately if it was stopped by the mobile menu
-    if ((window as any).lenis) {
-      (window as any).lenis.start();
+    const initialLenis = getLenisInstance();
+    if (initialLenis) {
+      initialLenis.start();
       document.body.style.overflow = "";
     }
     
@@ -140,8 +148,9 @@ export default function Navbar() {
         : Math.round(window.innerHeight * 0.35);
       const offset = isProjects ? projectsOffset : 0;
 
-      if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(href === 'body' ? 0 : href, { offset, duration: 1.5 });
+      const activeLenis = getLenisInstance();
+      if (activeLenis) {
+        activeLenis.scrollTo(href === 'body' ? 0 : href, { offset, duration: 1.5 });
       } else {
         if (href === 'body') {
           window.scrollTo({ top: 0, behavior: 'smooth' });

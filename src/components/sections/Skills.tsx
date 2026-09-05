@@ -100,7 +100,7 @@ function SkillCard({ skill, index }: { skill: { name: string; class: string }; i
         {/* Top Row */}
         <div className="flex justify-between items-start font-space text-[9px] md:text-[10px] tracking-widest">
           <span className="text-white/80 md:text-white/40 md:group-hover:text-white transition-colors duration-500">
-            // {String(index + 1).padStart(2, '0')}
+            {"// "}{String(index + 1).padStart(2, '0')}
           </span>
           <span className="text-red font-bold md:font-normal opacity-100 md:opacity-60 md:group-hover:opacity-100 transition-opacity duration-500 md:group-hover:drop-shadow-[0_0_8px_rgba(255,51,51,0.8)] shadow-[0_0_10px_rgba(255,51,51,0.5)] md:shadow-none">
             [{skill.class}]
@@ -323,7 +323,7 @@ export default function Skills() {
             <div className="relative flex-1 parallax-title">
               <div className="font-space text-white/90 text-[10px] md:text-[11px] tracking-[0.4em] uppercase mb-8 inline-flex items-center gap-3 data-item border border-white/10 border-l-[3px] border-l-red bg-white/[0.03] px-4 py-2 shadow-[0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-md w-max">
                 <span className="w-1.5 h-1.5 bg-red rounded-full animate-pulse shadow-[0_0_10px_var(--red)]" />
-                [SYS_ARSENAL] <span className="text-white/30 mx-1">//</span> CORE_MODULES
+                [SYS_ARSENAL] <span className="text-white/30 mx-1">{"//"}</span> CORE_MODULES
               </div>
 
               <div className="relative mt-2 flex">

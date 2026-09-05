@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -9,20 +9,20 @@ function Icons() {
   const { mouse, viewport, invalidate } = useThree();
   
   // Custom geometries to represent tech stack vaguely
-  const geometries = [
+  const geometries = useMemo(() => [
     new THREE.TorusKnotGeometry(1, 0.3, 100, 16),
     new THREE.IcosahedronGeometry(1.2, 0),
     new THREE.OctahedronGeometry(1.5, 0),
     new THREE.TetrahedronGeometry(1.5, 0),
     new THREE.TorusGeometry(1.2, 0.4, 16, 100)
-  ];
+  ], []);
   
-  const material = new THREE.MeshBasicMaterial({ 
+  const material = useMemo(() => new THREE.MeshBasicMaterial({ 
     color: 0x3d3d3d, 
     wireframe: true,
     transparent: true,
     opacity: 0.15
-  });
+  }), []);
 
   const meshes = useRef<THREE.Mesh[]>([]);
 
@@ -31,7 +31,7 @@ function Icons() {
       geometries.forEach(g => g.dispose());
       material.dispose();
     };
-  }, []);
+  }, [geometries, material]);
 
   useFrame(() => {
     if (group.current) {

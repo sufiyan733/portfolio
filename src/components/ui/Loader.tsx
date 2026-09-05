@@ -7,10 +7,10 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const progressObj = { value: 0 };
   const slicesRef = useRef<(HTMLDivElement | null)[]>([]);
   
   useEffect(() => {
+    const progressObj = { value: 0 };
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {

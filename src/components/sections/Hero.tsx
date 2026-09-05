@@ -4,26 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import dynamic from "next/dynamic";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const ParticleField = dynamic(() => import("../three/ParticleField"), { ssr: false });
-
-// Hacker data stream — desktop only, throttled
-const DataStream = ({ isMobile }: { isMobile: boolean }) => {
-  const [stream, setStream] = useState("SYS.MEM.A4F2B1");
-  useEffect(() => {
-    if (isMobile) return; // No re-renders on mobile
-    const chars = "0123456789ABCDEF";
-    const interval = setInterval(() => {
-      let str = "";
-      for (let i = 0; i < 6; i++) {
-        str += chars[Math.floor(Math.random() * chars.length)];
-      }
-      setStream(`SYS.MEM.${str}`);
-    }, 400);
-    return () => clearInterval(interval);
-  }, [isMobile]);
-  return <div>{stream}</div>;
-};
 
 // Typewriter — uses setInterval only (no nested setTimeout)
 const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
@@ -59,11 +42,7 @@ export default function Hero() {
   const titleContainerRef = useRef<HTMLHeadingElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const scrollDescendRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {

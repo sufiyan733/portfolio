@@ -14,6 +14,7 @@ export default function About() {
 
   useEffect(() => {
     let handleMouseMove: (e: MouseEvent) => void;
+    const container = containerRef.current;
 
     const ctx = gsap.context(() => {
       // Background Number Morphing
@@ -36,8 +37,8 @@ export default function About() {
         const yTo = gsap.quickTo(glowRef.current, "y", { duration: 0.8, ease: "power2.out" });
 
         handleMouseMove = (e: MouseEvent) => {
-          if (!containerRef.current) return;
-          const rect = containerRef.current.getBoundingClientRect();
+          if (!container) return;
+          const rect = container.getBoundingClientRect();
           const x = e.clientX - rect.left - window.innerWidth / 2;
           const y = e.clientY - rect.top - window.innerHeight / 2;
 
@@ -45,7 +46,7 @@ export default function About() {
           yTo(y);
         };
 
-        containerRef.current?.addEventListener("mousemove", handleMouseMove);
+        container?.addEventListener("mousemove", handleMouseMove);
       }
 
       // Reveal Title
@@ -128,7 +129,7 @@ export default function About() {
 
     return () => {
       if (handleMouseMove) {
-        containerRef.current?.removeEventListener("mousemove", handleMouseMove);
+        container?.removeEventListener("mousemove", handleMouseMove);
       }
       ctx.revert();
     };
@@ -186,7 +187,7 @@ export default function About() {
         <div className="about-grid grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 mt-16 md:mt-[-4rem]">
           {/* Left: Quote */}
           <div className="about-content flex gap-6 will-change-transform relative z-10" ref={quoteRef}>
-            <span className="font-bebas text-6xl md:text-9xl text-red leading-[0.8] mt-2">"</span>
+            <span className="font-bebas text-6xl md:text-9xl text-red leading-[0.8] mt-2">&quot;</span>
             <div className="flex flex-col gap-6 font-inter text-lg md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed max-w-xl">
               <p>
                 {wrapWords("I build software engineered for security, speed, and stability — not just good looks. ")}
