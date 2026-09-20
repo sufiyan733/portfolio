@@ -40,6 +40,38 @@ const projects = [
     images: ["mt1_v2", "mt2_v2", "mt3_v2", "mt4_v2"]
   },
   {
+    tag: "Autonomous Agent",
+    title: "Haunter",
+    label: "[ SYS.STATUS: DEPLOYED ]",
+    link: "https://haunter-ci-agent.sufiyanx.workers.dev",
+    problem: "An autonomous CI failure diagnosis and remediation agent that wakes on GitHub Actions workflow failures, distills raw trace logs, synthesizes candidate patches, verifies fixes inside isolated mirror runners, and opens auditable pull requests with zero auto-merge risk.",
+    outcomes: [
+      "Zero-trust isolated sandbox executing candidate patches in ephemeral per-user GitHub Actions mirror repos, completely barring untrusted code execution from AWS Lambda.",
+      "Lightweight Git Data API injection eliminating heavy git clone overhead, container runtimes, and local Git binaries on serverless compute.",
+      "Closed-loop retry feedback passing compiler and pytest error logs back into the Fix Generator across up to 3 bounded self-correcting attempts.",
+      "Narrow context subagent pipeline (Context Gatherer, Fix Generator, Sandbox Verifier, PR Writer) operating under strict token budgets with full Neon Postgres telemetry.",
+      "Dynamic model switcher defaulting to OpenCode Zen (Nemotron 3.5) with instant runtime database fallback to OpenAI and Anthropic without redeploying."
+    ],
+    stats: [
+      { label: "Sandbox Cost", value: "$0" },
+      { label: "Subagents", value: "4" },
+      { label: "Eval Benchmarks", value: "20" },
+      { label: "Isolation", value: "Zero-Trust" }
+    ],
+    highlights: [
+      "Zero-Trust Mirror Sandboxing",
+      "Closed-Loop Retry Feedback",
+      "Git Data API Seeding",
+      "Golden Benchmark Harness"
+    ],
+    techGroups: [
+      { label: "Backend & Lambda", items: ["FastAPI", "Python 3.11", "AWS Lambda", "Mangum", "Asyncpg", "Neon Postgres"] },
+      { label: "Agent & Sandbox", items: ["OpenCode Zen", "Nemotron 3.5", "GitHub Actions API", "Git Data API", "Fernet + HMAC"] },
+      { label: "Frontend & Edge", items: ["Next.js 16", "React 19", "Cloudflare Workers", "Tailwind CSS v4", "Lucide Icons"] }
+    ],
+    images: ["h1", "h2", "h3", "h4"]
+  },
+  {
     tag: "Research Agent",
     title: "Onyx-Agent",
     label: "[ SYS.STATUS: DEPLOYED ]",
